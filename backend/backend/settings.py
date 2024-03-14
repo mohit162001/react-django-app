@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+import datetime
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "graphene_django",
-    'clothyapp'
+    'clothyapp',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    'corsheaders.middleware.CorsMiddleware'
 
 ]
 
@@ -144,6 +146,20 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
+GRAPHQL_JWT = {
+    "JWT_ALLOW_ARGUMENT": True,
+}
+
+# JWT_AUTH = {
+#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1), 
+# }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+  'http://localhost:8000',
+  'http://localhost:3000'
+)
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
