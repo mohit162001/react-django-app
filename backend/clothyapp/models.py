@@ -40,7 +40,7 @@ class CartModel(models.Model):
     price = models.FloatField(default = 0)
     
     def __str__(self):
-        return self.user
+        return f"{self.user.username}'s cart item"
     
 class PaymentModel(models.Model):
     payment_mode = models.CharField(max_length=200)
