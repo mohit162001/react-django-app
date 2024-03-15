@@ -57,4 +57,4 @@ class OrderTable(models.Model):
     payment_mode = models.ForeignKey(PaymentModel, on_delete=models.CASCADE, default=None, blank=True, null=True)
     
     def __str__(self):
-        return self.user
+        return f"{self.user.username}'s order item"
