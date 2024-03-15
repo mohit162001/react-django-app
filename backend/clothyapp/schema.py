@@ -1,3 +1,4 @@
+
 import graphene
 from graphene_django import DjangoObjectType
 from django.contrib.auth import login,logout
@@ -48,11 +49,16 @@ class Query(graphene.ObjectType):
         
     roles = graphene.List(RoleType)
     def resolve_roles(root,info):
+        print(info.context)
         return RoleModel.objects.all()
     
     users = graphene.List(UserType)
     def resolve_users(root,info):
-        return CustomUser.objects.all()
+        user = info.context.user
+        if user.is_authenticated and user.role.role=='admin':
+            return CustomUser.objects.all()
+        else:
+            raise Exception("You are not Authorized")
     
     categories = graphene.List(CategoryType)
     def resolve_categories(root,info):
@@ -74,9 +80,9 @@ class Query(graphene.ObjectType):
     def resolve_carts(root,info):
         return CartModel.objects.all()
     
-    cart = graphene.Field(CartType,id=graphene.String())
-    def resolve_cart(root,info,id):
-        return CartModel.objects.filter(user=id)
+    cart = graphene.List(CartType,userId=graphene.String())
+    def resolve_cart(root,info,userId):
+        return CartModel.objects.filter(user=userId)
     
     payment_mode = graphene.List(PaymentType)
     def resolve_payment_mode(root,info):
@@ -84,7 +90,17 @@ class Query(graphene.ObjectType):
     
     orders = graphene.List(OrderType)
     def resolve_orders(root,info):
-        return OrderTable.objects.all()
+        user = info.context.user
+        if user.is_authenticated and user.role.role=='admin':
+            return OrderTable.objects.all()
+        else:
+            raise Exception("You are not Authorized")
+        
+    order_by_user = graphene.List(OrderType,userId = graphene.String())
+    def resolve_order_by_user(root,info,userId):
+        return OrderTable.objects.filter(user=userId)
+        
+    
     
 
 class CreateUserMutation(graphene.Mutation):
@@ -100,7 +116,7 @@ class CreateUserMutation(graphene.Mutation):
         print(username,password,email)
         if username and email and password:
             user = CustomUser.objects.create_user(username=username,email=email,password=password)
-            # user.save()   
+            user.save()   
             token = get_token(user=user)
             return CreateUserMutation(user=user,token=token)     
         else:
@@ -120,6 +136,7 @@ class UserLoginMutation(graphene.Mutation):
         
         if user is not None:
             token = get_token(user=user)
+            login(info.context,user)
             return UserLoginMutation(token=token, user=user )
         else:
             raise Exception('Invalid username or password')
@@ -135,8 +152,9 @@ class UserUpdation(graphene.Mutation):
     user = graphene.Field(UserType)
     @classmethod
     def mutate(cls,root,info,id,username=None,email=None,address=None):
-        user = CustomUser.objects.get(id=id)
-        if user is not None:
+        cur_user = info.context.user
+        user  = CustomUser.objects.get(id=id)
+        if user==cur_user or cur_user.role.role=='admin':
             if username is not None:
                 user.username = username
             if email is not None:
@@ -155,23 +173,31 @@ class CategoryCreation(graphene.Mutation):
     category = graphene.Field(CategoryType)
     @classmethod
     def mutate(cls,root,info,name):
-        category = CategoryModel.objects.create(name=name)
-        return CategoryCreation(category=category)
-
+        user = info.context.user
+        if user.is_authenticated and user.role.role=='admin':
+            category = CategoryModel.objects.create(name=name)
+            return CategoryCreation(category=category)
+        else:
+            raise Exception("User is not authorized")
+        
 class CategoryDeletion(graphene.Mutation):
     class Arguments:
-        id = graphene.String()
+        id = graphene.String(required=True)
     
     message = graphene.String()
     
     @classmethod
     def mutate(cls,root,info,id):
-        category = CategoryModel.objects.get(id=id)
-        if category:
-            category.delete()
-            return CategoryDeletion(message="Category Deleted Successfully")
+        user = info.context.user
+        if user.is_authenticated and user.role.role=='admin':
+            category = CategoryModel.objects.get(id=id)
+            if category:
+                category.delete()
+                return CategoryDeletion(message="Category Deleted Successfully")
+            else:
+                raise Exception("Can not delete category")
         else:
-            raise Exception("Can not delete category")    
+            raise Exception("User is not authorized")    
 
 class ProductCreation(graphene.Mutation):
     class Arguments:
@@ -185,53 +211,145 @@ class ProductCreation(graphene.Mutation):
     
     @classmethod
     def mutate(cls,root,info,name,price,desc,image,category_id):
-        category = CategoryModel.objects.get(id=category_id)
-        product = ProductModel.objects.create(name=name,desc=desc,price=price,image=image,category=category)
-        return ProductCreation(product=product)
+        user = info.context.user
+        if user.is_authenticated and user.role.role=='admin':
+            category = CategoryModel.objects.get(id=category_id)
+            product = ProductModel.objects.create(name=name,desc=desc,price=price,image=image,category=category)
+            return ProductCreation(product=product)
+        else:
+            raise Exception("User is not authorized") 
 
 class ProductUpdation(graphene.Mutation):
     class Arguments:
-        id = graphene.String()
+        id = graphene.String(required=True)
         name = graphene.String()
         price = graphene.Float()
         desc = graphene.String()
-        # image = graphene.String()
-        
+        # image = graphene.----------------------------------------------image
     product = graphene.Field(ProductType)
     
     @classmethod
     def mutate(cls,root,info,id,name=None,price=None,desc=None,image=None):
-        product = ProductModel.objects.get(id=id)
+        user = info.context.user
+        if user.is_authenticated and user.role.role=='admin':
+            product = ProductModel.objects.get(id=id)
         
-        if name is not None:
-            product.name = name
-        if desc is not None:
-            product.desc = desc
-        if price is not None:
-            product.price = price
-        if image is not None:
-            product.name = image
+            if name is not None:
+                product.name = name
+            if desc is not None:
+                product.desc = desc
+            if price is not None:
+                product.price = price
+            if image is not None:
+                product.name = image
 
-        product.save()
-        return ProductCreation(product=product)
+            product.save()
+            return ProductCreation(product=product)
+        else:
+            raise Exception("User is not authorized") 
 
 class ProductDeletion(graphene.Mutation):
     class Arguments:
-        id = graphene.String()
+        id = graphene.String(required=True)
     
     message = graphene.String()
     @classmethod
     def mutate(cls,root,info,id):
-        product = ProductModel.objects.get(id=id)
-        if product:
-            product.delete()
-            return ProductDeletion(message="Product Deleted Successfully")
+        user = info.context.user
+        if user.is_authenticated and user.role.role=='admin':
+            product = ProductModel.objects.get(id=id)
+            if product:
+                product.delete()
+                return ProductDeletion(message="Product Deleted Successfully")
+            else:
+                raise Exception("Can not delete product")
         else:
-            raise Exception("Can not delete product")
+            raise Exception("User is not authorized")
 
+class CartItemAdd(graphene.Mutation):
+    class Arguments:
+        user_id = graphene.String(required=True)
+        product_id = graphene.String(required=True)
+        quantity = graphene.Int()
+        price = graphene.Float()
+        
+    message = graphene.String()
+    product = graphene.Field(ProductType)
+    userCart = graphene.List(CartType)
+    
+    @classmethod
+    def mutate(cls,root,info,user_id,product_id,quantity=0,price=0):
+        
+        already_product = CartModel.objects.filter(user=user_id,product = product_id)
+        print("product count======",already_product.__len__())
+        product = ProductModel.objects.get(id=product_id)
+        user = CustomUser.objects.get(id=user_id)
+        product_price = product.price
+  
+        # existing_product = CartModel.objects.get(user=user_id,product = product_id) 
+        # print("exist",existing_product.quantity)
+        
+        if already_product.__len__()==0:
+            newCartItem = CartModel.objects.create(user=user,product=product,quantity=1,price=product_price)
+            newCartItem.save()
+            return CartItemAdd(message = "Item added")
+        elif already_product.__len__()>0:
+            existing_item = CartModel.objects.get(user=user_id,product = product_id) 
+            existing_item.quantity = existing_item.quantity+1
+            existing_item.price = existing_item.price * existing_item.quantity
+            existing_item.save()
+            return CartItemAdd(message = "Item quantity increment")
 
+        return CartItemAdd(message="testing cart")
 
+class CartItemRemove(graphene.Mutation):
+    class Arguments:
+        user_id = graphene.String(required=True)
+        product_id = graphene.String(required=True)
+        quantity = graphene.Int()
+        price = graphene.Float()
+    
+    message = graphene.String()
+    @classmethod
+    def mutate(cls,root,info,user_id,product_id,quantity=0,price=0):
+        already_product = CartModel.objects.get(user=user_id,product = product_id)
+        print("product count======",already_product.quantity)
+        product = ProductModel.objects.get(id=product_id)
+        user = CustomUser.objects.get(id=user_id)
+        product_price = product.price
+        
+        if already_product.quantity != 1:
+            already_product.quantity=already_product.quantity-1
+            already_product.price= product_price*already_product.quantity
+            already_product.save()
+            return CartItemAdd(message = "existing item quantity deducted")
+        elif already_product.quantity ==1:
+            already_product.delete()
+            return CartItemAdd(message = "single existing item removed")
+        return CartItemAdd(message="testing cart remove")
+        
+class OrderCreate(graphene.Mutation):
+    class Arguments:
+        user_id = graphene.String(required=True)
+        payment_mode = graphene.String(required=True)
+        quantity = graphene.Int()
+        price = graphene.Float()
+    
+    message = graphene.String()
 
+    @classmethod
+    def mutate(cls,root,info,user_id,payment_mode):
+        cartItem  = CartModel.objects.filter(user=user_id)
+        user = CustomUser.objects.get(id=user_id)
+        print(cartItem)
+        for item in cartItem:
+            product = ProductModel.objects.get(id=item.product_id)
+            paymode = PaymentModel.objects.get(id=payment_mode)
+            print(item.quantity)
+            # orderItem = OrderTable.objects.create(user=user,product=product,quantity=item.quantity,price=item.price,payment_mode=paymode)
+            
+        return OrderCreate(message = "Order testing")
+        
 class Mutation(graphene.ObjectType):
     createUser = CreateUserMutation.Field()
     userLogin = UserLoginMutation.Field()
@@ -248,5 +366,9 @@ class Mutation(graphene.ObjectType):
     updateProduct = ProductUpdation.Field()
     deleteProduct = ProductDeletion.Field()
     
+    cartItemAdd  = CartItemAdd.Field()
+    cartItemRemove = CartItemRemove.Field()
+    
+    orderCreate = OrderCreate.Field()
     
 schema = graphene.Schema(query=Query,mutation=Mutation)
