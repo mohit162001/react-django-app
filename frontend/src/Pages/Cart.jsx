@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CartItems from '../Component/CartItems/CartItems';
 import { useQuery } from '@apollo/client';
 import { GET_CART_DETAILS } from '../query/query';
-import { getUserData } from '../helper';
+import { checkAuth, getUserData } from '../helper';
 
 export const Cart = () => {
   const id = getUserData('id')
-  const {data} = useQuery(GET_CART_DETAILS,{
+
+  const {data,refetch} = useQuery(GET_CART_DETAILS,{
     variables:{
-      id:id
+      userId:id
     }
+  })
+  useEffect(()=>{
+    refetch()
   })
   return (
   <>
-    {data && <CartItems products = {data?.carts.data[0].attributes.products.data}/>}
+    {data && <CartItems products = {data} refetch={refetch}/>}
    </>
   )
 }
