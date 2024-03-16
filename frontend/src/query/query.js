@@ -1,50 +1,26 @@
 import { gql } from "@apollo/client";
 
 export const GET_PRODUCTS_BY_CATEGORY = gql`
-query ($category_name:String!,){
-  products(filters: { category: { category_name: { eq: $category_name } } }) {
-    data {
-      id
-      attributes {
-        name
-        old_price
-        new_price
-        image{
-          data{
-            attributes{
-              url
-            }
-          }
-        }
-      }
-    }
+query($categoryId:String!){
+  productByCategory(categoryId:$categoryId){
+    id
+    name
+    price
+    image
   }
 }
 `
+
 export const GET_PRODUCT_BY_ID = gql`
-query($id:ID!){
-  product(id:$id){
-    data{
-      attributes{
-        name
-        description
-        old_price
-        new_price
-        image{
-          data{
-            attributes{
-              url
-            }
-          }
-        }
-        category{
-          data{
-            attributes{
-              category_name
-            }
-          }
-        }
-      }
+query($productId:String!){
+  product(productId:$productId){
+    id
+    name
+    desc
+    price
+    image
+    category{
+      id
     }
   }
 }
@@ -94,17 +70,23 @@ query{
 }
 `
 export const USER_LOGIN = gql`
-mutation($identifier:String!,$password:String!){
-  login(input:{
-    identifier:$identifier
-    password:$password
-  }){
-    jwt
-    user{
+
+
+mutation($username:String!,$password:String!){
+	userLogin(username:$username password:$password){
+    token
+    user
+    {
       id
-     username
-      email
+      username
+			email
+      address
+      role {
+        id
+        role
+      }
     }
+    message
   }
 }
 `
@@ -125,34 +107,47 @@ mutation($username:String!,$email:String!,$password:String!){
 }
 `
 export const GET_CART_DETAILS = gql`
-query($id:ID!){
-  carts(filters:{
-    users_permissions_user:{
-      id:{
-        eq:$id
-      }
+query($userId:String){
+  cart(userId:$userId){
+    id
+    product{
+      id
+      name
+      price
+      image
     }
-  }){
-    data{
-      attributes{
-        products{
-          data{
-            id
-            attributes{
-              name
-              new_price
-              description
-              image{
-                data{
-                  attributes{
-                    url
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    price
+    quantity
+  }
+}
+`
+
+export const ADD_ITEM_TO_CART = gql`
+mutation($userId:String!,$productId:String!){
+  cartItemAdd(userId:$userId ,productId:$productId){
+    message
+  }
+}
+`
+export const REMOVE_CART_ITEM = gql`
+mutation($userId:String!,$productId:String!){
+  cartItemRemove(userId:$userId ,productId:$productId){
+    message
+  }
+}
+`
+export const GET_ORDERS_DETAILS = gql`
+query($userId:String!){
+  orderByUser(userId:$userId){
+    product{
+      name
+      image
+    }
+    price
+    quantity
+    orderDate
+    paymentMode{
+      paymentMode
     }
   }
 }
