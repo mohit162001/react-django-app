@@ -5,7 +5,7 @@ export function getAuthToken(){
 }
 
 export function storeData(data){
-    const token = data.jwt
+    const token = data.token
     const name = data.user.username
     const email = data.user.email
     const id = data.user.id
