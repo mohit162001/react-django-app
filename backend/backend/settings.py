@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "graphene_django",
+    'graphql_jwt',
     'clothyapp',
     'corsheaders'
 ]
@@ -151,6 +152,10 @@ AUTHENTICATION_BACKENDS = [
 
 GRAPHQL_JWT = {
     "JWT_ALLOW_ARGUMENT": True,
+     'JWT_ALLOW_ANY_CLASSES': [
+        'graphql_jwt.mutations.Verify',
+        'graphql_jwt.mutations.Refresh',
+    ],
 }
 
 # JWT_AUTH = {
