@@ -72,9 +72,9 @@ class Query(graphene.ObjectType):
     def resolve_product_by_category(root,info,category_id):
         return ProductModel.objects.filter(category=category_id)
     
-    product = graphene.Field(ProductType,id=graphene.String())
-    def resolve_product(root,info,id):
-        return ProductModel.objects.get(id=id)
+    product = graphene.Field(ProductType,productId=graphene.String())
+    def resolve_product(root,info,productId):
+        return ProductModel.objects.get(id=productId)
     
     carts = graphene.List(CartType)
     def resolve_carts(root,info):
@@ -129,7 +129,7 @@ class UserLoginMutation(graphene.Mutation):
     
     token = graphene.String()
     user = graphene.Field(UserType)
-    
+    message = graphene.String()
     @classmethod
     def mutate(cls,root, info, username, password):
         user = authenticate(username=username, password=password)
@@ -137,7 +137,7 @@ class UserLoginMutation(graphene.Mutation):
         if user is not None:
             token = get_token(user=user)
             login(info.context,user)
-            return UserLoginMutation(token=token, user=user )
+            return UserLoginMutation(token=token, user=user, message="User logged in" )
         else:
             raise Exception('Invalid username or password')
 
