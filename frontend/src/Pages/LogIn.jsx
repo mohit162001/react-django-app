@@ -13,12 +13,13 @@ export const Login = () => {
   const [mutationFun] = useMutation(USER_LOGIN,{
     onCompleted(data){
       toast('Log in successfull',{icon:"😊",duration:1000})
-      storeData(data.login)
+      storeData(data.userLogin)
+      console.log(data.userLogin.message)
       setTimeout(()=>{
         navigate('/')
       },1000)
     },
-    onError(){
+    onError(error){
       toast.error('Someting went wrong...!',{duration:1000})
     }
   })
@@ -26,15 +27,15 @@ export const Login = () => {
     event.preventDefault()
     const formData = new FormData(event.target)
     
-      const identifier = formData.get("identifier")
+      const username = formData.get("username")
       const password = formData.get("password")
     
-    if((identifier&&identifier.trim().length !==0) && (password && password.trim().length !==0)){
+    if((username&&username.trim().length !==0) && (password && password.trim().length !==0)){
       mutationFun({variables:{
-        identifier,
+        username,
         password
       }})
-    }else if(identifier.includes('.com') || password.trim().length<6){
+    }else if(!username || password.trim().length<6){
       toast(' Enter valid input!',{icon:"⚠️",duration:1000})
     }
   }
@@ -47,7 +48,7 @@ export const Login = () => {
         <h1>Log In</h1>
         <form action="" onSubmit={handleSubmit}>
         <div className="loginsignup-fields">
-          <input type="text" placeholder='Your Name or email' name='identifier' />
+          <input type="text" placeholder='Your Name or email' name='username' />
          
           <input type="password" placeholder='Password' name='password'  />
         </div>
