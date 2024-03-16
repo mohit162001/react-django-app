@@ -53,7 +53,9 @@ background: #fff;
     margin-right: 200px;
     gap: 40px;
 }
-
+.cartitem-total-container{
+    width: 50%;
+}
 .cartitems-total-item{
     display: flex;
     justify-content: space-between;
