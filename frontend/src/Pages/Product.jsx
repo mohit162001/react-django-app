@@ -11,7 +11,7 @@ export const Product = () => {
   const {productId} = useParams();
   const {data,error,loading} = useQuery(GET_PRODUCT_BY_ID,{
     variables:{
-      id: productId
+      productId: productId
     },
   })
 
@@ -20,8 +20,8 @@ export const Product = () => {
       {error && <p className='product-fallback'>Something went wrong...!</p>}
       {loading && !error && <p className='product-fallback'>Loading product details...</p>}
       {data && !error && <>
-        <ProductDisplay product={data.product.data.attributes} id={productId}/>
-        <RelatedProduct category={data.product.data.attributes.category.data.attributes.category_name}/>
+        <ProductDisplay product={data.product} id={productId}/>
+        <RelatedProduct category={data.product.category.id}/>
       </>}
     </div>
   )

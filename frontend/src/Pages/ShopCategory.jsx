@@ -7,13 +7,12 @@ import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS_BY_CATEGORY } from "../query/query";
 
 const ShopCategory = (props) => {
-  const { all_product } = useContext(ShopContext);
   const { data, error, loading } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
-    variables: { category_name: props.category },
+    variables: { categoryId: props.category },
   });
 
   // if (data) {
-  //   console.log(data.products.data);
+  //   console.log(data);
   // }
   return (
     <div className="shop-category-container">
@@ -33,15 +32,15 @@ const ShopCategory = (props) => {
       )}
       {data && !loading && (
         <div className="shopcategory-products">
-          {data.products.data.map((item, i) => {
+          {data.productByCategory.map((item, i) => {
               return (
                 <Item
                   key={i}
                   id={item.id}
-                  name={item.attributes.name}
-                  image={item.attributes.image.data.attributes.url}
-                  new_price={item.attributes.new_price}
-                  old_price={item.attributes.old_price}
+                  name={item.name}
+                  image={item.image}
+                  new_price={item.price}
+                  old_price={0}
                 />
               );
           })}
