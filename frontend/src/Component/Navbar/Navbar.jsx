@@ -5,7 +5,7 @@ import cart_icon from '../Assests/cart_icon.png'
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { ShopContext } from '../../Context/ShowContext';
-import { clearData, getUserData } from '../../helper';
+import { checkAuth, clearData, getUserData } from '../../helper';
 import { useQuery } from '@apollo/client';
 import { GET_CART_DETAILS } from '../../query/query';
 
@@ -13,6 +13,7 @@ import { GET_CART_DETAILS } from '../../query/query';
 function Navbar() {
     const navigate = useNavigate()
     const {menu,setMenu} = useContext(ShopContext)
+    const [fetchData,setFetchData] = useState(false);
     const token = getUserData('token')
     function handleLogOut(){
         clearData();
@@ -21,14 +22,18 @@ function Navbar() {
     const id = getUserData('id')
     const {data} = useQuery(GET_CART_DETAILS,{
       variables:{
-        id:id
-      }
+        userId:id
+      },
+      // skip:!fetchData
     })
+    function getTotalQuantity(){
+      const total= data.cart.reduce((acc,cur)=>(acc+cur.quantity),0)
+      return total
+   }
     let cartValue=0
-    if(data && data.carts.data[0].attributes.products.data.length>0){
-        cartValue=data.carts.data[0].attributes.products.data.length
+    if(data){
+        cartValue=getTotalQuantity()
     }
-
   return (
     <div className="navbar">
         <div className="nav-logo">
@@ -39,7 +44,7 @@ function Navbar() {
             <li onClick={()=>{setMenu('shop')}}><Link style={{textDecoration:'none'}} to='/'>Shop</Link>{menu==='shop'? <hr/>:<></>} </li>
             <li onClick={()=>{setMenu('mens')}}><Link style={{textDecoration:'none'}} to='/mens'>Mens</Link>{menu==='mens' ? <hr/>:<></>}</li>
             <li onClick={()=>{setMenu('womens')}}><Link style={{textDecoration:'none'}} to='/womens'>Womens</Link>{menu==='womens' ? <hr/>:<></>}</li>
-            <li onClick={()=>{setMenu('kids')}}><Link style={{textDecoration:'none'}} to='/kids'>Kids</Link>{menu==='kids' ? <hr/>:<></>} </li>
+            <li onClick={()=>{setMenu('order')}}><Link style={{textDecoration:'none'}} to='/order'>My orders</Link>{menu==='order' ? <hr/>:<></>} </li>
         </ul>
         <div className="nav-login-cart">
             <Link to='/cart' onClick={()=>{setMenu('cart')}}><img src={cart_icon} alt="" /></Link>
