@@ -7,7 +7,9 @@ function FallBack({image,heading,btn_lable,setMenuValue,link}) {
     const {setMenu} = useContext(ShopContext)
     return (
         <div className="fallback-container">
-          <img src={image} alt="alternate" />
+          <div className="fallbackimage">
+          <img className='fallback-img' src={image} alt="alternate" />
+          </div>
           <div className="fallback-info">
           <h2 id="fallback-h2">{heading}</h2>
           <p id="default-p2">

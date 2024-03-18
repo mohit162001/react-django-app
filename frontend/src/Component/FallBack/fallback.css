@@ -1,6 +1,6 @@
 .fallback-container{
     margin-top: 7rem;
-    margin-bottom: 13.6rem;
+    margin-bottom: 14rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,4 +44,9 @@
   }
   .create-btn:hover {
     color: #ffffff;
+  }
+
+  .fallback-img{
+    width: 90%;
+    height: 10%;
   }
