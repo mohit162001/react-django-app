@@ -1,14 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import './cartitems.css'
-import { ShopContext } from '../../Context/ShowContext'
+
 import remove_icon from '../Assests/cart_cross_icon.png'
-import { useMutation } from '@apollo/client'
-import { REMOVE_CART_ITEM } from '../../query/query'
+import { useMutation, useQuery } from '@apollo/client'
+import { GET_CART_DETAILS, REMOVE_CART_ITEM } from '../../query/query'
 import { checkAuth, getUserData } from '../../helper'
-const CartItems = ({products,refetch}) => {
-    const {getTotalCartAmount,all_product,cartItems,removeFromCart} = useContext(ShopContext)
-    const [mutationFun] = useMutation(REMOVE_CART_ITEM)
-    const userId = getUserData("id");
+const CartItems = ({products,refetch,userId}) => {
+
+  useEffect(()=>{
+    refetch()
+  })
+
+    const [mutationFun] = useMutation(REMOVE_CART_ITEM,{
+        onCompleted(){
+            refetch()
+        },
+        onError(error){
+            console.log(error)
+        }
+    })
+    
     function getTotalAmount(){
         const total= products.cart.reduce((acc,cur)=>(acc+cur.price),0)
         return total
@@ -22,7 +33,7 @@ const CartItems = ({products,refetch}) => {
             },  
           });
         }
-        refetch()
+
      }
 
     return (
@@ -36,7 +47,7 @@ const CartItems = ({products,refetch}) => {
             <p>Remove</p>
         </div>
         <hr />
-        {products.cart.map((item)=>{
+        {products && products.cart.map((item)=>{
                 return <div key={item.id}>
                             <div className="cartitems-format cartitems-format-main">
                                 <img src={"http://localhost:8000/media/"+item.product.image} alt="" className='carticon-product-icon' />
