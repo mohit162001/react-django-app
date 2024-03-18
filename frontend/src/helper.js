@@ -9,10 +9,12 @@ export function storeData(data){
     const name = data.user.username
     const email = data.user.email
     const id = data.user.id
+    const role = data.user.role.role
     localStorage.setItem('token',token)
     localStorage.setItem('username',name)
     localStorage.setItem('email',email)
     localStorage.setItem('id',id)
+    localStorage.setItem('role',role)
 }
 
 export function getUserData(key){
@@ -28,4 +30,14 @@ export function checkAuth(){
         return redirect('/login')
     }
     return true
+}
+
+export function checkAdmin(){
+    const role = localStorage.getItem('role')
+
+    if( getAuthToken() && role==='admin' ){
+       return redirect('/admin')
+    }else{
+        return redirect("login")
+    }
 }

@@ -38,7 +38,7 @@ function App() {
           children: [{ path: ":productId", element: <Product /> }],
         },
         { path: "/order", element: <Orders/>,loader:checkAuth },
-        { path: "/cart", element: <Cart />, },
+        { path: "/cart", element: <Cart />,loader:checkAuth },
        
       ],
     }, { path: "signup", element: <SignUp /> },
