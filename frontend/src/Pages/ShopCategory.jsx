@@ -22,12 +22,12 @@ const ShopCategory = (props) => {
       {loading && <p>Loading Products....</p>}
       {!error && !loading && (
         <div className="shopcategory-index">
-          <p>
+          {/* <p>
             <span>Showing 1-12</span>out of 36 products
-          </p>
-          <div className="shopcategory-sort">
+          </p> */}
+          {/* <div className="shopcategory-sort">
             Sort by <img src={dropdown_icon} alt="" />
-          </div>
+          </div> */}
         </div>
       )}
       {data && !loading && (
@@ -46,7 +46,7 @@ const ShopCategory = (props) => {
           })}
         </div>
       )}
-      <div className="shopcategory-loadmore">Explore More</div>
+      {/* <div className="shopcategory-loadmore">Explore More</div> */}
     </div>
     </div>
   );
