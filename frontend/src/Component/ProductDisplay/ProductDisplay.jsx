@@ -34,8 +34,8 @@ const ProductDisplay = ({ product, id }) => {
         className: "custom-toast",
         duration: 1000,
         style: {
-          backgroundColor: "#5e5e5e",
-          color: "#fff",
+          backgroundColor: "white",
+          color: "black",
           borderRadius: "8px",
           padding: "16px",
           fontSize: "1rem",
