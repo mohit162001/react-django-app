@@ -50,22 +50,11 @@ query{
 
 export const GET_NEW_COLLECTION = gql`
 query{
-  products(filters: {new_collection:{ eq: true }}) {
-    data {
+  newProducts{
     id
-      attributes {
-        name
-        old_price
-        new_price
-        image{
-          data{
-            attributes{
-              url
-            }
-          }
-        }
-      }
-    }
+    name
+    image
+    price
   }
 }
 `
