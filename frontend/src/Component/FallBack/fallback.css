@@ -1,0 +1,47 @@
+.fallback-container{
+    margin-top: 7rem;
+    margin-bottom: 13.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#fallback-h2 {
+    font-size: 3.25rem;
+    font-weight: bold;
+    color: #00246B;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  #fallback-p1 {
+    color: #00246B;
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  
+  #fallback-p2 {
+    margin-top: 2rem;
+  }
+  
+  .create-btn {
+   padding: 0.7rem;
+   border: none;
+   border-radius: 5px;
+   font-weight: 600;
+   background: #f39033;
+   color:  #000000;
+   transition: 0.2s;
+  }
+  .create-btn {
+    text-decoration: none;
+    color:  #00246B;
+    font-size: 14px;
+  }
+  
+  .create-btn:hover{
+    background-color:  #00246B;
+  }
+  .create-btn:hover {
+    color: #ffffff;
+  }
