@@ -1,48 +1,25 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GET_ORDERS_DETAILS } from '../query/query'
 import { getUserData } from '../helper'
-
+import FallBack from '../Component/FallBack/FallBack'
+import OrdersItem from '../Component/OrdersItem/OrdersItem'
+import empty_order from '../Component/Assests/empty-order.png'
 function Orders() {
   const userId = getUserData('id')
-  const {data,loading,error} = useQuery(GET_ORDERS_DETAILS,{
+  const {data,loading,error,refetch} = useQuery(GET_ORDERS_DETAILS,{
     variables:{
       userId:userId
     }
   })
-  console.log(data)
-  return (
-    <>
-    
-    <div className="cartitems">
-        <div className="cartitems-format-main">
-            <p>Product</p>
-            <p>Title</p>
-            <p>Order Date</p>
-            <p>Quantity</p>
-            <p>Total</p>
-            <p>Pay mode</p>
 
-        </div>
-        <hr />
-        {error && <p>Something went wrong...!</p>}
-        {loading && <p>Loading Products....</p>}
-        {data && data.orderByUser.map((item)=>{
-                return <div key={item.id}>
-                            <div className="cartitems-format cartitems-format-main">
-                                <img src={"http://localhost:8000/media/"+item.product.image} alt="" className='carticon-product-icon' />
-                                <p>{item.product.name}</p>
-                                <p> {item.orderDate}</p>
-                                <button className='cartitems-quantity'>{item.quantity}</button>
-                                <p> ₹{item.price}</p>
-                                <p> {item.paymentMode.paymentMode}</p>
-                            </div>
-                            <hr />
-                        </div>
-            return null;
-        })}
-        </div>
-        </>
+  return(
+    <>
+    {error && <p className='product-fallback'>Something went wrong...!</p>}
+    {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
+    {!error && data && data.orderByUser.length>0 && <OrdersItem orders={data}/>}
+    {!error && data && data.orderByUser.length===0 && <FallBack image={empty_order} heading={"No Order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>} 
+    </>
   )
 }
 
