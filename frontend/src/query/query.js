@@ -95,8 +95,29 @@ mutation($username:String!,$email:String!,$password:String!){
   }
 }
 `
+export const GET_USER_DETAILS = gql`
+query($userId:String!){
+  userDetails(userId:$userId){
+    username
+    password
+    address
+    email
+    role{
+      role
+    }
+  }
+}
+`
+export const UPDATE_USER_DETAILS = gql`
+mutation($username:String! $email:String! $address:String $userId:String!){
+  userUpate(userId:$userId username:$username email:$email address:$address ){
+    message
+  }
+}
+`
+
 export const GET_CART_DETAILS = gql`
-query($userId:String){
+query($userId:String!){
   cart(userId:$userId){
     id
     product{
