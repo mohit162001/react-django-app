@@ -14,6 +14,9 @@ import { checkAuth } from "./helper";
 import Login from "./Pages/LogIn";
 import Orders from "./Pages/Orders";
 
+import UserProfilePage from "./Pages/UserProfilePage";
+
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -39,7 +42,7 @@ function App() {
         },
         { path: "/order", element: <Orders/>,loader:checkAuth },
         { path: "/cart", element: <Cart />,loader:checkAuth },
-       
+        { path: "/user", element: <UserProfilePage/>,loader:checkAuth},
       ],
     }, { path: "signup", element: <SignUp /> },
     { path: "login", element: <Login /> },
