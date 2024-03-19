@@ -18,6 +18,7 @@ const getDefalutCart=()=>{
 const ShopContextProvider = (props) => {
     const [cartItems,setCartItems] = useState(getDefalutCart());
     const [menu,setMenu] = useState('shop');
+    // const [fetchData,setFetchData] = useState();
     
     const addToCart = (itemId) =>{
         if(checkAuth()===true){
