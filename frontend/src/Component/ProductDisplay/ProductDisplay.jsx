@@ -19,7 +19,7 @@ const ProductDisplay = ({ product, id }) => {
     onError(error){
         toast.error('Someting went wrong...!',{duration:1000})
     },
-
+    refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }],
   });
   function addIfLogedIn(id) {
     if (checkAuth() === true) {
