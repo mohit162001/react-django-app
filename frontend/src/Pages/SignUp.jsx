@@ -52,10 +52,10 @@ export const SignUp = () => {
           <input type="email" placeholder='Email Adress' name='email' required />
           <input type="password" placeholder='Password' name='password' required />
         </div>
-        <div className="signup-agree">
+        {/* <div className="signup-agree">
           <input type="checkbox" name='' id='' />
           <p>By continuing I agree to the terms and conditions</p>
-        </div>
+        </div> */}
         <button type='submit'>Continue</button>
         </form>
         <p className='signup-login'>Already have an account? <span><Link to='/login'>Login</Link></span></p>

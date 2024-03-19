@@ -8,12 +8,12 @@ import { ShopContext } from '../../Context/ShowContext';
 import { checkAuth, clearData, getUserData } from '../../helper';
 import { useQuery } from '@apollo/client';
 import { GET_CART_DETAILS } from '../../query/query';
+import avatar from '../Assests/avatar.png'
 
-
-function Navbar() {
+function Navbar({}) {
     const navigate = useNavigate()
     const {menu,setMenu} = useContext(ShopContext)
-    const [fetchData,setFetchData] = useState(false);
+    // const [fetchData,setFetchData] = useState(false);
     const token = getUserData('token')
     function handleLogOut(){
         clearData();
@@ -24,12 +24,12 @@ function Navbar() {
       variables:{
         userId:id
       },
-      // skip:!fetchData
     })
     function getTotalQuantity(){
       const total= data.cart.reduce((acc,cur)=>(acc+cur.quantity),0)
       return total
    }
+  
     let cartValue=0
     if(data){
         cartValue=getTotalQuantity()
@@ -48,7 +48,9 @@ function Navbar() {
         </ul>
         <div className="nav-login-cart">
             <Link to='/cart' onClick={()=>{setMenu('cart')}}><img src={cart_icon} alt="" /></Link>
-            <div className="nav-cart-count">{cartValue}</div>{token? <Link onClick={handleLogOut}><button>Log out</button></Link>: <Link to='/login'><button>Login</button></Link>}
+            <div className="nav-cart-count">{cartValue}</div>
+            {/* {token && <div className='avatar'><img src={avatar} alt="" className='avatar-img'/></div>} */}
+            {token? <Link onClick={handleLogOut}><button>Log out</button></Link>: <Link to='/login'><button>Login</button></Link>}
         </div>
     </div>
   )
