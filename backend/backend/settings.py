@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "graphene_django",
     'graphql_jwt',
     'clothyapp',
-    'corsheaders'
+    'corsheaders',
+    "django_filters"
 ]
 
 MIDDLEWARE = [
