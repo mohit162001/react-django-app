@@ -52,7 +52,7 @@
 }
 
 .nav-login-cart button{
-    width: 157px;
+    width: 110px;
     height: 58px;
     outline: none;
     border: 1px solid #7a7a7a;
@@ -83,3 +83,41 @@
     color: white;
 }
 
+.user-icon {
+    background:  #ffffff;
+    border-radius: 50%;
+    right: 10rem;
+    display: flex;
+    align-items: center;
+    transition: 0.2s; 
+  }
+  .user-icon img{
+    width: 60px;
+    height: auto;
+  }
+  .user-icon:hover{
+    background: #eb6c32;
+  }
+  
+  .useractive {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+    right: 10rem;
+    height: 75%;
+    display: flex;
+    align-items: center;
+  }
+
+  .avatar-img{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avatar {
+    vertical-align: middle;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
