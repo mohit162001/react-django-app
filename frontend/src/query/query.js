@@ -1,12 +1,27 @@
 import { gql } from "@apollo/client";
 
 export const GET_PRODUCTS_BY_CATEGORY = gql`
-query($categoryId:String!){
-  productByCategory(categoryId:$categoryId){
+query($category_Name:String!){
+  products(category_Name:$category_Name){
+		edges{
+      node{
+ 				id
+        name
+        price
+        image
+        category{
+          name
+        }
+      }
+    }
+  }
+}
+`
+export const GET_CATEGORIRS = gql`
+query{
+  categories{
     id
     name
-    price
-    image
   }
 }
 `
@@ -14,14 +29,12 @@ query($categoryId:String!){
 export const GET_PRODUCT_BY_ID = gql`
 query($productId:String!){
   product(productId:$productId){
-    id
-    name
-    desc
-    price
-    image
-    category{
-      id
-    }
+    productId
+    productName
+    productDesc
+    productPrice
+    productImage
+    productCategory
   }
 }
 `
@@ -118,15 +131,12 @@ mutation($username:String! $email:String! $address:String $userId:String!){
 
 export const GET_CART_DETAILS = gql`
 query($userId:String!){
-  cart(userId:$userId){
-    id
-    product{
-      id
-      name
-      price
-      image
-    }
-    price
+  userCart(userId:$userId){
+    productId
+    productName
+    productImage
+    productPrice
+    totalPrice
     quantity
   }
 }
@@ -148,17 +158,16 @@ mutation($userId:String!,$productId:String!){
 `
 export const GET_ORDERS_DETAILS = gql`
 query($userId:String!){
-  orderByUser(userId:$userId){
-    product{
-      name
-      image
-    }
-    price
+  userOrders(userId:$userId){
+    username
+    productId
+    productName
+    productImage
+    productPrice
+    totalPrice
     quantity
     orderDate
-    paymentMode{
-      paymentMode
-    }
+    paymentMode
   }
 }
 `
