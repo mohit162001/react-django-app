@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './userdetails.css'
 import avatar from '../Assests/avatar.png'
 import UserFormModel from './UserFormModel'
+import { Link } from 'react-router-dom'
 function UserDetails({username,email,address,userId}) {
     const [showForm,setShowForm] = useState(false)
     function handleFormModelState(){
@@ -19,6 +20,7 @@ function UserDetails({username,email,address,userId}) {
         </div>
         <div className="userprofile-container">
             
+            <div>
             <div className="user-info">
                 <div className="userlable">
                     <lable className="userprofile-lable" >Username :</lable>
@@ -33,7 +35,9 @@ function UserDetails({username,email,address,userId}) {
        
             </div>
             <div className="user-action">
-                <button className='user-action-button' onClick={handleFormModelState}>Update Profile</button>
+                <button className='user-action-update' onClick={handleFormModelState}>Update Profile</button>
+                <Link to='/'><button className='user-action-back'>Back</button></Link>
+            </div>
             </div>
         </div>
         {showForm && <UserFormModel username={username} email={email} address={address} userId={userId} handleClose={handleFormModelState}/>}

@@ -28,9 +28,10 @@
 }
 
 .user-info{
+    margin-top: 15rem;
     padding-left: 3rem;
     /* background: violet; */
-    width: 45%;
+    width: 95%;
     font-size: 2rem;
     display: flex;
 }
@@ -50,7 +51,7 @@
 }
 .uservalues input{
     padding: 0.7rem;
-    width: 120%;
+    width: 110%;
     margin: 5px;
     font-size: 20px;
     outline: none;
@@ -60,22 +61,41 @@
     text-transform: capitalize;
 }
 .user-action{
+    margin-top: 2rem;
+    align-items: center;
     /* background: rgb(247, 93, 247); */
     padding: 2rem;
 }
 
-.user-action-button{
-    padding: 1rem;
-    font-size: 20px;
+.user-action-update{
+    padding: 0.7rem;
+    font-size: 17px;
     font-weight: 600;
     border-radius: 5px;
     border: none;
     background: rgb(197, 197, 197) ;
     color: rgb(41, 41, 41);
     transition: 0.2s;
+    margin-left: 11rem;
 }
 
-.user-action-button:hover{
+.user-action-update:hover{
+    background: #ff4141;
+    color: white;
+}
+.user-action-back{
+    padding: 0.7rem;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    background: rgb(197, 197, 197) ;
+    color: rgb(41, 41, 41);
+    transition: 0.2s;
+    margin-left: 1rem;
+}
+
+.user-action-back:hover{
     background: #ff4141;
     color: white;
 }
