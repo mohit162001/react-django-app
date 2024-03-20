@@ -18,8 +18,8 @@ export const Cart = () => {
   <>
   {error && <p className='product-fallback'>Something went wrong...!</p>}
   {loading && !error && <p className='product-fallback'>Loading cart details...</p>}
-  {!error && data && data.cart.length>0 && <CartItems products={data} refetch={refetch} userId={userId}/>}
-  {!error && data && data.cart.length===0 && <FallBack image={empty_cart} heading={"No item found"} btn_lable={"Add item"} setMenuValue={'mens'} link={'/mens'}/>} 
+  {!error && data && data.userCart.length>0 && <CartItems products={data} refetch={refetch} userId={userId}/>}
+  {!error && data && data.userCart.length===0 && <FallBack image={empty_cart} heading={"No item found"} btn_lable={"Add item"} setMenuValue={'mens'} link={'/mens'}/>} 
   </>
   )
 }
