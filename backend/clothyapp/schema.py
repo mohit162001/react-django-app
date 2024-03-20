@@ -17,100 +17,235 @@ from graphene_django.filter import DjangoFilterConnectionField
 class RoleType(DjangoObjectType):
     class Meta:
         model = RoleModel
-        fields = "__all__"
 
 class UserType(DjangoObjectType):
     class Meta:
         model = CustomUser
-        fields = "__all__"
 
 class CategoryType(DjangoObjectType):
     class Meta:
         model = CategoryModel
-        fields = "__all__"
         
 class ProductType(DjangoObjectType):
     class Meta:
         model = ProductModel
-        fields = "__all__"
+        filter_fields = {
+            'id':['exact'],
+            'name': ['exact', 'icontains', 'istartswith'],
+            'desc': ['exact', 'icontains', 'istartswith'],
+            'price': ['exact','gte','lte'],
+            'category__id':['exact'],
+            'category__name':['exact'],
+        }
+        interfaces = (relay.Node,)
+
 
 class CartType(DjangoObjectType):
     class Meta:
         model = CartModel
-        fields = "__all__"
         
 class PaymentType(DjangoObjectType):
     class Meta:
         model = PaymentModel
-        fields = "__all__"
+        filter_fields = {
+            "payment_mode":['exact', 'icontains', 'istartswith'],
+            "id":['exact']
+        }
+        interfaces = (relay.Node,)
         
 class OrderType(DjangoObjectType):
     class Meta:
         model = OrderTable
-        fields = "__all__"
+        filter_fields = {
+        "user__id":['exact'],
+        "user__username":['exact'],   
+        "quantity":['exact','gte','lte'],
+        "price":['exact','gte','lte'],
+        "payment_mode__payment_mode":['exact'],
+        'product__category__name':['exact']
+        }
+        interfaces = (relay.Node,)
+        
+
+class CustomProductType(graphene.ObjectType):
+    productId = graphene.String()
+    product_name = graphene.String()
+    product_desc = graphene.String()
+    product_image = graphene.String()
+    product_price = graphene.Float()
+    product_category = graphene.String()
+    class Meta:
+        model = OrderTable
+        filter_fields = {
+        "user__id":['exact'],
+        "user__username":['exact'],   
+        "quantity":['exact','gte','lte'],
+        "price":['exact','gte','lte'],
+        "payment_mode__payment_mode":['exact'],
+        'product__category__name':['exact']
+        }
+        interfaces = (relay.Node,)
+        
+        
+class CustomOrderType(graphene.ObjectType):
+    username = graphene.String()
+    productId = graphene.String()
+    product_name = graphene.String()
+    product_image = graphene.String()
+    product_price = graphene.Float()
+    totalPrice = graphene.Float()
+    quantity = graphene.Int()
+    order_date = graphene.String()
+    paymentMode = graphene.String()
+
+class CustomCartType(graphene.ObjectType):
+    productId = graphene.String()
+    product_name = graphene.String()
+    product_image = graphene.String()
+    product_price = graphene.Float()
+    totalPrice = graphene.Float()
+    quantity = graphene.Int()
+    
+
 class Query(graphene.ObjectType):
         
-    roles = graphene.List(RoleType)
-    def resolve_roles(root,info):
-        return RoleModel.objects.all()
+    # roles = DjangoFilterConnectionField(RoleType)
+    # def resolve_roles(root,info,**kwargs):
+    #     return RoleModel.objects.all()
     
-    users = graphene.List(UserType)
-    def resolve_users(root,info):
+    # # users = DjangoFilterConnectionField(UserType)
+    # # def resolve_users(root,info,**kwargs):
         
-        return CustomUser.objects.all()
+    # #     return CustomUser.objects.all()
 
+    # users = DjangoFilterConnectionField(UserType)
+    # def resolve_users(self, info, **kwargs):
+    #     users = CustomUser.objects.all()
+    #     return users
+    
     
     userDetails = graphene.Field(UserType,userId=graphene.String(required=True))
     def resolve_userDetails(root,info,userId):
         return CustomUser.objects.get(id=userId)
     
-    categories = graphene.Field(CategoryType)
+    categories = graphene.List(CategoryType)
     def resolve_categories(root,info):
         return CategoryModel.objects.all()
     
-    products = graphene.List(ProductType)
-    def resolve_products(root,info):
-        return ProductModel.objects.all()
+    products = DjangoFilterConnectionField(ProductType)
+    def resolve_products(root,info,**kwargs):
+        products = ProductModel.objects.all()
+        return products
+    # products = graphene.List(CustomProductType)
+    # def resolve_products(root,info):
+    #     products = ProductModel.objects.all()
+    #     products_dict =[]
+    #     for product in products:
+    #         products_dict.append(
+    #             {
+    #                 "productId":product.id,
+    #                 "product_name":product.name,
+    #                 "product_image":product.image,
+    #                 "product_price":product.price,
+    #                 "product_desc":product.desc,
+    #                 "product_category":product.category
+    #             }
+    #         )
+    #     return products_dict
     
-    product_by_category = graphene.List(ProductType,category_id = graphene.String())
-    def resolve_product_by_category(root,info,category_id):
-        return ProductModel.objects.filter(category=category_id)
-    
-    product = graphene.Field(ProductType,productId=graphene.String())
+    product = graphene.Field(CustomProductType,productId=graphene.String())
     def resolve_product(root,info,productId):
-        return ProductModel.objects.get(id=productId)
+        product = ProductModel.objects.get(id=productId)
+        product_dict = {
+            "productId":product.id,
+            "product_name":product.name,
+            "product_image":product.image,
+            "product_price":product.price,
+            "product_desc":product.desc,
+            "product_category":product.category
+        }
+        return product_dict
     
-    # new_products = graphene.List(ProductType)
-    # def resolve_new_products(root,info):
-    #     curr_date = datetime.today()
+    new_products = graphene.List(ProductType)
+    def resolve_new_products(root,info):
+        curr_date = datetime.today()
 
-    #     startfrom = curr_date - timedelta(days=6)
-    #     print(startfrom)
-    #     print(curr_date)
-    #     return ProductModel.objects.filter(inserted_date__range = [startfrom.date(),curr_date.date()])
-        
-    
-    carts = graphene.List(CartType)
-    def resolve_carts(root,info):
-        return CartModel.objects.all()
-    
-    cart = graphene.List(CartType,userId=graphene.String())
-    def resolve_cart(root,info,userId):
-        return CartModel.objects.filter(user=userId).order_by('id')
-    
-    payment_mode = graphene.List(PaymentType)
-    def resolve_payment_mode(root,info):
+        startfrom = curr_date - timedelta(days=6)
+        print(startfrom)
+        print(curr_date)
+        return ProductModel.objects.filter(inserted_date__range = [startfrom.date(),curr_date.date()])
+
+
+    user_cart = graphene.List(CustomCartType, user_id=graphene.String(required=True))
+    def resolve_user_cart(root,info,user_id):
+        user = CustomUser.objects.get(id=user_id)
+        cartItems = CartModel.objects.filter(user=user)
+        # print(cartItems)
+        orderData = []
+        for item in cartItems:
+            # print(item.product)
+            product = ProductModel.objects.get(id = item.product.id)
+            orderData.append(
+                {
+                "productId":product.id,
+                "product_name":product.name,
+                "product_image":product.image,
+                "product_price":product.price,
+                "totalPrice":item.price,
+                "quantity":item.quantity,
+                }
+            )
+            
+        return orderData
+    # abc = [{"productId":}]
+    payment_mode = DjangoFilterConnectionField(PaymentType)
+    def resolve_payment_mode(root,info,**kwargs):
+        print(kwargs)
         return PaymentModel.objects.all()
     
-    orders = graphene.List(OrderType)
+    orders = graphene.List(CustomOrderType)
     def resolve_orders(root,info):
-
-        return OrderTable.objects.all()
-
-    order_by_user = graphene.List(OrderType,userId = graphene.String())
-    def resolve_order_by_user(root,info,userId):
-        return OrderTable.objects.filter(user=userId)
-        
+        orders = OrderTable.objects.all()
+        order_data = []
+        for order in orders:
+            product = ProductModel.objects.get(id = order.product.id)
+            payment_mode = PaymentModel.objects.get(id=order.payment_mode.id)
+            order_data.append(
+                {
+                "username":order.user.username,
+                "productId":order.product.id,
+                "product_name":product.name,
+                "product_image":product.image,
+                "product_price":product.price,
+                "totalPrice":order.price,
+                "quantity":order.quantity,
+                "order_date":order.order_date,
+                "paymentMode":payment_mode.payment_mode
+                 }
+            )
+        return order_data
+    
+    
+    user_orders = graphene.List(CustomOrderType, user_id=graphene.String(required=True))
+    def resolve_user_orders(root,info,user_id):
+        user = CustomUser.objects.get(id=user_id)
+        orders = OrderTable.objects.filter(user=user)
+        print(orders)
+        orderData = []
+        for order in orders:
+            orderData.append(CustomOrderType(
+                username=order.user.username,
+                productId=order.product.id,
+                product_name=order.product.name,
+                product_image=order.product.image,
+                product_price=order.product.price,
+                totalPrice=order.price,
+                quantity=order.quantity,
+                order_date=order.order_date,
+                paymentMode=order.payment_mode.payment_mode
+            ))
+            
+        return orderData
     
     
 
@@ -148,7 +283,7 @@ class UserLoginMutation(graphene.Mutation):
     @classmethod
     def mutate(cls,root, info, username, password):
         user = authenticate(username=username, password=password)
-        
+        print("---------",user.id)
         if user is not None:
             token = get_token(user=user)
             print("currently logged in user-----",user)
@@ -224,24 +359,24 @@ class ProductCreation(graphene.Mutation):
         price = graphene.Float(required=True)
         desc = graphene.String(required=True)
         image = graphene.String(required=True)
-        category_id = graphene.String(required=True)
+        category_name = graphene.String(required=True)
    
     product = graphene.Field(ProductType)
-    
+    message = graphene.String()
     @classmethod
-    def mutate(cls,root,info,name,price,desc,image,category_id):
+    def mutate(cls,root,info,name,price,desc,image,category_name):
         user = info.context.user
         print(user.role.role)
         if user.is_authenticated and user.role.role=='admin':
-            if name and price and desc and image and category_id:
-                category = CategoryModel.objects.get(id=category_id)
-            
+            if name and price and desc and image and category_name:
+                category = CategoryModel.objects.get(name=category_name)
+                print("category name------",category)
                 format, imgstr = image.split(';base64,')
                 ext = format.split('/')[-1]
                 image_data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
             
                 product = ProductModel.objects.create(name=name,desc=desc,price=price,image=image_data,category=category)
-                return ProductCreation(product=product)
+                return ProductCreation(message = "product created",product=product)
             else:
                 raise Exception("Invalid inputs")
         else:
@@ -282,14 +417,14 @@ class ProductUpdation(graphene.Mutation):
 
 class ProductDeletion(graphene.Mutation):
     class Arguments:
-        id = graphene.String(required=True)
+        productId = graphene.String(required=True)
     
     message = graphene.String()
     @classmethod
-    def mutate(cls,root,info,id):
+    def mutate(cls,root,info,productId):
         user = info.context.user
         if user.is_authenticated and user.role.role=='admin':
-            product = ProductModel.objects.get(id=id)
+            product = ProductModel.objects.get(id=productId)
             if product:
                 product.delete()
                 return ProductDeletion(message="Product Deleted Successfully")
@@ -306,8 +441,6 @@ class CartItemAdd(graphene.Mutation):
         price = graphene.Float()
         
     message = graphene.String()
-    product = graphene.Field(ProductType)
-    userCart = graphene.List(CartType)
     
     @classmethod
     def mutate(cls,root,info,user_id,product_id,quantity=0,price=0):
@@ -338,12 +471,10 @@ class CartItemRemove(graphene.Mutation):
     class Arguments:
         user_id = graphene.String(required=True)
         product_id = graphene.String(required=True)
-        quantity = graphene.Int()
-        price = graphene.Float()
     
     message = graphene.String()
     @classmethod
-    def mutate(cls,root,info,user_id,product_id,quantity=0,price=0):
+    def mutate(cls,root,info,user_id,product_id):
         already_product = CartModel.objects.get(user=user_id,product = product_id)
         print("product count======",already_product.quantity)
         product = ProductModel.objects.get(id=product_id)
@@ -377,11 +508,9 @@ class OrderCreate(graphene.Mutation):
     class Arguments:
         user_id = graphene.String(required=True)
         payment_mode = graphene.String(required=True)
-        quantity = graphene.Int()
-        price = graphene.Float()
     
     message = graphene.String()
-    
+    orders = graphene.List(OrderType)
     @classmethod
     def mutate(cls,root,info,user_id,payment_mode):
         cartItem  = CartModel.objects.filter(user=user_id)
@@ -389,11 +518,12 @@ class OrderCreate(graphene.Mutation):
         print(cartItem)
         for item in cartItem:
             product = ProductModel.objects.get(id=item.product_id)
-            paymode = PaymentModel.objects.get(id=payment_mode)
+            paymode = PaymentModel.objects.get(payment_mode=payment_mode)
+            print(paymode)
             print(item.quantity)
-            orderItem = OrderTable.objects.create(user=user,product=product,quantity=item.quantity,price=item.price,payment_mode=paymode)
-            
-        return OrderCreate(message = "Order testing")
+            OrderTable.objects.create(user=user,product=product,quantity=item.quantity,price=item.price,payment_mode=paymode)
+        orders = OrderTable.objects.filter(user=user)
+        return OrderCreate(message = "Order testing",orders = orders )
         
 class Mutation(graphene.ObjectType):
     createUser = CreateUserMutation.Field()
