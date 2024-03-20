@@ -83,7 +83,7 @@
     color: white;
 }
 
-.user-icon {
+/* .user-icon {
     background:  #ffffff;
     border-radius: 50%;
     right: 10rem;
@@ -107,17 +107,19 @@
     height: 75%;
     display: flex;
     align-items: center;
-  }
-
-  .avatar-img{
-    margin-top: 20px;
+  } */
+ /* .nav-avatar {
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  } */
+.nav-avatar-img{
+    width: 60px;
+    margin-left: 1rem;
+    margin-right: -2rem;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.avatar {
-    vertical-align: middle;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-  }
