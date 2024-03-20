@@ -17,8 +17,8 @@ function Orders() {
     <>
     {error && <p className='product-fallback'>Something went wrong...!</p>}
     {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
-    {!error && data && data.orderByUser.length>0 && <OrdersItem orders={data}/>}
-    {!error && data && data.orderByUser.length===0 && <FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>} 
+    {!error && data && data.userOrders.length>0 && <OrdersItem orders={data}/>}
+    {!error && data && data.userOrders.length===0 && <FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>} 
     </>
   )
 }

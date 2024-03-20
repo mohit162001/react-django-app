@@ -16,15 +16,15 @@ function OrdersItem({orders}) {
   
           </div>
           <hr />
-          {orders && orders.orderByUser.map((item)=>{
+          {orders && orders.userOrders.map((item)=>{
                   return <div key={item.id}>
                               <div className="orderitems-format orderitems-format-main">
-                                  <img src={"http://localhost:8000/media/"+item.product.image} alt="" className='carticon-product-icon' />
-                                  <p>{item.product.name}</p>
+                                  <img src={"http://localhost:8000/media/"+item.productImage} alt="" className='carticon-product-icon' />
+                                  <p>{item.productName}</p>
                                   <p> {item.orderDate}</p>
                                   <button className='orderitems-quantity'>{item.quantity}</button>
-                                  <p> ₹{item.price}</p>
-                                  <p> {item.paymentMode.paymentMode}</p>
+                                  <p> ₹{item.totalPrice}</p>
+                                  <p> {item.paymentMode}</p>
                               </div>
                               <hr />
                           </div>
