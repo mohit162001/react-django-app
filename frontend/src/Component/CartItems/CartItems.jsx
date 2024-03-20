@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import './cartitems.css'
-
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import remove_icon from '../Assests/cart_cross_icon.png'
+import delete_icon from '../Assests/delete.png'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_CART_DETAILS, REMOVE_CART_ITEM } from '../../query/query'
 import { checkAuth, getUserData } from '../../helper'
@@ -21,7 +22,7 @@ const CartItems = ({products,refetch,userId}) => {
     })
     
     function getTotalAmount(){
-        const total= products.cart.reduce((acc,cur)=>(acc+cur.price),0)
+        const total= products.userCart.reduce((acc,cur)=>(acc+cur.price),0)
         return total
      }
      function removeItem(id) {
@@ -47,15 +48,16 @@ const CartItems = ({products,refetch,userId}) => {
             <p>Remove</p>
         </div>
         <hr />
-        {products && products.cart.map((item)=>{
+        {products && products.userCart.map((item)=>{
                 return <div key={item.id}>
                             <div className="cartitems-format cartitems-format-main">
-                                <img src={"http://localhost:8000/media/"+item.product.image} alt="" className='carticon-product-icon' />
-                                <p>{item.product.name}</p>
-                                <p> ₹{item.product.price}</p>
+                                <img src={"http://localhost:8000/media/"+item.productImage} alt="" className='carticon-product-icon' />
+                                <p>{item.productName}</p>
+                                <p> ₹{item.productPrice}</p>
                                 <button className='cartitems-quantity'>{item.quantity}</button>
-                                <p> ₹{item.price}</p>
-                                <img src={remove_icon} onClick={()=>{removeItem(item.product.id)}} alt="" />
+                                <p> ₹{item.totalPrice}</p>
+                                <img src={delete_icon} onClick={()=>{removeItem(item.productId)}} className='delete-icon' alt="" />
+                                {/* <DeleteOutlineIcon onClick={()=>{removeItem(item.productId)}}/> */}
                             </div>
                             <hr />
                         </div>

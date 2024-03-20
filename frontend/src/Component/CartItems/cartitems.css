@@ -28,6 +28,11 @@
     height: 62px;
 }
 
+.delete-icon{
+    width: 35px;
+    margin-left: 1.3rem;
+}
+
 .cartitems-remove-icon{
     width: 15px;
     margin: 0px 40px;
