@@ -51,32 +51,32 @@ const ProductDisplay = ({ product, id }) => {
         <div className="productdisplay-left">
           <div className="productdisplay-imglist">
             <img
-              src={"http://localhost:8000/media/" + product.image}
+              src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
             />
             <img
-              src={"http://localhost:8000/media/" + product.image}
+              src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
             />
             <img
-              src={"http://localhost:8000/media/" + product.image}
+              src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
             />
             <img
-              src={"http://localhost:8000/media/" + product.image}
+              src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
             />
           </div>
           <div className="productdisplay-img">
             <img
               className="productdisplay-main-img"
-              src={"http://localhost:8000/media/" + product.image}
+              src={"http://localhost:8000/media/" + product.productImage}
               alt=""
             />
           </div>
         </div>
         <div className="productdisplay-right">
-          <h1>{product.name}</h1>
+          <h1>{product.productName}</h1>
           <div className="productdisplay-right-stars">
             <img src={star_icon} alt="" />
             <img src={star_icon} alt="" />
@@ -87,11 +87,11 @@ const ProductDisplay = ({ product, id }) => {
           <div className="productdisplay-right-prices">
             {/* <div className="productdisplay-right-price-old">${0}</div> */}
             <div className="productdisplay-right-price-new">
-              ${product.price}
+              ${product.productPrice}
             </div>
           </div>
           <div className="productdisplay-right-description">
-            <p>{product.desc}</p>
+            <p>{product.productDesc}</p>
           </div>
           <div className="productdisplay-right-size">
             <h1>Select Size</h1>

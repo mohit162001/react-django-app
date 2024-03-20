@@ -21,7 +21,7 @@ export const Product = () => {
       {loading && !error && <p className='product-fallback'>Loading product details...</p>}
       {data && !error && <>
         <ProductDisplay product={data.product} id={productId}/>
-        <RelatedProduct category={data.product.category.id}/>
+        {/* <RelatedProduct category={data.product.productCategory}/> */}
       </>}
     </div>
   )
