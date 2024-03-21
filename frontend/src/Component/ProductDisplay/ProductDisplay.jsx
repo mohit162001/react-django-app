@@ -90,10 +90,11 @@ const ProductDisplay = ({ product, id }) => {
               ${product.productPrice}
             </div>
           </div>
+          
           <div className="productdisplay-right-description">
             <p>{product.productDesc}</p>
           </div>
-          <div className="productdisplay-right-size">
+          {/* <div className="productdisplay-right-size">
             <h1>Select Size</h1>
             <div className="productdisplay-right-sizes">
               <div>S</div>
@@ -102,7 +103,7 @@ const ProductDisplay = ({ product, id }) => {
               <div>XL</div>
               <div>XXL</div>
             </div>
-          </div>
+          </div> */}
           <button
             onClick={() => {
               addIfLogedIn(id);
