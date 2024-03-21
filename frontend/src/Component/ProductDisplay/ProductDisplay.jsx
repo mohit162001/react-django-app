@@ -1,20 +1,21 @@
-import React, { useContext } from "react";
+import React, {  useState } from "react";
 import "./productdisplay.css";
 import star_icon from "../Assests/star_icon.png";
 import star_dull_icon from "../Assests/star_dull_icon.png";
-import { ShopContext } from "../../Context/ShowContext";
+// import { ShopContext } from "../../Context/ShowContext";
 import { checkAuth, getUserData } from "../../helper";
 import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM_TO_CART, GET_CART_DETAILS } from "../../query/query";
-// import { useNavigate } from 'react-router-dom'
+
 const ProductDisplay = ({ product, id }) => {
-  const { addToCart } = useContext(ShopContext);
+  // const { addToCart } = useContext(ShopContext);
+  const [quantity,setQuantity] = useState(1)
+  const [disable,setDisable] = useState(false)
   const userId = getUserData("id");
-  const [mutationFun] = useMutation(ADD_ITEM_TO_CART, {
+  const [mutationAddItem] = useMutation(ADD_ITEM_TO_CART, {
     onCompleted(data){
-        console.log(data)
-        console.log(data.message)
+      toast.success('Item added',{duration:1000})
     },
     onError(error){
         toast.error('Someting went wrong...!',{duration:1000})
@@ -23,10 +24,11 @@ const ProductDisplay = ({ product, id }) => {
   });
   function addIfLogedIn(id) {
     if (checkAuth() === true) {
-      mutationFun({
+      mutationAddItem({
         variables: {
           userId: userId,
           productId: id,
+          quantity:quantity
         },  
       });
     } else {
@@ -44,12 +46,27 @@ const ProductDisplay = ({ product, id }) => {
       });
     }
   }
+
+  function handleIncrease(){
+    if (quantity >= 1) {
+      setDisable(false); 
+    }
+      setQuantity((prev) => prev + 1);
+  
+  }
+  function handleDecrease(){
+    if (quantity <= 1) {
+      setDisable(true); 
+    } else {
+      setQuantity((prev) => prev - 1);
+    }
+  }
   return (
     <>
       <Toaster />
       <div className="productdisplay">
         <div className="productdisplay-left">
-          <div className="productdisplay-imglist">
+          {/* <div className="productdisplay-imglist">
             <img
               src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
@@ -66,7 +83,7 @@ const ProductDisplay = ({ product, id }) => {
               src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
             />
-          </div>
+          </div> */}
           <div className="productdisplay-img">
             <img
               className="productdisplay-main-img"
@@ -104,7 +121,13 @@ const ProductDisplay = ({ product, id }) => {
               <div>XXL</div>
             </div>
           </div> */}
-          <button
+          <h3 className="quantity-heading">Item Quantity :</h3>
+          <div className="number">
+	          <button disabled={disable} onClick={handleDecrease}  className="minus">-</button>
+	            <input className="quantity-input" type="text" value={quantity}/>
+	          <button onClick={handleIncrease} className="plus">+</button>
+          </div>
+          <button className="addtocart-button"
             onClick={() => {
               addIfLogedIn(id);
             }}

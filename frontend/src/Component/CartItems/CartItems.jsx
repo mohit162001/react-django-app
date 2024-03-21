@@ -48,15 +48,12 @@ const CartItems = ({products,refetch,userId}) => {
         return total
      }
      function removeItem(id) {
-        if (checkAuth() === true) {
             mutationRemoveItemFun({
             variables: {
               userId: userId,
               productId: id,
             },  
           });
-        }
-
      }
 
      function handleOrders(event){
