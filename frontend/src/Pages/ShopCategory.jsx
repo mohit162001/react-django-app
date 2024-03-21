@@ -8,12 +8,12 @@ import { GET_PRODUCTS_BY_CATEGORY } from "../query/query";
 
 const ShopCategory = (props) => {
   const { data, error, loading } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
-    variables: { categoryId: props.category },
+    variables: { category_Name: props.category },
   });
 
-  // if (data) {
-  //   console.log(data);
-  // }
+  if (data) {
+    console.log(data);
+  }
   return (
     <div className="shop-category-container">
       <div className="shop-category">
@@ -32,14 +32,14 @@ const ShopCategory = (props) => {
       )}
       {data && !loading && (
         <div className="shopcategory-products">
-          {data.productByCategory.map((item, i) => {
+          {data.products.edges.map((item, i) => {
               return (
                 <Item
                   key={i}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  new_price={item.price}
+                  id={item.node.id}
+                  name={item.node.name}
+                  image={item.node.image}
+                  new_price={item.node.price}
                   old_price={0}
                 />
               );
