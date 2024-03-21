@@ -142,6 +142,7 @@ span {
   vertical-align: middle;
   margin-left: 10px;
   margin-right: 10px;
+  outline: none;
 }
 
 .quantity-heading{

@@ -124,7 +124,7 @@ const ProductDisplay = ({ product, id }) => {
           <h3 className="quantity-heading">Item Quantity :</h3>
           <div className="number">
 	          <button disabled={disable} onClick={handleDecrease}  className="minus">-</button>
-	            <input className="quantity-input" type="text" value={quantity}/>
+	            <input className="quantity-input" type="text" value={quantity} readOnly/>
 	          <button onClick={handleIncrease} className="plus">+</button>
           </div>
           <button className="addtocart-button"

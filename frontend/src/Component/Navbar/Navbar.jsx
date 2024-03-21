@@ -49,7 +49,7 @@ function Navbar({}) {
         <div className="nav-login-cart">
             <Link to='/cart' onClick={()=>{setMenu('cart')}}><img src={cart_icon} alt="" /></Link>
             <div className="nav-cart-count">{cartValue}</div>
-            {token && <div className='nav-avatar'><Link to='user'><img className='nav-avatar-img' src={avatar} alt="" /></Link></div>}
+            {token && <div className='nav-avatar'><Link to='user'><img onClick={()=>{setMenu('')}} className='nav-avatar-img' src={avatar} alt="" /></Link></div>}
             {token? <Link onClick={handleLogOut}><button>Log out</button></Link>: <Link to='/login'><button>Login</button></Link>}
         </div>
     </div>

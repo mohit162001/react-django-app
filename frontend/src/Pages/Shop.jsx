@@ -7,8 +7,9 @@ export const Shop = () => {
   return (
     <>
     <Hero />
-    <Popular/>
+    <Popular heading={"POPULAR IN WOMENS"} query_variable={'womens'}/>
     <Offers/>
+    <Popular heading={"POPULAR IN MENS"} query_variable={'mens'}/>
     <NewCollections/>
     </>
   )

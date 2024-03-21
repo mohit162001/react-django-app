@@ -4,13 +4,13 @@ import './popular.css'
 import Item from '../Item/Item';
 import { useQuery } from '@apollo/client';
 import {  GET_PRODUCTS_BY_CATEGORY } from '../../query/query';
-const Popular = () => {
+const Popular = ({heading,query_variable}) => {
   const {data,error,loading} = useQuery(GET_PRODUCTS_BY_CATEGORY,{
-    variables: { category_Name: 'womens' }
+    variables: { category_Name: query_variable }
   })
   return (
     <div className='popular'>
-        <h1>POPULAR IN WOMEN</h1>
+        <h1>{heading}</h1>
         <hr />
 
         {error && <p>Something went wrong</p>}
