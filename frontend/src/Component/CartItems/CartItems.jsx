@@ -122,7 +122,7 @@ const CartItems = ({products,refetch,userId}) => {
                     <select className='orderform-select' name="paymentmode" id="paymentmode">
                     {data && data.paymentMode.map((item)=>(<option key={item.id} value={item.paymentMode}>{item.paymentMode}</option>))}
                     </select>
-                    <button disabled type='submit'>PROCEED TO ORDER</button>
+                    <button type='submit'>PROCEED TO ORDER</button>
                 </form>
                 
             </div>
