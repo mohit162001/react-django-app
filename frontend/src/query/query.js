@@ -143,8 +143,8 @@ query($userId:String!){
 `
 
 export const ADD_ITEM_TO_CART = gql`
-mutation($userId:String!,$productId:String!){
-  cartItemAdd(userId:$userId ,productId:$productId){
+mutation($userId:String!,$productId:String!,$quantity:Int){
+  cartItemAdd(userId:$userId ,productId:$productId,quantity:$quantity){
     message
   }
 }
