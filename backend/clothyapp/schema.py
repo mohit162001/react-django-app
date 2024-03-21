@@ -74,17 +74,7 @@ class CustomProductType(graphene.ObjectType):
     product_image = graphene.String()
     product_price = graphene.Float()
     product_category = graphene.String()
-    class Meta:
-        model = OrderTable
-        filter_fields = {
-        "user__id":['exact'],
-        "user__username":['exact'],   
-        "quantity":['exact','gte','lte'],
-        "price":['exact','gte','lte'],
-        "payment_mode__payment_mode":['exact'],
-        'product__category__name':['exact']
-        }
-        interfaces = (relay.Node,)
+
         
         
 class CustomOrderType(graphene.ObjectType):
@@ -105,8 +95,13 @@ class CustomCartType(graphene.ObjectType):
     product_price = graphene.Float()
     totalPrice = graphene.Float()
     quantity = graphene.Int()
-    
 
+class UserAuthentictaion:
+    def user_authentication(self, info):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception('Authentication credentials were not provided')
+        
 class Query(graphene.ObjectType):
         
     # roles = DjangoFilterConnectionField(RoleType)
@@ -136,26 +131,41 @@ class Query(graphene.ObjectType):
     def resolve_products(root,info,**kwargs):
         products = ProductModel.objects.all()
         return products
+    
     # products = graphene.List(CustomProductType)
-    # def resolve_products(root,info):
+    
+    # products = graphene.List(CustomProductType, name=graphene.String(), price_min=graphene.Float(), price_max=graphene.Float(), category=graphene.String())
+    # def resolve_products(root, info, name=None, price_min=None, price_max=None, category=None):
     #     products = ProductModel.objects.all()
+
+    #     if name:
+    #         products = products.filter(name__icontains=name)
+    #     if price_min is not None:
+    #         products = products.filter(price__gte=price_min)
+    #     if price_max is not None:
+    #         products = products.filter(price__lte=price_max)
+    #     if category:
+    #         products = products.filter(category__name__iexact=category)
+            
     #     products_dict =[]
     #     for product in products:
     #         products_dict.append(
     #             {
-    #                 "productId":product.id,
-    #                 "product_name":product.name,
-    #                 "product_image":product.image,
-    #                 "product_price":product.price,
-    #                 "product_desc":product.desc,
-    #                 "product_category":product.category
+    #             "productId":product.id,
+    #             "product_name":product.name,
+    #             "product_image":product.image,
+    #             "product_price":product.price,
+    #             "product_desc":product.desc,
+    #             "product_category":product.category
     #             }
     #         )
     #     return products_dict
     
     product = graphene.Field(CustomProductType,productId=graphene.String())
     def resolve_product(root,info,productId):
-        product = ProductModel.objects.get(id=productId)
+        decoded_bytes = base64.b64decode(productId)
+        decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
+        product = ProductModel.objects.get(id=decoded_id)
         product_dict = {
             "productId":product.id,
             "product_name":product.name,
@@ -283,7 +293,7 @@ class UserLoginMutation(graphene.Mutation):
     @classmethod
     def mutate(cls,root, info, username, password):
         user = authenticate(username=username, password=password)
-        print("---------",user.id)
+
         if user is not None:
             token = get_token(user=user)
             print("currently logged in user-----",user)
@@ -303,10 +313,9 @@ class UserUpdation(graphene.Mutation):
     
     message = graphene.String()
     user = graphene.Field(UserType)
+    
     @classmethod
     def mutate(cls,root,info,userId,username=None,email=None,address=None):
-        print("--------------------",info.context.user)
-        
         user  = CustomUser.objects.get(id=userId)
         if user.is_authenticated:
             if username is not None:
@@ -328,7 +337,7 @@ class CategoryCreation(graphene.Mutation):
     @classmethod
     def mutate(cls,root,info,name):
         user = info.context.user
-        if user.is_authenticated and user.role.role=='admin':
+        if user.is_authenticated:
             category = CategoryModel.objects.create(name=name)
             return CategoryCreation(category=category)
         else:
@@ -343,7 +352,7 @@ class CategoryDeletion(graphene.Mutation):
     @classmethod
     def mutate(cls,root,info,id):
         user = info.context.user
-        if user.is_authenticated and user.role.role=='admin':
+        if user.is_authenticated:
             category = CategoryModel.objects.get(id=id)
             if category:
                 category.delete()
@@ -367,7 +376,7 @@ class ProductCreation(graphene.Mutation):
     def mutate(cls,root,info,name,price,desc,image,category_name):
         user = info.context.user
         print(user.role.role)
-        if user.is_authenticated and user.role.role=='admin':
+        if user.is_authenticated:
             if name and price and desc and image and category_name:
                 category = CategoryModel.objects.get(name=category_name)
                 print("category name------",category)
@@ -395,8 +404,10 @@ class ProductUpdation(graphene.Mutation):
     @classmethod
     def mutate(cls,root,info,productId,name=None,price=None,desc=None,image=None):
         user = info.context.user
-        if user.is_authenticated and user.role.role=='admin':
-            product = ProductModel.objects.get(id=productId)
+        if user.is_authenticated:
+            decoded_bytes = base64.b64decode(productId)
+            decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
+            product = ProductModel.objects.get(id=decoded_id)
             
             if name is not None:
                 product.name = name
@@ -423,8 +434,10 @@ class ProductDeletion(graphene.Mutation):
     @classmethod
     def mutate(cls,root,info,productId):
         user = info.context.user
-        if user.is_authenticated and user.role.role=='admin':
-            product = ProductModel.objects.get(id=productId)
+        if user.is_authenticated:
+            decoded_bytes = base64.b64decode(productId)
+            decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
+            product = ProductModel.objects.get(id=decoded_id)
             if product:
                 product.delete()
                 return ProductDeletion(message="Product Deleted Successfully")
@@ -444,7 +457,6 @@ class CartItemAdd(graphene.Mutation):
     
     @classmethod
     def mutate(cls,root,info,user_id,product_id,quantity=0,price=0):
-        
         already_product = CartModel.objects.filter(user=user_id,product = product_id)
         print("product count======",already_product.__len__())
         product = ProductModel.objects.get(id=product_id)
@@ -489,7 +501,8 @@ class CartItemRemove(graphene.Mutation):
         elif already_product.quantity ==1:
             already_product.delete()
             return CartItemAdd(message = "single existing item removed")
-        return CartItemAdd(message="testing cart remove")
+        else:
+            raise Exception("Something went wrong")
     
     
 class CartRemoveAllItem(graphene.Mutation):
