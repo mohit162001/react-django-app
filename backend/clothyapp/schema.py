@@ -138,7 +138,7 @@ class Query(graphene.ObjectType):
     
     products = DjangoFilterConnectionField(ProductType)
     def resolve_products(root,info,**kwargs):
-        UserAuthentictaion.user_authentication(root,info)
+        # UserAuthentictaion.user_authentication(root,info)
         products = ProductModel.objects.all()
         return products
     
@@ -175,7 +175,7 @@ class Query(graphene.ObjectType):
     
     product = graphene.Field(CustomProductType,productId=graphene.String())
     def resolve_product(root,info,productId):
-        UserAuthentictaion.user_authentication(root,info)
+        # UserAuthentictaion.user_authentication(root,info)
         
         decoded_bytes = base64.b64decode(productId)
         decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
@@ -192,7 +192,7 @@ class Query(graphene.ObjectType):
     
     new_products = graphene.List(ProductType)
     def resolve_new_products(root,info):
-        UserAuthentictaion.user_authentication(root,info)
+        # UserAuthentictaion.user_authentication(root,info)
         
         curr_date = datetime.today()
 
