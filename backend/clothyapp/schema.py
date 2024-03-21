@@ -98,7 +98,7 @@ class CustomCartType(graphene.ObjectType):
 class UserAuthentictaion:
     def user_authentication(self, info):
         user = info.context.user
-        print("UserAuthClass--------",user)
+        # print("UserAuthClass--------",user)
         if not user.is_authenticated:
             raise Exception('Authentication credentials were not provided')
         
@@ -503,7 +503,7 @@ class CartItemAdd(graphene.Mutation):
         if quantity<=1:
             quantity=1
         already_product = CartModel.objects.filter(user=user_id,product = product_id)
-        print("product count======",already_product.__len__())
+        # print("product count======",already_product.__len__())
         product = ProductModel.objects.get(id=product_id)
         user = CustomUser.objects.get(id=user_id)
         product_price = product.price
