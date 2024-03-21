@@ -8,7 +8,7 @@ import SignUp from "./Pages/SignUp";
 
 import men_banner from "./Component/Assests/banner_mens.png";
 import women_banner from "./Component/Assests/banner_women.png";
-import kid_banner from "./Component/Assests/banner_kids.png";
+// import kid_banner from "./Component/Assests/banner_kids.png";
 import RootLayOut from "./Pages/RootLayOut";
 import { checkAuth } from "./helper";
 import Login from "./Pages/LogIn";
@@ -29,11 +29,11 @@ function App() {
         },
         {
           path: "/mens",
-          element: <ShopCategory banner={men_banner} category="1" />,
+          element: <ShopCategory banner={men_banner} category="mens" />,
         },
         {
           path: "/womens",
-          element: <ShopCategory banner={women_banner} category="2" />,
+          element: <ShopCategory banner={women_banner} category="womens" />,
         },
         {
           path: "/product",
