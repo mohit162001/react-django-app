@@ -1,18 +1,40 @@
 import React, { useEffect } from 'react'
 import './cartitems.css'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import remove_icon from '../Assests/cart_cross_icon.png'
+// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+// import remove_icon from '../Assests/cart_cross_icon.png'
 import delete_icon from '../Assests/delete.png'
 import { useMutation, useQuery } from '@apollo/client'
-import { GET_CART_DETAILS, REMOVE_CART_ITEM } from '../../query/query'
-import { checkAuth, getUserData } from '../../helper'
+import { CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS, GET_ORDERS_DETAILS, GET_PAYMENT_MODES, REMOVE_CART_ITEM } from '../../query/query'
+import { checkAuth } from '../../helper'
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 const CartItems = ({products,refetch,userId}) => {
+    const navigate = useNavigate()
+    useEffect(()=>{
+        refetch()
+     })
 
-  useEffect(()=>{
-    refetch()
-  })
+    const {data} = useQuery(GET_PAYMENT_MODES)
+    const [mutationRemoveAll] = useMutation(CART_REMOVE_ALL,{
+        refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }]
+    })
 
-    const [mutationFun] = useMutation(REMOVE_CART_ITEM,{
+    const [mutaionCreateOrderFun] = useMutation(CREATE_USER_ORDER,{
+        onCompleted(data){
+            toast("Order placed",{icon:"🤩",duration:1000})
+            console.log(data)
+            setTimeout(()=>{
+                navigate('/order')
+                mutationRemoveAll({variables:{
+                userId:userId
+            }})
+            },1000)   
+        },
+        onError(error){
+            toast.error("Something went wrong")
+        },refetchQueries: [{ query: GET_ORDERS_DETAILS, variables:{userId:userId} }]
+    })
+    const [mutationRemoveItemFun] = useMutation(REMOVE_CART_ITEM,{
         onCompleted(){
             refetch()
         },
@@ -22,12 +44,12 @@ const CartItems = ({products,refetch,userId}) => {
     })
     
     function getTotalAmount(){
-        const total= products.userCart.reduce((acc,cur)=>(acc+cur.price),0)
+        const total= products.userCart.reduce((acc,cur)=>(acc+cur.totalPrice),0)
         return total
      }
      function removeItem(id) {
         if (checkAuth() === true) {
-          mutationFun({
+            mutationRemoveItemFun({
             variables: {
               userId: userId,
               productId: id,
@@ -37,7 +59,21 @@ const CartItems = ({products,refetch,userId}) => {
 
      }
 
+     function handleOrders(event){
+        event.preventDefault()
+        const formData = new FormData(event.target)
+        const paymentMode = formData.get('paymentmode')
+        console.log(paymentMode)
+        mutaionCreateOrderFun({
+            variables:{
+                userId:userId,
+                paymentMode:paymentMode
+            }
+        })
+     }
     return (
+    <>
+    <Toaster/>
     <div className="cartitems">
         <div className="cartitems-format-main">
             <p>Product</p>
@@ -61,7 +97,7 @@ const CartItems = ({products,refetch,userId}) => {
                             </div>
                             <hr />
                         </div>
-            return null;
+
         })}
         <div className="cartitems-down">
             <div className="cartitems-total">
@@ -82,17 +118,17 @@ const CartItems = ({products,refetch,userId}) => {
                         <h3> ₹{getTotalAmount()}</h3>
                     </div>
                 </div>
-                <button>PROCEED TO ORDER</button>
+                <form className='orderform' onSubmit={handleOrders}>
+                    <select className='orderform-select' name="paymentmode" id="paymentmode">
+                    {data && data.paymentMode.map((item)=>(<option key={item.id} value={item.paymentMode}>{item.paymentMode}</option>))}
+                    </select>
+                    <button disabled type='submit'>PROCEED TO ORDER</button>
+                </form>
+                
             </div>
-            {/* <div className="cartitems-promocode">
-                <p>If you have promocode, Enter here</p>
-                <div className="cartitems-promobox">
-                    <input type="text" placeholder='Promocode' />
-                    <button type='submit'>Apply</button>
-                </div>
-            </div> */}
         </div>
     </div>
+    </>
   )
 }
 

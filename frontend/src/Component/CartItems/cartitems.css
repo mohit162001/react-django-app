@@ -108,3 +108,16 @@ background: #fff;
     color: white;
     cursor: pointer;
 }
+.orderform{
+    display: flex;
+    flex-direction: column;
+}
+.orderform-select{
+    width: 27.1%;
+    margin-bottom: 1rem;
+    padding: 0.7rem;
+    font-size: 1.2rem;
+    text-align: center;
+    outline: none;
+}
+

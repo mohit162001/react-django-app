@@ -46,6 +46,11 @@
     font-size: 24px;
     font-weight: 700;
 }
+
+.productdisplay-right-description{
+    width: 150%;
+    margin-bottom: 5rem;
+}
 .productdisplay-right-price-old{
     color: #818181;
     text-decoration: line-through;
