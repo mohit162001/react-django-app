@@ -493,14 +493,15 @@ class CartItemAdd(graphene.Mutation):
         user_id = graphene.String(required=True)
         product_id = graphene.String(required=True)
         quantity = graphene.Int()
-        price = graphene.Float()
+        # price = graphene.Float()
         
     message = graphene.String()
     
     @classmethod
-    def mutate(cls,root,info,user_id,product_id,quantity=0,price=0):
+    def mutate(cls,root,info,user_id,product_id,quantity=1):
         UserAuthentictaion.user_authentication(root,info)
-        
+        if quantity<=1:
+            quantity=1
         already_product = CartModel.objects.filter(user=user_id,product = product_id)
         print("product count======",already_product.__len__())
         product = ProductModel.objects.get(id=product_id)
@@ -511,12 +512,12 @@ class CartItemAdd(graphene.Mutation):
         # print("exist",existing_product.quantity)
         
         if already_product.__len__()==0:
-            newCartItem = CartModel.objects.create(user=user,product=product,quantity=1,price=product_price)
+            newCartItem = CartModel.objects.create(user=user,product=product,quantity=quantity,price=quantity*product_price)
             newCartItem.save()
             return CartItemAdd(message = "Item added")
         elif already_product.__len__()>0:
             existing_item = CartModel.objects.get(user=user_id,product = product_id) 
-            existing_item.quantity = existing_item.quantity+1
+            existing_item.quantity = existing_item.quantity+quantity
             existing_item.price = existing_item.price * existing_item.quantity
             existing_item.save()
             return CartItemAdd(message = "Item quantity increment")
