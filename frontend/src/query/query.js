@@ -171,3 +171,26 @@ query($userId:String!){
   }
 }
 `
+export const GET_PAYMENT_MODES = gql`
+query{
+  paymentMode{
+    id
+    paymentMode
+  }
+}
+`
+export const CREATE_USER_ORDER = gql`
+mutation($userId:String! $paymentMode:String!){
+  orderCreate(userId:$userId paymentMode:$paymentMode){
+    message
+  }
+}
+`
+
+export const CART_REMOVE_ALL = gql`
+mutation($userId:String! ){
+  cartRemoveAll(userId:$userId){
+    message
+  }
+}
+`
