@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client'
 import { GET_PRODUCTS_BY_CATEGORY } from '../../query/query'
 const RelatedProduct = ({category}) => {
   const {data} = useQuery(GET_PRODUCTS_BY_CATEGORY,{variables:{
-    categoryId:category
+    category_Name:category
   }})
   return (
     <div className="relatedproduct">
@@ -14,15 +14,15 @@ const RelatedProduct = ({category}) => {
         <hr />
         {data && 
         <div className="relatedproduct-item">
-            {data.productByCategory.slice(1, 4).map((item, i) => {
+            {data.products.edges.slice(1, 4).map((item, i) => {
               return (
                 <Item
-                  key={i}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  new_price={item.price}
-                  // old_price={item.attributes.old_price}
+                key={i}
+                id={item.node.id}
+                name={item.node.name}
+                image={item.node.image}
+                new_price={item.node.price}
+                old_price={0}
                 />
               );
           })}

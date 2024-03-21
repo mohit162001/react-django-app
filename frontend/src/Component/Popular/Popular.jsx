@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import { GET_POPULAR_PRODUCT, GET_PRODUCTS_BY_CATEGORY } from '../../query/query';
 const Popular = () => {
   const {data,error,loading} = useQuery(GET_PRODUCTS_BY_CATEGORY,{
-    variables: { categoryId: '2' }
+    variables: { category_Name: 'womens' }
   })
   return (
     <div className='popular'>
@@ -16,13 +16,13 @@ const Popular = () => {
         {error && <p>Something went wrong</p>}
         {loading && !error && <p>Loading Popular Products...</p>}
         {data && !loading && <div className="popular-item">
-            {data.productByCategory.map((item,i)=>{
+            {data.products.edges.map((item,i)=>{
                 return <Item
                 key={i}
-                id={item.id}
-                name={item.name}
-                image={item.image}
-                new_price={item.price}
+                id={item.node.id}
+                name={item.node.name}
+                image={item.node.image}
+                new_price={item.node.price}
                 old_price={0}
               />
             })}
