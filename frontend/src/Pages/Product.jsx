@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { ShopContext } from '../Context/ShowContext';
+import React from 'react'
+// import { ShopContext } from '../Context/ShowContext';
 import { useParams } from 'react-router-dom';
 import ProductDisplay from '../Component/ProductDisplay/ProductDisplay';
 import RelatedProduct from '../Component/RelatedProducts/RelatedProduct';
@@ -20,8 +20,8 @@ export const Product = () => {
       {error && <p className='product-fallback'>Something went wrong...!</p>}
       {loading && !error && <p className='product-fallback'>Loading product details...</p>}
       {data && !error && <>
-        <ProductDisplay product={data.product} id={productId}/>
-        {/* <RelatedProduct category={data.product.productCategory}/> */}
+        <ProductDisplay product={data.product} id={data.product.productId}/>
+        <RelatedProduct category={data.product.productCategory}/>
       </>}
     </div>
   )
