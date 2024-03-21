@@ -1,4 +1,5 @@
 
+from email import message
 import re
 import graphene
 from graphene_django import DjangoObjectType
@@ -47,11 +48,7 @@ class CartType(DjangoObjectType):
 class PaymentType(DjangoObjectType):
     class Meta:
         model = PaymentModel
-        filter_fields = {
-            "payment_mode":['exact', 'icontains', 'istartswith'],
-            "id":['exact']
-        }
-        interfaces = (relay.Node,)
+
         
 class OrderType(DjangoObjectType):
     class Meta:
@@ -95,15 +92,22 @@ class CustomCartType(graphene.ObjectType):
     product_price = graphene.Float()
     totalPrice = graphene.Float()
     quantity = graphene.Int()
+    username = graphene.String()
+    userrole = graphene.String()
 
 class UserAuthentictaion:
     def user_authentication(self, info):
         user = info.context.user
+        print("UserAuthClass--------",user)
         if not user.is_authenticated:
             raise Exception('Authentication credentials were not provided')
         
+# {
+#   "Authorization": "Bearer <token>"
+# }
 class Query(graphene.ObjectType):
         
+    '''    
     # roles = DjangoFilterConnectionField(RoleType)
     # def resolve_roles(root,info,**kwargs):
     #     return RoleModel.objects.all()
@@ -118,20 +122,27 @@ class Query(graphene.ObjectType):
     #     users = CustomUser.objects.all()
     #     return users
     
-    
+    '''
     userDetails = graphene.Field(UserType,userId=graphene.String(required=True))
     def resolve_userDetails(root,info,userId):
+        token = info.context.headers.get('Authorization')
+        print(token)
+        print("\nuser details resolver-------",info.context.user)
+        UserAuthentictaion.user_authentication(root,info)
         return CustomUser.objects.get(id=userId)
     
     categories = graphene.List(CategoryType)
     def resolve_categories(root,info):
+        UserAuthentictaion.user_authentication(root,info)
         return CategoryModel.objects.all()
     
     products = DjangoFilterConnectionField(ProductType)
     def resolve_products(root,info,**kwargs):
+        UserAuthentictaion.user_authentication(root,info)
         products = ProductModel.objects.all()
         return products
     
+    '''
     # products = graphene.List(CustomProductType)
     
     # products = graphene.List(CustomProductType, name=graphene.String(), price_min=graphene.Float(), price_max=graphene.Float(), category=graphene.String())
@@ -160,9 +171,12 @@ class Query(graphene.ObjectType):
     #             }
     #         )
     #     return products_dict
+    '''
     
     product = graphene.Field(CustomProductType,productId=graphene.String())
     def resolve_product(root,info,productId):
+        UserAuthentictaion.user_authentication(root,info)
+        
         decoded_bytes = base64.b64decode(productId)
         decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
         product = ProductModel.objects.get(id=decoded_id)
@@ -178,16 +192,25 @@ class Query(graphene.ObjectType):
     
     new_products = graphene.List(ProductType)
     def resolve_new_products(root,info):
+        UserAuthentictaion.user_authentication(root,info)
+        
         curr_date = datetime.today()
 
         startfrom = curr_date - timedelta(days=6)
         print(startfrom)
         print(curr_date)
-        return ProductModel.objects.filter(inserted_date__range = [startfrom.date(),curr_date.date()])
-
+        products = ProductModel.objects.all()
+        new_products = ProductModel.objects.filter(inserted_date__range = [startfrom.date(),curr_date.date()])
+        if new_products.__len__() != 0:
+            products=new_products
+            return products
+        else:
+            return products
 
     user_cart = graphene.List(CustomCartType, user_id=graphene.String(required=True))
     def resolve_user_cart(root,info,user_id):
+        UserAuthentictaion.user_authentication(root,info)
+        
         user = CustomUser.objects.get(id=user_id)
         cartItems = CartModel.objects.filter(user=user)
         # print(cartItems)
@@ -203,18 +226,23 @@ class Query(graphene.ObjectType):
                 "product_price":product.price,
                 "totalPrice":item.price,
                 "quantity":item.quantity,
+                "username":user.username,
+                "userrole":user.role
                 }
             )
             
         return orderData
     # abc = [{"productId":}]
-    payment_mode = DjangoFilterConnectionField(PaymentType)
-    def resolve_payment_mode(root,info,**kwargs):
-        print(kwargs)
+    payment_mode = graphene.List(PaymentType)
+    def resolve_payment_mode(root,info):
+        UserAuthentictaion.user_authentication(root,info)
+        
         return PaymentModel.objects.all()
     
     orders = graphene.List(CustomOrderType)
     def resolve_orders(root,info):
+        UserAuthentictaion.user_authentication(root,info)
+        
         orders = OrderTable.objects.all()
         order_data = []
         for order in orders:
@@ -238,6 +266,8 @@ class Query(graphene.ObjectType):
     
     user_orders = graphene.List(CustomOrderType, user_id=graphene.String(required=True))
     def resolve_user_orders(root,info,user_id):
+        UserAuthentictaion.user_authentication(root,info)
+        
         user = CustomUser.objects.get(id=user_id)
         orders = OrderTable.objects.filter(user=user)
         print(orders)
@@ -257,7 +287,10 @@ class Query(graphene.ObjectType):
             
         return orderData
     
-    
+    # userlogut = graphene.String()
+    # def resolve_userlogout(root,info):
+    #     logout(request=info.context)
+    #     return f'{info.context.user} logged out'
 
 class CreateUserMutation(graphene.Mutation):
     class Arguments:
@@ -269,6 +302,8 @@ class CreateUserMutation(graphene.Mutation):
     token = graphene.String()
     @classmethod
     def mutate(cls,root, info, username, password, email):
+        UserAuthentictaion.user_authentication(root,info)
+        
         print(username,password,email)
         if username and email and password:
             user = CustomUser.objects.create_user(username=username,email=email,password=password)
@@ -292,14 +327,15 @@ class UserLoginMutation(graphene.Mutation):
     message = graphene.String() 
     @classmethod
     def mutate(cls,root, info, username, password):
+        
         user = authenticate(username=username, password=password)
-
+        
         if user is not None:
             token = get_token(user=user)
-            print("currently logged in user-----",user)
-           
+            print("Authenticate user-----",user)
             login(request=info.context,user=user)
-            print("currently logged in user-----",info.context.user.role)
+            print("currently logged in user-----",info.context.user)
+            
             return UserLoginMutation(token=token, user=user, message="User logged in" )
         else:
             raise Exception('Invalid username or password')
@@ -316,6 +352,8 @@ class UserUpdation(graphene.Mutation):
     
     @classmethod
     def mutate(cls,root,info,userId,username=None,email=None,address=None):
+        UserAuthentictaion.user_authentication(root,info)
+        
         user  = CustomUser.objects.get(id=userId)
         if user.is_authenticated:
             if username is not None:
@@ -328,7 +366,15 @@ class UserUpdation(graphene.Mutation):
             return UserUpdation(user=user,message ="User profile Updated")
         else:
             raise Exception("User not authorized")
-        
+class UserLogoutMutation(graphene.Mutation):
+    message = graphene.String()
+
+    @classmethod
+    def mutate(cls, root, info):
+        logout(request=info.context)
+        return UserLogoutMutation(message=f"logged out successfully")
+
+
 class CategoryCreation(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
@@ -336,12 +382,10 @@ class CategoryCreation(graphene.Mutation):
     category = graphene.Field(CategoryType)
     @classmethod
     def mutate(cls,root,info,name):
-        user = info.context.user
-        if user.is_authenticated:
-            category = CategoryModel.objects.create(name=name)
-            return CategoryCreation(category=category)
-        else:
-            raise Exception("User is not authorized")
+        UserAuthentictaion.user_authentication(root,info)
+        category = CategoryModel.objects.create(name=name)
+        return CategoryCreation(category=category)
+
         
 class CategoryDeletion(graphene.Mutation):
     class Arguments:
@@ -351,16 +395,15 @@ class CategoryDeletion(graphene.Mutation):
     
     @classmethod
     def mutate(cls,root,info,id):
-        user = info.context.user
-        if user.is_authenticated:
-            category = CategoryModel.objects.get(id=id)
-            if category:
-                category.delete()
-                return CategoryDeletion(message="Category Deleted Successfully")
-            else:
-                raise Exception("Can not delete category")
+        UserAuthentictaion.user_authentication(root,info)
+
+        category = CategoryModel.objects.get(id=id)
+        if category:
+            category.delete()
+            return CategoryDeletion(message="Category Deleted Successfully")
         else:
-            raise Exception("User is not authorized")    
+            raise Exception("Can not delete category")
+ 
 
 class ProductCreation(graphene.Mutation):
     class Arguments:
@@ -374,6 +417,8 @@ class ProductCreation(graphene.Mutation):
     message = graphene.String()
     @classmethod
     def mutate(cls,root,info,name,price,desc,image,category_name):
+        UserAuthentictaion.user_authentication(root,info)
+        
         user = info.context.user
         print(user.role.role)
         if user.is_authenticated:
@@ -403,28 +448,26 @@ class ProductUpdation(graphene.Mutation):
     
     @classmethod
     def mutate(cls,root,info,productId,name=None,price=None,desc=None,image=None):
-        user = info.context.user
-        if user.is_authenticated:
-            decoded_bytes = base64.b64decode(productId)
-            decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
-            product = ProductModel.objects.get(id=decoded_id)
-            
-            if name is not None:
-                product.name = name
-            if desc is not None:
-                product.desc = desc
-            if price is not None:
-                product.price = price
-            if image is not None:
-                format, imgstr = image.split(';base64,')
-                ext = format.split('/')[-1]
-                image_data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-                product.image = image_data
+        UserAuthentictaion.user_authentication(root,info)
 
-            product.save()
-            return ProductCreation(product=product)
-        else:
-            raise Exception("User is not authorized") 
+        decoded_bytes = base64.b64decode(productId)
+        decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
+        product = ProductModel.objects.get(id=decoded_id)
+            
+        if name is not None:
+            product.name = name
+        if desc is not None:
+            product.desc = desc
+        if price is not None:
+            product.price = price
+        if image is not None:
+            format, imgstr = image.split(';base64,')
+            ext = format.split('/')[-1]
+            image_data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            product.image = image_data
+
+        product.save()
+        return ProductCreation(product=product)    
 
 class ProductDeletion(graphene.Mutation):
     class Arguments:
@@ -433,18 +476,17 @@ class ProductDeletion(graphene.Mutation):
     message = graphene.String()
     @classmethod
     def mutate(cls,root,info,productId):
-        user = info.context.user
-        if user.is_authenticated:
-            decoded_bytes = base64.b64decode(productId)
-            decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
-            product = ProductModel.objects.get(id=decoded_id)
-            if product:
-                product.delete()
-                return ProductDeletion(message="Product Deleted Successfully")
-            else:
-                raise Exception("Can not delete product")
+        UserAuthentictaion.user_authentication(root,info)
+
+        decoded_bytes = base64.b64decode(productId)
+        decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
+        product = ProductModel.objects.get(id=decoded_id)
+        if product:
+            product.delete()
+            return ProductDeletion(message="Product Deleted Successfully")
         else:
-            raise Exception("User is not authorized")
+            raise Exception("Can not delete product")
+        
 
 class CartItemAdd(graphene.Mutation):
     class Arguments:
@@ -457,6 +499,8 @@ class CartItemAdd(graphene.Mutation):
     
     @classmethod
     def mutate(cls,root,info,user_id,product_id,quantity=0,price=0):
+        UserAuthentictaion.user_authentication(root,info)
+        
         already_product = CartModel.objects.filter(user=user_id,product = product_id)
         print("product count======",already_product.__len__())
         product = ProductModel.objects.get(id=product_id)
@@ -486,7 +530,7 @@ class CartItemRemove(graphene.Mutation):
     
     message = graphene.String()
     @classmethod
-    def mutate(cls,root,info,user_id,product_id):
+    def mutate(cls,root,info,user_id,product_id):        
         already_product = CartModel.objects.get(user=user_id,product = product_id)
         print("product count======",already_product.quantity)
         product = ProductModel.objects.get(id=product_id)
@@ -512,6 +556,8 @@ class CartRemoveAllItem(graphene.Mutation):
     message = graphene.String()
     @classmethod
     def mutate(cls,root,info,userId):
+        UserAuthentictaion.user_authentication(root,info)
+        
         user = CustomUser.objects.get(id=userId)
         print(user)
         CartModel.objects.filter(user=user).delete()
@@ -526,6 +572,8 @@ class OrderCreate(graphene.Mutation):
     orders = graphene.List(OrderType)
     @classmethod
     def mutate(cls,root,info,user_id,payment_mode):
+        UserAuthentictaion.user_authentication(root,info)
+        
         cartItem  = CartModel.objects.filter(user=user_id)
         user = CustomUser.objects.get(id=user_id)
         print(cartItem)
@@ -542,6 +590,7 @@ class Mutation(graphene.ObjectType):
     createUser = CreateUserMutation.Field()
     userLogin = UserLoginMutation.Field()
     userUpate = UserUpdation.Field()
+    userLogout = UserLogoutMutation.Field()
     
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
