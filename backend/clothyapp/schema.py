@@ -302,11 +302,11 @@ class CreateUserMutation(graphene.Mutation):
     token = graphene.String()
     @classmethod
     def mutate(cls,root, info, username, password, email):
-        UserAuthentictaion.user_authentication(root,info)
         
         print(username,password,email)
         if username and email and password:
-            user = CustomUser.objects.create_user(username=username,email=email,password=password)
+            role = RoleModel.objects.get(role="user")
+            user = CustomUser.objects.create_user(username=username,email=email,password=password,role=role)
             user.set_password(password)
             user.save()   
             token = get_token(user=user)
@@ -379,12 +379,15 @@ class CategoryCreation(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
         
-    category = graphene.Field(CategoryType)
+    message = graphene.String()
     @classmethod
     def mutate(cls,root,info,name):
         UserAuthentictaion.user_authentication(root,info)
-        category = CategoryModel.objects.create(name=name)
-        return CategoryCreation(category=category)
+        if name !='':
+            CategoryModel.objects.create(name=name)
+            return CategoryCreation(message = "New Category Created")
+        else:
+            raise Exception("Enter valid input")
 
         
 class CategoryDeletion(graphene.Mutation):
