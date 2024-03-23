@@ -24,7 +24,7 @@ export function getUserData(key){
 export function clearData(){
     return localStorage.clear()
 }
-export function checkAuth(){
+export function isAuthenticated(){
     const token = localStorage.getItem('token')
     if(!token){
         return redirect('/login')
@@ -32,12 +32,20 @@ export function checkAuth(){
     return true
 }
 
-export function checkAdmin(){
+export function isAdmin(){
     const role = localStorage.getItem('role')
+    const token = localStorage.getItem('token')
+    if( token && role==='admin' ){
+       return true
+    }
+    return redirect('/login')
+}
 
-    if( getAuthToken() && role==='admin' ){
-       return redirect('/admin')
-    }else{
-        return redirect("login")
+export function isAdminUser(){
+    if(getAuthToken() && getUserData('role')==='admin'){
+        return true
+    }
+    else{
+        return false
     }
 }
