@@ -15,6 +15,10 @@ import Login from "./Pages/LogIn";
 import Orders from "./Pages/Orders";
 
 import UserProfilePage from "./Pages/UserProfilePage";
+import AdminLayout from "./Pages/AdminLayout";
+import AddProductPage from "./Pages/AddProductPage";
+import AddCategoryPage from "./Pages/AddCategoryPage";
+import AllOrdersPage from "./Pages/AllOrdersPage";
 
 
 function App() {
@@ -43,6 +47,11 @@ function App() {
         { path: "/order", element: <Orders/>,loader:checkAuth },
         { path: "/cart", element: <Cart />,loader:checkAuth },
         { path: "/user", element: <UserProfilePage/>,loader:checkAuth},
+        {path:"/admin",element:<AdminLayout/>,children:[
+          {path:'addproduct',element:<AddProductPage/>},
+          {path:'addcategory',element:<AddCategoryPage/>},
+          {path:'allorders',element:<AllOrdersPage/>}
+        ]}
       ],
     }, { path: "signup", element: <SignUp /> },
     { path: "login", element: <Login /> },
