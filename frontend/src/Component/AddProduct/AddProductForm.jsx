@@ -171,7 +171,10 @@ function AddProductForm({ productData, productId }) {
                 id="image"
                 name="image"
                 accept="image/*"
+              
               />
+              
+             {productData &&  <img className="product-img-view" src={"http://localhost:8000/media/"+productData.productImage} alt="" />}
             </div>
             <div className="adminproduct-action">
               <Link to="/admin/allproducts">
