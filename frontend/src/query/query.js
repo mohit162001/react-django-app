@@ -63,6 +63,42 @@ query{
   }
 }
 `
+export const GET_ALL_PRODUCTS = gql`
+query{
+  products{
+    edges{
+      node{
+        id
+        image
+        name
+        price
+        desc
+        insertedDate
+        category{
+          name
+        }
+      }
+    }
+  }
+}
+`
+export const UPDATE_PRODUCT_DETAILS = gql`
+mutation($productId:String! $name:String! $desc:String! $price:Float $image:String $categoryName:String!){
+  updateProduct(productId:$productId name:$name desc:$desc price:$price image:$image categoryName:$categoryName  ){
+    product{
+      name
+    }
+  }
+}
+`
+
+export const DELETE_PRODUCT = gql`
+mutation($productId:String!){
+  deleteProduct(productId:$productId){
+    message
+  }
+}
+`
 
 export const GET_NEW_COLLECTION = gql`
 query{
@@ -161,6 +197,7 @@ mutation($userId:String!,$productId:String!){
 export const GET_ORDERS_DETAILS = gql`
 query($userId:String!){
   userOrders(userId:$userId){
+    orderId
     username
     productId
     productName
@@ -176,6 +213,7 @@ query($userId:String!){
 export const GET_ALL_ORDERS = gql`
 query{
   orders{
+    orderId
     username
     orderDate
     productImage
@@ -186,7 +224,13 @@ query{
   }
 }
 `
-
+export const DELETE_ORDER = gql`
+mutation($orderId:String!){
+  orderDelete(orderId:$orderId){
+    message
+  }
+}
+`
 export const GET_PAYMENT_MODES = gql`
 query{
   paymentMode{
