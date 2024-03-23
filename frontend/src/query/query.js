@@ -20,8 +20,11 @@ query($category_Name:String!){
 export const GET_CATEGORIRS = gql`
 query{
   categories{
-    id
-    name
+    edges{
+      node{
+      	name
+      }
+    }
   }
 }
 `
@@ -92,18 +95,17 @@ mutation($username:String!,$password:String!){
   }
 }
 `
-export const USER_REGISTRATION = gql`
-mutation($username:String!,$email:String!,$password:String!){
-  register(input:{
-    username:$username,
-    email:$email,
-    password:$password
-  }){
-    jwt
+export const USER_SIGNUP = gql`
+mutation($username:String!,$password:String!,$email:String!){
+  createUser(username:$username password:$password email:$email){
+    token
     user{
-      id
       username
       email
+      id
+      role{
+        role
+      }
     }
   }
 }
@@ -171,11 +173,28 @@ query($userId:String!){
   }
 }
 `
+export const GET_ALL_ORDERS = gql`
+query{
+  orders{
+    username
+    orderDate
+    productImage
+    productName
+    quantity
+    totalPrice
+    paymentMode    
+  }
+}
+`
+
 export const GET_PAYMENT_MODES = gql`
 query{
   paymentMode{
-    id
-    paymentMode
+    edges{
+      node{
+      	paymentMode
+      }
+    }
   }
 }
 `
@@ -190,6 +209,21 @@ mutation($userId:String! $paymentMode:String!){
 export const CART_REMOVE_ALL = gql`
 mutation($userId:String! ){
   cartRemoveAll(userId:$userId){
+    message
+  }
+}
+`
+
+export const CREATE_PRODUCT = gql`
+mutation($name:String! $desc:String! $price:Float! $image:String! $categoryName:String!){
+  createProduct(name:$name desc:$desc price:$price image:$image categoryName:$categoryName ){
+    message
+  }
+}
+`
+export const CREATE_CATEGORY = gql`
+mutation($categoryName:String!){
+  createCategory(name:$categoryName){
     message
   }
 }
