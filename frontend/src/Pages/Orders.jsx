@@ -33,7 +33,7 @@ function Orders() {
       {error && <p className='product-fallback'>Something went wrong...!</p>}
       {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
       {!error && data && data.userOrders.length > 0 && <>
-          <OrdersItem orders={data} currPage={currPage} itemsperPage={4} />
+          <OrdersItem orders={data} currPage={currPage} userId={userId} itemsperPage={4} />
           <div className="pagination">
             <button className={currPage===1?'disabled-btn':'pagination-btn'} disabled={currPage===1?true:false} onClick={prevPage} >  <img className='left-arrow' src={right_arrow} alt="" />Previous</button>
             <button className={currPage===totalPages?'disabled-btn':'pagination-btn'} disabled={currPage===totalPages?true:false} onClick={nextPage} >Next <img className='rigth-arrow' src={right_arrow} alt="" /> </button>
