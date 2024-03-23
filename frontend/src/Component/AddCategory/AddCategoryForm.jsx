@@ -3,6 +3,7 @@ import './addcategoryform.css'
 import { useMutation, useQuery } from '@apollo/client'
 import { CREATE_CATEGORY, GET_CATEGORIRS, GET_USER_DETAILS, UPDATE_USER_DETAILS } from '../../query/query'
 import toast, { Toaster } from 'react-hot-toast'
+import {Link} from 'react-router-dom'
 function AddCategoryForm() {
 
   const [muationCreateCategory] = useMutation(CREATE_CATEGORY,{
@@ -43,7 +44,12 @@ function AddCategoryForm() {
             <input className='admincategory-input' type="text" id="name" name="categoryname" defaultValue={''} />
           </div>
           <div className="admincategory-action">
-          <button className='admincategory-action-button-cancle' type="button" onClick={''}>cancle</button>
+          <Link to="/admin/allproducts"><button
+                className="admincategory-action-button-cancle"
+                type="button"
+              >
+                cancle
+              </button></Link>
           <button className='admincategory-action-button' disabled={true} type="submit">Add</button>
 
           </div>
