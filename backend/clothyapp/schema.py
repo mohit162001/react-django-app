@@ -18,14 +18,25 @@ from graphene_django.filter import DjangoFilterConnectionField
 class RoleType(DjangoObjectType):
     class Meta:
         model = RoleModel
+        filter_fields={
+        'id':['exact'],
+        'role':['exact'],
+        }
+        interfaces = (relay.Node,)
 
 class UserType(DjangoObjectType):
     class Meta:
         model = CustomUser
 
+
 class CategoryType(DjangoObjectType):
     class Meta:
         model = CategoryModel
+        filter_fields={
+        'id':['exact'],
+        'name':['exact'],
+        }
+        interfaces = (relay.Node,)
         
 class ProductType(DjangoObjectType):
     class Meta:
@@ -44,11 +55,23 @@ class ProductType(DjangoObjectType):
 class CartType(DjangoObjectType):
     class Meta:
         model = CartModel
+        filter_fields={
+        'id':['exact'],
+        'user__username':['exact'],
+        'product__category':['exact'],
+        "price":['exact','gte','lte'],
+        "quantity":['exact','gte','lte']  
+        }
+        interfaces = (relay.Node,)
         
 class PaymentType(DjangoObjectType):
     class Meta:
         model = PaymentModel
-
+        filter_fields={
+        'id':['exact'],
+        "payment_mode":['exact']    
+        }
+        interfaces = (relay.Node,)
         
 class OrderType(DjangoObjectType):
     class Meta:
@@ -102,36 +125,28 @@ class UserAuthentictaion:
         if not user.is_authenticated:
             raise Exception('Authentication credentials were not provided')
         
-# {
-#   "Authorization": "Bearer <token>"
-# }
+
 class Query(graphene.ObjectType):
         
-    '''    
-    # roles = DjangoFilterConnectionField(RoleType)
-    # def resolve_roles(root,info,**kwargs):
-    #     return RoleModel.objects.all()
+      
+    roles = DjangoFilterConnectionField(RoleType)
+    def resolve_roles(root,info,**kwargs):
+        return RoleModel.objects.all()
     
-    # # users = DjangoFilterConnectionField(UserType)
-    # # def resolve_users(root,info,**kwargs):
-        
-    # #     return CustomUser.objects.all()
 
     # users = DjangoFilterConnectionField(UserType)
     # def resolve_users(self, info, **kwargs):
     #     users = CustomUser.objects.all()
     #     return users
     
-    '''
+
     userDetails = graphene.Field(UserType,userId=graphene.String(required=True))
     def resolve_userDetails(root,info,userId):
-        token = info.context.headers.get('Authorization')
-        print(token)
-        print("\nuser details resolver-------",info.context.user)
         UserAuthentictaion.user_authentication(root,info)
         return CustomUser.objects.get(id=userId)
     
-    categories = graphene.List(CategoryType)
+    categories = DjangoFilterConnectionField(CategoryType)
+    # categories = graphene.List(CategoryType)
     def resolve_categories(root,info):
         UserAuthentictaion.user_authentication(root,info)
         return CategoryModel.objects.all()
@@ -190,6 +205,10 @@ class Query(graphene.ObjectType):
         }
         return product_dict
     
+    carts = DjangoFilterConnectionField(CartType)
+    def resolve_carts(root,info,**kwargs):
+        carts = CartModel.objects.filter(**kwargs)
+    
     new_products = graphene.List(ProductType)
     def resolve_new_products(root,info):
         # UserAuthentictaion.user_authentication(root,info)
@@ -233,7 +252,7 @@ class Query(graphene.ObjectType):
             
         return orderData
     # abc = [{"productId":}]
-    payment_mode = graphene.List(PaymentType)
+    payment_mode = DjangoFilterConnectionField(PaymentType)
     def resolve_payment_mode(root,info):
         UserAuthentictaion.user_authentication(root,info)
         
@@ -287,10 +306,6 @@ class Query(graphene.ObjectType):
             
         return orderData
     
-    # userlogut = graphene.String()
-    # def resolve_userlogout(root,info):
-    #     logout(request=info.context)
-    #     return f'{info.context.user} logged out'
 
 class CreateUserMutation(graphene.Mutation):
     class Arguments:
