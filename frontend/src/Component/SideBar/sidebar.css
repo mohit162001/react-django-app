@@ -47,7 +47,7 @@ ul{
     top: 20px;
     left: 20px;
     width: 90%;
-    max-width: 300px; 
+    max-width: 260px; 
   }
   
   .sidebar {
@@ -73,7 +73,7 @@ ul{
     padding: 0;
   }
   .sidebar-ul {
-    margin-top: 14rem;
+    margin-top: 11em;
     margin-bottom: 14rem;
   }
   .sidebar-list-item {
