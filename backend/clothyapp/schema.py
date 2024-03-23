@@ -100,6 +100,7 @@ class CustomProductType(graphene.ObjectType):
 class CustomOrderType(graphene.ObjectType):
     username = graphene.String()
     productId = graphene.String()
+    orderId = graphene.String()
     product_name = graphene.String()
     product_image = graphene.String()
     product_price = graphene.Float()
@@ -269,6 +270,7 @@ class Query(graphene.ObjectType):
             payment_mode = PaymentModel.objects.get(id=order.payment_mode.id)
             order_data.append(
                 {
+                "orderId":order.id,
                 "username":order.user.username,
                 "productId":order.product.id,
                 "product_name":product.name,
@@ -293,6 +295,7 @@ class Query(graphene.ObjectType):
         orderData = []
         for order in orders:
             orderData.append(CustomOrderType(
+                orderId = order.id,
                 username=order.user.username,
                 productId=order.product.id,
                 product_name=order.product.name,
@@ -461,16 +464,18 @@ class ProductUpdation(graphene.Mutation):
         price = graphene.Float()
         desc = graphene.String()
         image=graphene.String()
+        category_name = graphene.String()
         
     product = graphene.Field(ProductType)
     
     @classmethod
-    def mutate(cls,root,info,productId,name=None,price=None,desc=None,image=None):
+    def mutate(cls,root,info,productId,name=None,price=None,desc=None,image=None,category_name=None):
         UserAuthentictaion.user_authentication(root,info)
 
         decoded_bytes = base64.b64decode(productId)
         decoded_id = decoded_bytes.decode('utf-8').split(':')[1]
         product = ProductModel.objects.get(id=decoded_id)
+        
             
         if name is not None:
             product.name = name
@@ -478,6 +483,9 @@ class ProductUpdation(graphene.Mutation):
             product.desc = desc
         if price is not None:
             product.price = price
+        if category_name is not None:
+            category = CategoryModel.objects.get(name=category_name)
+            product.category=category
         if image is not None:
             format, imgstr = image.split(';base64,')
             ext = format.split('/')[-1]
@@ -604,7 +612,22 @@ class OrderCreate(graphene.Mutation):
             OrderTable.objects.create(user=user,product=product,quantity=item.quantity,price=item.price,payment_mode=paymode)
         orders = OrderTable.objects.filter(user=user)
         return OrderCreate(message = "Order testing",orders = orders )
-        
+
+class OrderDeletion(graphene.Mutation):
+    class Arguments:
+        orderId = graphene.String(required=True)
+    
+    message = graphene.String()
+    @classmethod
+    def mutate(cls,root,info,orderId):
+        UserAuthentictaion.user_authentication(root,info)
+        order = OrderTable.objects.get(id=orderId)
+        if order:
+            order.delete()
+            return ProductDeletion(message="Order Deleted Successfully")
+        else:
+            raise Exception("Can not delete order")
+  
 class Mutation(graphene.ObjectType):
     createUser = CreateUserMutation.Field()
     userLogin = UserLoginMutation.Field()
@@ -627,5 +650,5 @@ class Mutation(graphene.ObjectType):
     cartRemoveAll = CartRemoveAllItem.Field()
     
     orderCreate = OrderCreate.Field()
-    
+    orderDelete = OrderDeletion.Field()
 schema = graphene.Schema(query=Query,mutation=Mutation)
