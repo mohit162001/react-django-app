@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Toaster,toast } from 'react-hot-toast';
 import { useMutation } from '@apollo/client';
 import { USER_LOGIN } from '../query/query';
-import { storeData } from '../helper';
+import { isAdminUser, storeData } from '../helper';
 import back_icon from '../Component/Assests/back.png'
 
 
@@ -14,9 +14,13 @@ export const Login = () => {
     onCompleted(data){
       toast('Log in successfull',{icon:"😊",duration:1000})
       storeData(data.userLogin)
-      console.log(data.userLogin.message)
+
       setTimeout(()=>{
-        navigate('/')
+        if(isAdminUser()){
+          navigate('/admin/allproducts')
+        }else{
+          navigate('/')
+        }
       },1000)
     },
     onError(error){
