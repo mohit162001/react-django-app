@@ -33,16 +33,17 @@ const ProductDisplay = ({ product, id }) => {
       });
     } else {
       toast("Please login first", {
-        className: "custom-toast",
-        duration: 1000,
+        // className: "custom-toast",
+        duration: 1600,
         style: {
           backgroundColor: "white",
           color: "black",
           borderRadius: "8px",
           padding: "16px",
           fontSize: "1rem",
+          fontWeight:400
         },
-        icon: "😉",
+        icon: "😉"
       });
     }
   }
@@ -66,7 +67,7 @@ const ProductDisplay = ({ product, id }) => {
       <Toaster />
       <div className="productdisplay">
         <div className="productdisplay-left">
-          {/* <div className="productdisplay-imglist">
+          <div className="productdisplay-imglist">
             <img
               src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
@@ -83,7 +84,7 @@ const ProductDisplay = ({ product, id }) => {
               src={"http://localhost:8000/media/" + product.productImage}
               alt={product.name}
             />
-          </div> */}
+          </div>
           <div className="productdisplay-img">
             <img
               className="productdisplay-main-img"
@@ -104,7 +105,7 @@ const ProductDisplay = ({ product, id }) => {
           <div className="productdisplay-right-prices">
             {/* <div className="productdisplay-right-price-old">${0}</div> */}
             <div className="productdisplay-right-price-new">
-              ${product.productPrice}
+            ₹{product.productPrice}
             </div>
           </div>
           

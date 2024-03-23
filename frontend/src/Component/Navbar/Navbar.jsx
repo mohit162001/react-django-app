@@ -9,6 +9,7 @@ import { checkAuth, clearData, getUserData } from '../../helper';
 import { useQuery } from '@apollo/client';
 import { GET_CART_DETAILS } from '../../query/query';
 import avatar from '../Assests/avatar.png'
+import admin_image1 from '../Assests/admin_img1.jpg'
 
 function Navbar({}) {
     const navigate = useNavigate()

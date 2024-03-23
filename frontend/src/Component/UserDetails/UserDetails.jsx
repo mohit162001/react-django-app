@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import './userdetails.css'
 import avatar from '../Assests/avatar.png'
+
+import admin_image1 from '../Assests/admin_img1.jpg'
 import UserFormModel from './UserFormModel'
 import { Link } from 'react-router-dom'
 function UserDetails({username,email,address,userId}) {
+    console.log(address)
     const [showForm,setShowForm] = useState(false)
     function handleFormModelState(){
         setShowForm((prev)=>!prev)
@@ -30,7 +33,7 @@ function UserDetails({username,email,address,userId}) {
                 <div className="uservalues">
                     <input className="userprofile-input username"  type="text" value={username} readOnly/>
                     <input className="userprofile-input"  type="text" value={email} readOnly/>
-                    <input className="userprofile-input"  type="text" value={address} readOnly/>
+                    <input className="userprofile-input"  type="text" value={address ?address:"Update your address"} readOnly/>
                 </div>
        
             </div>

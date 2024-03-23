@@ -10,16 +10,16 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 const CartItems = ({products,refetch,userId}) => {
     const navigate = useNavigate()
-    useEffect(()=>{
-        refetch()
-     })
+    // useEffect(()=>{
+    //     refetch()
+    //  })
 
     const {data} = useQuery(GET_PAYMENT_MODES)
     const [mutationRemoveAll] = useMutation(CART_REMOVE_ALL,{
         refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }]
     })
 
-    const [mutaionCreateOrderFun] = useMutation(CREATE_USER_ORDER,{
+    const [mutaionCreateOrderFun,{data:orderCreated}] = useMutation(CREATE_USER_ORDER,{
         onCompleted(data){
             toast("Order placed",{icon:"🤩",duration:1000})
             console.log(data)
@@ -40,7 +40,8 @@ const CartItems = ({products,refetch,userId}) => {
         },
         onError(error){
             console.log(error)
-        }
+        },
+
     })
     
     function getTotalAmount(){
@@ -70,7 +71,7 @@ const CartItems = ({products,refetch,userId}) => {
      }
     return (
     <>
-    <Toaster/>
+    {orderCreated && <Toaster/>}
     <div className="cartitems">
         <div className="cartitems-format-main">
             <p>Product</p>
@@ -117,7 +118,7 @@ const CartItems = ({products,refetch,userId}) => {
                 </div>
                 <form className='orderform' onSubmit={handleOrders}>
                     <select className='orderform-select' name="paymentmode" id="paymentmode">
-                    {data && data.paymentMode.map((item)=>(<option key={item.id} value={item.paymentMode}>{item.paymentMode}</option>))}
+                    {data && data.paymentMode.edges.map((item)=>(<option key={item.node.id} value={item.node.paymentMode}>{item.node.paymentMode}</option>))}
                     </select>
                     <button type='submit'>PROCEED TO ORDER</button>
                 </form>

@@ -18,3 +18,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+main {
+  height: 80vh; 
+  margin-bottom: 2rem; 
+  display: flex; 
+  gap: 2rem; 
+}
