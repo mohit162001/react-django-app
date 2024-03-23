@@ -3,7 +3,7 @@ import "./productdisplay.css";
 import star_icon from "../Assests/star_icon.png";
 import star_dull_icon from "../Assests/star_dull_icon.png";
 // import { ShopContext } from "../../Context/ShowContext";
-import { checkAuth, getUserData } from "../../helper";
+import {  getUserData, isAuthenticated } from "../../helper";
 import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM_TO_CART, GET_CART_DETAILS } from "../../query/query";
@@ -23,7 +23,7 @@ const ProductDisplay = ({ product, id }) => {
     refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }],
   });
   function addIfLogedIn(id) {
-    if (checkAuth() === true) {
+    if (isAuthenticated() === true) {
       mutationAddItem({
         variables: {
           userId: userId,

@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 // import all_product from '../Component/Assests/all_product';
-import { checkAuth, getUserData } from "../helper";
+import { isAuthenticated, getUserData } from "../helper";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_CART_DETAILS } from "../query/query";
@@ -21,7 +21,7 @@ const ShopContextProvider = (props) => {
     // const [fetchData,setFetchData] = useState();
     
     const addToCart = (itemId) =>{
-        if(checkAuth()===true){
+        if(isAuthenticated()===true){
             setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
         }
     }

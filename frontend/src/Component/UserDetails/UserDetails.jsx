@@ -5,6 +5,7 @@ import avatar from '../Assests/avatar.png'
 import admin_image1 from '../Assests/admin_img1.jpg'
 import UserFormModel from './UserFormModel'
 import { Link } from 'react-router-dom'
+import { isAdminUser } from '../../helper'
 function UserDetails({username,email,address,userId}) {
     console.log(address)
     const [showForm,setShowForm] = useState(false)
@@ -17,9 +18,9 @@ function UserDetails({username,email,address,userId}) {
 
     return (
         <>
-        <h3 className='userprofile-h3'>User Profile</h3>
+        <h3 className='userprofile-h3'>{isAdminUser()?"Admin Profile":"User Profile"}</h3>
         <div className="avatar-img">
-            <img src={avatar} alt="" className='avatar'/>
+            <img src={isAdminUser()?admin_image1: avatar} alt="" className='avatar'/>
         </div>
         <div className="userprofile-container">
             
