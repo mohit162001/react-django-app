@@ -8,7 +8,7 @@ import SignUp from "./Pages/SignUp";
 
 import men_banner from "./Component/Assests/banner_mens.png";
 import women_banner from "./Component/Assests/banner_women.png";
-// import kid_banner from "./Component/Assests/banner_kids.png";
+import unauthorized_img from "./Component/Assests/unauthorized-image.png";
 import RootLayOut from "./Pages/RootLayOut";
 import { isAdmin, isAuthenticated } from "./helper";
 import Login from "./Pages/LogIn";
@@ -21,6 +21,7 @@ import AddCategoryPage from "./Pages/AddCategoryPage";
 import AllOrdersPage from "./Pages/AllOrdersPage";
 import AllProductsPage from "./Pages/AllProductsPage";
 import AdminLanding from "./Pages/AdminLanding";
+import FallBack from "./Component/FallBack/FallBack";
 
 
 function App() {
@@ -49,8 +50,9 @@ function App() {
         { path: "/order", element: <Orders/>,loader:isAuthenticated },
         { path: "/cart", element: <Cart />,loader:isAuthenticated },
         { path: "/user", element: <UserProfilePage/>,loader:isAuthenticated},
+        {path:'unauthorized',element:<FallBack image={unauthorized_img} heading={"You are not Authorized"} btn_lable={'Back'} setMenuValue={'shop'} link={'/'}/>},
         {path:"/admin",element:<AdminLayout/>,loader:isAdmin,children:[
-          {index:true,element:<AdminLanding/>},
+          {path:'',element:<AdminLanding/>},
           {path:'addproduct',element:<AddProductPage/>},
           {path:'addproduct/:productId',element:<AddProductPage/>},
           {path:'addcategory',element:<AddCategoryPage/>},

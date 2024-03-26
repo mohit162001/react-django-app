@@ -38,7 +38,7 @@ export function isAdmin(){
     if( token && role==='admin' ){
        return true
     }
-    return redirect('/login')
+    return redirect('/unauthorized')
 }
 
 export function isAdminUser(){
