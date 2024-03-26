@@ -110,6 +110,7 @@ class CustomOrderType(graphene.ObjectType):
     paymentMode = graphene.String()
 
 class CustomCartType(graphene.ObjectType):
+    cartItemId = graphene.String()
     productId = graphene.String()
     product_name = graphene.String()
     product_image = graphene.String()
@@ -259,12 +260,13 @@ class Query(graphene.ObjectType):
         user = CustomUser.objects.get(id=user_id)
         cartItems = CartModel.objects.filter(user=user)
         # print(cartItems)
-        orderData = []
+        cartData = []
         for item in cartItems:
             # print(item.product)
             product = ProductModel.objects.get(id = item.product.id)
-            orderData.append(
+            cartData.append(
                 {
+                "cartItemId":item.id,
                 "productId":product.id,
                 "product_name":product.name,
                 "product_image":product.image,
@@ -276,7 +278,7 @@ class Query(graphene.ObjectType):
                 }
             )
             
-        return orderData
+        return cartData
     # abc = [{"productId":}]
     payment_mode = DjangoFilterConnectionField(PaymentType)
     def resolve_payment_mode(root,info):
@@ -599,7 +601,18 @@ class CartItemRemove(graphene.Mutation):
             return CartItemAdd(message = "single existing item removed")
         else:
             raise Exception("Something went wrong")
+
+class CartRemoveEntierItem(graphene.Mutation):
+    class Arguments:
+        cartItemId = graphene.String(required=True)
     
+    message = graphene.String()
+    @classmethod
+    def mutate(cls,root,self,cartItemId):
+        
+        cartItem = CartModel.objects.get(id=cartItemId)
+        cartItem.delete()
+        return CartRemoveEntierItem(message = "Entier item removed")
     
 class CartRemoveAllItem(graphene.Mutation):
     class Arguments:
@@ -672,6 +685,7 @@ class Mutation(graphene.ObjectType):
     
     cartItemAdd  = CartItemAdd.Field()
     cartItemRemove = CartItemRemove.Field()
+    cartRemoveEnrtierItem = CartRemoveEntierItem.Field()
     cartRemoveAll = CartRemoveAllItem.Field()
     
     orderCreate = OrderCreate.Field()

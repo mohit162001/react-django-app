@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './cartitems.css'
 // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 // import remove_icon from '../Assests/cart_cross_icon.png'
 import delete_icon from '../Assests/delete.png'
 import { useMutation, useQuery } from '@apollo/client'
-import { CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS, GET_ORDERS_DETAILS, GET_PAYMENT_MODES, REMOVE_CART_ITEM } from '../../query/query'
+import { ADD_ITEM_TO_CART, CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS, GET_ORDERS_DETAILS, GET_PAYMENT_MODES, REMOVE_CART_ITEM, REMOVE_ENTIRE_ITEM } from '../../query/query'
 import { checkAuth } from '../../helper'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,8 @@ const CartItems = ({products,refetch,userId}) => {
     // useEffect(()=>{
     //     refetch()
     //  })
+    const [quantity,setQuantity] = useState(1)
+    const [disable,setDisable] = useState(false)
 
     const {data} = useQuery(GET_PAYMENT_MODES)
     const [mutationRemoveAll] = useMutation(CART_REMOVE_ALL,{
@@ -34,6 +36,16 @@ const CartItems = ({products,refetch,userId}) => {
             toast.error("Something went wrong")
         },refetchQueries: [{ query: GET_ORDERS_DETAILS, variables:{userId:userId} }]
     })
+    const [mutationAddItem] = useMutation(ADD_ITEM_TO_CART, {
+        onCompleted(data){
+          toast.success('Item added',{duration:1000})
+        },
+        onError(error){
+            toast.error('Someting went wrong...!',{duration:1000})
+        },
+        refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }],
+      });
+
     const [mutationRemoveItemFun] = useMutation(REMOVE_CART_ITEM,{
         onCompleted(){
             refetch()
@@ -41,22 +53,56 @@ const CartItems = ({products,refetch,userId}) => {
         onError(error){
             console.log(error)
         },
-
     })
-    
+    const [mutationRemoveEntierItem] = useMutation(REMOVE_ENTIRE_ITEM,{
+        onCompleted(){
+            refetch()
+        },
+        onError(error){
+            console.log(error)
+        },
+    })
     function getTotalAmount(){
         const total= products.userCart.reduce((acc,cur)=>(acc+cur.totalPrice),0)
         return total
      }
-     function removeItem(id) {
-            mutationRemoveItemFun({
+     
+     function removeEntierItem(id) {
+        console.log(id)
+        mutationRemoveEntierItem({
+            variables:{
+                cartItemId:id
+            }
+        })
+     }
+
+     function handleIncrease(id){
+        console.log('inecrese')
+
+        if (quantity >= 1) {
+          setDisable(false); 
+        }
+        mutationAddItem({
             variables: {
               userId: userId,
               productId: id,
             },  
           });
-     }
-
+      
+      }
+      function handleDecrease(id){
+        console.log('decrese')
+        if (quantity <= 1) {
+          setDisable(true); 
+        } 
+            mutationRemoveItemFun({
+                variables: {
+                  userId: userId,
+                  productId: id,
+                },  
+              });
+        
+      }
      function handleOrders(event){
         event.preventDefault()
         const formData = new FormData(event.target)
@@ -88,10 +134,14 @@ const CartItems = ({products,refetch,userId}) => {
                                 <img src={"http://localhost:8000/media/"+item.productImage} alt="" className='carticon-product-icon' />
                                 <p>{item.productName}</p>
                                 <p> ₹{item.productPrice}</p>
-                                <button className='cartitems-quantity'>{item.quantity}</button>
+                                <div className='cartitems-quantity-container'>
+                                    <span onClick={()=>{handleDecrease(item.productId)}} className='cart-quantity-minus'>-</span>
+                                     <button className='cartitems-quantity'>{item.quantity}</button>
+                                    <span onClick={()=>{handleIncrease(item.productId)}} className='cart-quantity-plus'>+</span>
+                                </div>
                                 <p> ₹{item.totalPrice}</p>
-                                <img src={delete_icon} onClick={()=>{removeItem(item.productId)}} className='delete-icon' alt="" />
-                                {/* <DeleteOutlineIcon onClick={()=>{removeItem(item.productId)}}/> */}
+                                <img src={delete_icon} onClick={()=>{removeEntierItem(item.cartItemId)}} className='delete-icon' alt="" />
+                                
                             </div>
                             <hr />
                         </div>
