@@ -116,7 +116,17 @@ background: #fff;
     margin-left: 1rem;
     
 }
-.allproduct-action-btn{
+.allproduct-edit-btn{
+    width: 35px;
+    padding: 0.5rem;
+    margin-top: 8px;
+    color: #363636;
+    background: transparent;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s;
+}
+.allproduct-delete-btn{
     width: 35px;
     padding: 0.5rem;
     color: #363636;
@@ -125,7 +135,6 @@ background: #fff;
     border: none;
     transition: 0.2s;
 }
-
-.allproduct-action-btn:hover{
+.allproduct-edit-btn:hover,.allproduct-delete-btn:hover{
     transform: scale(1.2,1.2);
 }

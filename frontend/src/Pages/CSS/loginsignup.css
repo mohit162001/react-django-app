@@ -1,9 +1,10 @@
 .loginsignup{
-    width: 100%;
+    width: 101.5%;
     height: 86vh;
     background: #fce3fe;
     padding-top: 100px;
     display: flex;
+    margin-left: -1.5rem;
 }
 
 .loginsignup-container{
