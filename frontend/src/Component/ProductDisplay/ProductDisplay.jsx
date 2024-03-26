@@ -3,7 +3,7 @@ import "./productdisplay.css";
 import star_icon from "../Assests/star_icon.png";
 import star_dull_icon from "../Assests/star_dull_icon.png";
 // import { ShopContext } from "../../Context/ShowContext";
-import {  getUserData, isAuthenticated } from "../../helper";
+import {  getUserData, isAdminUser, isAuthenticated } from "../../helper";
 import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM_TO_CART, GET_CART_DETAILS } from "../../query/query";
@@ -122,6 +122,7 @@ const ProductDisplay = ({ product, id }) => {
               <div>XXL</div>
             </div>
           </div> */}
+          {!isAdminUser() && <>
           <h3 className="quantity-heading">Item Quantity :</h3>
           <div className="number">
 	          <button disabled={disable} onClick={handleDecrease}  className="minus">-</button>
@@ -135,6 +136,7 @@ const ProductDisplay = ({ product, id }) => {
           >
             ADD TO CART
           </button>
+          </>}
         </div>
       </div>
     </>

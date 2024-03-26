@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./addproductform.css";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
@@ -10,8 +10,10 @@ import {
   GET_PRODUCT_BY_ID,
 } from "../../query/query";
 import toast, { Toaster } from "react-hot-toast";
+import { ShopContext } from "../../Context/ShowContext";
 function AddProductForm({ productData, productId }) {
   const navigate = useNavigate();
+  const {setMenu} = useContext(ShopContext)
   const { data } = useQuery(GET_CATEGORIRS);
   const [mutationProductUpdate] = useMutation(UPDATE_PRODUCT_DETAILS, {
     onCompleted(data) {
@@ -179,6 +181,7 @@ function AddProductForm({ productData, productId }) {
             <div className="adminproduct-action">
               <Link to="/admin/allproducts">
                 <button
+                  onClick={()=>setMenu('allproduct')}
                   className="adminproduct-action-button-cancle"
                   type="button"
                 >
