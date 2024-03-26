@@ -18,8 +18,12 @@ export const SignUp = () => {
         navigate('/')
       },1000)
     },
-    onError(){
+    onError(error){
+      if(error.message.includes('duplicate key value')){
+      toast.error('Username already exist',{duration:1000})
+      }else{
       toast.error('Someting went wrong...!',{duration:1000})
+      }
     }
   })
   function handleSubmit(event){
@@ -38,7 +42,7 @@ export const SignUp = () => {
         email
       }})
     }
-    if(email.includes('.com') || password.trim().length<6 || username.trim().length !==0){
+    else if(email.includes('.com') || password.trim().length<=6 || username.trim().length !==0){
       toast(' Enter valid input!',{icon:"⚠️",duration:1000})
     }
   }
