@@ -42,27 +42,7 @@ query($productId:String!){
 }
 `
 
-export const GET_POPULAR_PRODUCT = gql`
-query{
-  products(filters: {popular:{ eq: true }}) {
-    data {
-      id
-      attributes {
-        name
-        old_price
-        new_price
-        image{
-          data{
-            attributes{
-              url
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`
+
 export const GET_ALL_PRODUCTS = gql`
 query{
   products{
@@ -110,6 +90,22 @@ query{
   }
 }
 `
+export const GET_POPULAR_PRODUCT = gql`
+query($category_Name:String!){
+  popularProduct(category_Name:$category_Name){
+   edges{
+    node{
+      name
+      id
+      insertedDate
+      price
+      image
+    }
+  }
+  }
+}
+`
+
 export const USER_LOGIN = gql`
 
 
