@@ -25,8 +25,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* margin-bottom: 55%; */
 }
 
+.user-fallback{
+    text-align: center;
+    margin-bottom: 35rem;
+}
 .user-info{
     margin-top: 15rem;margin-left: -1rem;
     padding-left: 3rem;

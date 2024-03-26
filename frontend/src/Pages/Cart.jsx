@@ -16,8 +16,8 @@ export const Cart = () => {
 
   return (
   <>
-  {error && <p className='product-fallback'>Something went wrong...!</p>}
-  {loading && !error && <p className='product-fallback'>Loading cart details...</p>}
+  {error && <p className='cart-fallback'>Something went wrong...!</p>}
+  {loading && !error && <p className='cart-fallback'>Loading cart details...</p>}
   {!error && data && data.userCart.length>0 && <CartItems products={data} refetch={refetch} userId={userId}/>}
   {!error && data && data.userCart.length===0 && <FallBack image={empty_cart} heading={"No item found"} btn_lable={"Add item"} setMenuValue={'mens'} link={'/mens'}/>} 
   </>
