@@ -12,6 +12,7 @@ class RoleModel(models.Model):
 class CustomUser(AbstractUser):
     address = models.CharField(blank=True,null=True)
     role = models.ForeignKey(RoleModel, on_delete=models.CASCADE, default=None, blank=True, null=True)
+    image = models.ImageField(upload_to='user_image',default=None, blank=True, null=True)
 
 
 class CategoryModel(models.Model):

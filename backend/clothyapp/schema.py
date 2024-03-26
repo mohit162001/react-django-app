@@ -391,12 +391,13 @@ class UserUpdation(graphene.Mutation):
         username = graphene.String(required = True)
         email = graphene.String(required = True)
         address = graphene.String()
+        image = graphene.String()
     
     message = graphene.String()
     user = graphene.Field(UserType)
     
     @classmethod
-    def mutate(cls,root,info,userId,username=None,email=None,address=None):
+    def mutate(cls,root,info,userId,username=None,email=None,address=None,image=None):
         UserAuthentictaion.user_authentication(root,info)
         
         user  = CustomUser.objects.get(id=userId)
@@ -407,6 +408,11 @@ class UserUpdation(graphene.Mutation):
                 user.email = email
             if address is not None:
                 user.address = address
+            if image is not None:
+                format, imgstr = image.split(';base64,')
+                ext = format.split('/')[-1]
+                image_data = ContentFile(base64.b64decode(imgstr), name='tempuser.' + ext)
+                user.image = image_data
             user.save()
             return UserUpdation(user=user,message ="User profile Updated")
         else:
