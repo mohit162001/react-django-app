@@ -23,9 +23,13 @@ export const Login = () => {
         }
       },1000)
     },
-    onError(){
+    onError(error){
+      if(error.message.includes("Invalid")){
+      toast.error('Invalid username or password',{duration:1000})
+
+      }else{
       toast.error('Someting went wrong...!',{duration:1000})
-    }
+      }}
   })
   function handleSubmit(event){
     event.preventDefault()
