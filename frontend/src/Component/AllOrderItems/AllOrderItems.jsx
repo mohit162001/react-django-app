@@ -53,7 +53,7 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
                 <p> ₹{item.totalPrice}</p>
                 <p> {item.paymentMode}</p>
                 <div className='allorderitems-action'>
-                <img src={delete_icon} alt='alternative' onClick={()=>handleDelete(item.orderId)} className='allproduct-action-btn'/>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleDelete(item.orderId)} className='allproduct-delete-btn'/>
                 </div>
               </div>
               <hr />
