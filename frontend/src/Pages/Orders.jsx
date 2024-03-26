@@ -34,10 +34,10 @@ function Orders() {
       {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
       {!error && data && data.userOrders.length > 0 && <>
           <OrdersItem orders={data} currPage={currPage} userId={userId} itemsperPage={4} />
-          <div className="pagination">
-            <button className={currPage===1?'disabled-btn':'pagination-btn'} disabled={currPage===1?true:false} onClick={prevPage} >  <img className='left-arrow' src={right_arrow} alt="" />Previous</button>
-            <button className={currPage===totalPages?'disabled-btn':'pagination-btn'} disabled={currPage===totalPages?true:false} onClick={nextPage} >Next <img className='rigth-arrow' src={right_arrow} alt="" /> </button>
-          </div>
+          {data.userOrders.length>4&& <div className="pagination">
+            <button className={currPage===1?'order-disable-btn':'pagination-btn'} disabled={currPage===1?true:false} onClick={prevPage} >  <img className='left-arrow' src={right_arrow} alt="" />Previous</button>
+            <button className={currPage===totalPages?'order-disable-btn':'pagination-btn'} disabled={currPage===totalPages?true:false} onClick={nextPage} >Next <img className='rigth-arrow' src={right_arrow} alt="" /> </button>
+          </div>}
         </>
       }
       {!error && data && data.userOrders.length === 0 && (<FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
