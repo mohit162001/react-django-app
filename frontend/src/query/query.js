@@ -166,6 +166,7 @@ mutation($username:String! $email:String! $address:String $userId:String!){
 export const GET_CART_DETAILS = gql`
 query($userId:String!){
   userCart(userId:$userId){
+    cartItemId
     productId
     productName
     productImage
@@ -183,6 +184,14 @@ mutation($userId:String!,$productId:String!,$quantity:Int){
   }
 }
 `
+export const REMOVE_ENTIRE_ITEM = gql`
+mutation($cartItemId:String!){
+  cartRemoveEnrtierItem(cartItemId:$cartItemId){
+    message
+  }
+}
+`
+
 export const REMOVE_CART_ITEM = gql`
 mutation($userId:String!,$productId:String!){
   cartItemRemove(userId:$userId ,productId:$productId){
