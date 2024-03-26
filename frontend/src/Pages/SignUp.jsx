@@ -29,15 +29,16 @@ export const SignUp = () => {
       const username = formData.get("username")
       const email = formData.get("email")
       const password = formData.get("password")
-    if((username&&username.trim().length !==0) && (password && password.trim().length !==0) && (email&&email.trim().length !==0)){
-      console.log(username,email,password)
+    if((username&&username.trim().length !==0) && (password.trim().length !==0 && password.length>=6) && (email&&email.trim().length !==0)){
+      console.log(username,email,password.length)
       
       mutationCreateUser({variables:{
         username,
         password,
         email
       }})
-    }else if(email.includes('.com') || password.trim().length<6 || username.trim().length !==0){
+    }
+    if(email.includes('.com') || password.trim().length<6 || username.trim().length !==0){
       toast(' Enter valid input!',{icon:"⚠️",duration:1000})
     }
   }
