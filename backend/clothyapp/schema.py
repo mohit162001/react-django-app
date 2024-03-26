@@ -210,6 +210,31 @@ class Query(graphene.ObjectType):
     def resolve_carts(root,info,**kwargs):
         carts = CartModel.objects.filter(**kwargs)
     
+    popular_product = DjangoFilterConnectionField(ProductType)
+    def resolve_popular_product(root,info,**kwargs):
+        curr_date  =datetime.today()
+        six_day_ago = curr_date - timedelta(days=6)
+        older_product = ProductModel.objects.filter(inserted_date__lte=six_day_ago,**kwargs)
+        return older_product
+    
+    
+    new_products = graphene.List(ProductType)
+    def resolve_new_products(root,info):
+        # UserAuthentictaion.user_authentication(root,info)
+        
+        curr_date = datetime.today()
+
+        startfrom = curr_date - timedelta(days=6)
+        print(startfrom)
+        print(curr_date)
+        products = ProductModel.objects.all()
+        new_products = ProductModel.objects.filter(inserted_date__range = [startfrom.date(),curr_date.date()])
+        if new_products.__len__() != 0:
+            products=new_products
+            return products
+        else:
+            return products
+        
     new_products = graphene.List(ProductType)
     def resolve_new_products(root,info):
         # UserAuthentictaion.user_authentication(root,info)
