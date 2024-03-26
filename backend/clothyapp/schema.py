@@ -577,7 +577,7 @@ class CartItemAdd(graphene.Mutation):
         elif already_product.__len__()>0:
             existing_item = CartModel.objects.get(user=user_id,product = product_id) 
             existing_item.quantity = existing_item.quantity+quantity
-            existing_item.price = existing_item.price * existing_item.quantity
+            existing_item.price = product_price * existing_item.quantity
             existing_item.save()
             return CartItemAdd(message = "Item quantity increment")
 
