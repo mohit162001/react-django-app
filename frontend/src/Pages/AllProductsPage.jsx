@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import FallBack from '../Component/FallBack/FallBack';
 import { useQuery } from '@apollo/client';
-import { GET_ALL_ORDERS, GET_ALL_PRODUCTS } from '../query/query';
+import {  GET_ALL_PRODUCTS } from '../query/query';
 import empty_order from '../Component/Assests/empty-order.png';
 import right_arrow from '../Component/Assests/breadcrum_arrow.png'
 import AllProducts from '../Component/AllProducts/AllProducts';
 function AllProductsPage() {
     const {data,loading,error} = useQuery(GET_ALL_PRODUCTS)
     const [currPage, setCurrPage] = useState(1);
-    console.log(data)
+    // console.log(data)
     const totalPages = Math.ceil((data && data.products.edges.length)/4)
     // console.log("total item",data && data.products.edges.length)
     // console.log("total pages",totalPages)

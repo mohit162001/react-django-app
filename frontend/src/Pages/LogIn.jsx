@@ -23,7 +23,7 @@ export const Login = () => {
         }
       },1000)
     },
-    onError(error){
+    onError(){
       toast.error('Someting went wrong...!',{duration:1000})
     }
   })

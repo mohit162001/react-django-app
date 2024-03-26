@@ -26,7 +26,7 @@ const Popular = ({heading,query_variable}) => {
                 old_price={0}
               />
             })}
-        </div>}
+        </div>} 
     </div>
   )
 }

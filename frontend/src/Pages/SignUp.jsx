@@ -13,7 +13,7 @@ export const SignUp = () => {
     onCompleted(data){
       toast('Sign Up successfull',{icon:"😊",duration:1000})
       storeData(data.createUser)
-      console.log("new user----",data)
+      // console.log("new user----",data)
       setTimeout(()=>{ 
         navigate('/')
       },1000)
@@ -34,7 +34,7 @@ export const SignUp = () => {
       const email = formData.get("email")
       const password = formData.get("password")
     if((username&&username.trim().length !==0) && (password.trim().length !==0 && password.length>=6) && (email&&email.trim().length !==0)){
-      console.log(username,email,password.length)
+      // console.log(username,email,password.length)
       
       mutationCreateUser({variables:{
         username,

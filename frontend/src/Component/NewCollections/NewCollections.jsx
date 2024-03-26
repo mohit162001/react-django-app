@@ -5,7 +5,7 @@ import Item from '../Item/Item';
 import { useQuery } from '@apollo/client';
 import { GET_NEW_COLLECTION } from '../../query/query';
 const NewCollections = () => {
-  const {data,error,loading} = useQuery(GET_NEW_COLLECTION)
+  const {data,error,loading} = useQuery(GET_NEW_COLLECTION) 
   return (
     <section id='newcollection' className="new-collection">
         <h1>NEW COLLECTIONS</h1>

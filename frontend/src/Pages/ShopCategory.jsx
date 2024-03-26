@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./CSS/showcategory.css";
-import { ShopContext } from "../Context/ShowContext";
-import dropdown_icon from "../Component/Assests/dropdown_icon.png";
+
 import Item from "../Component/Item/Item";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS_BY_CATEGORY } from "../query/query";
@@ -11,9 +10,9 @@ const ShopCategory = (props) => {
     variables: { category_Name: props.category },
   });
 
-  if (data) {
-    console.log(data);
-  }
+  // if (data) {
+  //   console.log(data);
+  // }
   return (
     <div className="shop-category-container">
       <div className="shop-category">

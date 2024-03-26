@@ -5,18 +5,18 @@ import { GET_USER_DETAILS, UPDATE_USER_DETAILS } from '../../query/query'
 import toast, { Toaster } from 'react-hot-toast'
 function UserFormModel({username,email,address,handleClose,userId}) {
     const [mutationFun] = useMutation(UPDATE_USER_DETAILS,{
-        onCompleted(data){
-            console.log(data)
+        onCompleted(){
+            // console.log(data)
             toast.success('Profile Updated Successfully',{duration:1000})
             setTimeout(()=>{
                 handleClose()
             },1000)
         },
-        onError(error){
+        onError(){
             toast.error('Someting went wrong...!',{duration:1000})
         },
         refetchQueries: [{ query: GET_USER_DETAILS, variables:{userId:userId} }],
-    })
+    }) 
 
     function handleFormSubmit(event){
         event.preventDefault()

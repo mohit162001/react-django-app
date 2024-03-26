@@ -9,9 +9,9 @@ function AllOrdersPage() {
     const {data,loading,error} = useQuery(GET_ALL_ORDERS)
     const [currPage, setCurrPage] = useState(1);
     const totalPages = Math.ceil((data && data.orders.length)/4)
-    console.log("total item",data && data.orders.length)
-    console.log("total pages",totalPages)
-    console.log("curr page",currPage)
+    // console.log("total item",data && data.orders.length)
+    // console.log("total pages",totalPages)
+    // console.log("curr page",currPage)
     const nextPage = () => {
       setCurrPage((prevPage) => prevPage + 1);
     };

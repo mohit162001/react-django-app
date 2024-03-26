@@ -11,7 +11,7 @@ import { GET_CART_DETAILS } from '../../query/query';
 import avatar from '../Assests/avatar.png'
 import admin_image1 from '../Assests/admin_img1.jpg'
 
-function Navbar({}) {
+function Navbar() {
     const navigate = useNavigate()
     const {menu,setMenu} = useContext(ShopContext)
     // const [fetchData,setFetchData] = useState(false);

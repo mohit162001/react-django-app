@@ -1,6 +1,6 @@
 import React from "react";
 import "./footer.css";
-import footer_logo from "../Assests/logo_big.png";
+// import footer_logo from "../Assests/logo_big.png";
 import instagran_icon from "../Assests/instagram_icon.png";
 import facebook_icon from "../Assests/facebook_icon.png";
 import whatsapp_icon from "../Assests/whatsapp_icon.png";

@@ -11,7 +11,7 @@ const Hero = () => {
             <div>
                 <div className="hero-hand-icon">
                     <p>NEW</p>
-                    <img src={hand_icon} alt="" />
+                    <img src={hand_icon} alt="alternative" />
                 </div>
                 <p>collections</p>
                 <p>for everyone</p>
@@ -19,12 +19,12 @@ const Hero = () => {
             <div className="hero-latest-btn">
                 <div className='scroll-btn'>
                     <a href="#newcollection" className="scrollTo">Latest Collection</a>
-                    <img src={arrow_icon} alt="" />
+                    <img src={arrow_icon} alt="alternative" />
                 </div>
             </div>
         </div>
         <div className="hero-right">
-            <img src={hero_img} alt="" />
+            <img src={hero_img} alt="alternative" />
         </div>
     </div>
   )

@@ -20,7 +20,7 @@ const RelatedProduct = ({category,curr_productId}) => {
               return (
                 <Item
                 key={i}
-                id={item.node.id}
+                id={item.node.id} 
                 name={item.node.name}
                 image={item.node.image}
                 new_price={item.node.price}

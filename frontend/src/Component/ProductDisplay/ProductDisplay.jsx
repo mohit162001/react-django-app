@@ -8,16 +8,16 @@ import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM_TO_CART, GET_CART_DETAILS } from "../../query/query";
 
-const ProductDisplay = ({ product, id }) => {
+const ProductDisplay = ({ product, id }) => { 
   // const { addToCart } = useContext(ShopContext);
   const [quantity,setQuantity] = useState(1)
   const [disable,setDisable] = useState(false)
   const userId = getUserData("id");
   const [mutationAddItem] = useMutation(ADD_ITEM_TO_CART, {
-    onCompleted(data){
+    onCompleted(){
       toast.success('Item added',{duration:1000})
     },
-    onError(error){
+    onError(){
         toast.error('Someting went wrong...!',{duration:1000})
     },
     refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }],

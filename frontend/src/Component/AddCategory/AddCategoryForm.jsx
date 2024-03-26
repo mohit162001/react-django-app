@@ -9,7 +9,7 @@ function AddCategoryForm() {
   const {setMenu} = useContext(ShopContext)
   const [muationCreateCategory] = useMutation(CREATE_CATEGORY,{
     onCompleted(data){
-      console.log("message",data)
+      // console.log("message",data)
       toast.success("Category Created Successfully",{duration:1500})
     },
     onError(error){
@@ -20,7 +20,7 @@ function AddCategoryForm() {
   function handleSubmit(event){
     event.preventDefault();
     const categoryName = event.target.categoryname.value;
-    console.log(categoryName)
+    // console.log(categoryName)
 
     if(categoryName.trim() !==''){
       muationCreateCategory({ 

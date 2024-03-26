@@ -17,13 +17,13 @@ function AddProductForm({ productData, productId }) {
   const {setMenu} = useContext(ShopContext)
   const { data } = useQuery(GET_CATEGORIRS);
   const [mutationProductUpdate] = useMutation(UPDATE_PRODUCT_DETAILS, {
-    onCompleted(data) {
+    onCompleted() {
       toast.success("Item Updated Successfully", { duration: 1000 });
       setTimeout(() => {
         navigate("/admin/allproducts");
       }, 1000);
     },
-    onError(error) {
+    onError() {
       toast.error("Something went wrong", { duration: 1500 });
     },
     refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_PRODUCT_BY_ID, variables:{productId:productId} }]
@@ -31,7 +31,7 @@ function AddProductForm({ productData, productId }) {
 
   const [muationCreateProduct] = useMutation(CREATE_PRODUCT, {
     onCompleted(data) {
-      console.log("message", data);
+      // console.log("message", data);
       toast.success("Item Created Successfully", { duration: 1000 });
       setTimeout(() => {
         navigate("/admin/allproducts");
@@ -59,7 +59,7 @@ function AddProductForm({ productData, productId }) {
 
           reader.onloadend = () => {
             const imageBase64 = reader.result;
-            console.log(imageBase64);
+            // console.log(imageBase64);
             mutationProductUpdate({
               variables: {
                 productId: productId,
@@ -89,7 +89,7 @@ function AddProductForm({ productData, productId }) {
 
         reader.onloadend = () => {
           const imageBase64 = reader.result;
-          console.log(imageBase64);
+          // console.log(imageBase64);
           muationCreateProduct({
             variables: {
               name: name,

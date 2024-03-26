@@ -8,10 +8,6 @@ function SideBar() {
   const { productId } = useParams();
   // const {textState,handleTextChange} = useContext(TextContext)
   const {setMenu} = useContext(ShopContext)
-  const textState = ''
-  function handleTextChange(){
-
-  }
 
   return (
     <aside className="sidebar-container">
@@ -53,8 +49,8 @@ function SideBar() {
                 className={({ isActive }) => (isActive ? "active" : "inactive")}
                 to="addproduct"
               >
-                {textState ? "New Note" : "Add Product"}
-              </NavLink>
+                Add Product
+              </NavLink> 
             </li>
           )}
           <li className="sidebar-list-item">

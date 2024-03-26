@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { GET_ORDERS_DETAILS } from '../query/query';
 import { getUserData } from '../helper';
 import FallBack from '../Component/FallBack/FallBack';
@@ -9,7 +9,7 @@ import right_arrow from '../Component/Assests/breadcrum_arrow.png'
 import '../Component/OrdersItem/ordersitem.css'
 function Orders() {
   const userId = getUserData('id');
-  const { data, loading, error, refetch } = useQuery(GET_ORDERS_DETAILS, {
+  const { data, loading, error } = useQuery(GET_ORDERS_DETAILS, {
     variables: {
       userId: userId
     }
@@ -17,9 +17,6 @@ function Orders() {
 
   const [currPage, setCurrPage] = useState(1);
   const totalPages = Math.ceil((data && data.userOrders.length)/4)
-  console.log("total item",data && data.userOrders.length)
-  console.log("total pages",totalPages)
-  console.log("curr page",currPage)
   const nextPage = () => {
     setCurrPage((prevPage) => prevPage + 1);
   };

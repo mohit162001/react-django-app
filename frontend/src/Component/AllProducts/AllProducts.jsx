@@ -12,7 +12,7 @@ function AllProducts({ products, currPage, itemsperPage }) {
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
 
-  const [mutationProductDelete,{data}] = useMutation(DELETE_PRODUCT,{
+  const [mutationProductDelete] = useMutation(DELETE_PRODUCT,{
     onCompleted(){
         toast.success("Product deleted successfully",{duration:1000})
     },
@@ -23,7 +23,7 @@ function AllProducts({ products, currPage, itemsperPage }) {
   })
 
   function handleDelete(productId){
-    console.log(productId)
+    // console.log(productId)
     mutationProductDelete({
         variables:{
             productId:productId
@@ -49,15 +49,15 @@ function AllProducts({ products, currPage, itemsperPage }) {
           return (
             <div  key={i}>
               <div className="allproduct-format allproduct-format-main">
-                <Link to={'/product/'+item.node.id}><img src={"http://localhost:8000/media/" + item.node.image} alt="" className='carticon-product-icon' /></Link>
+                <Link to={'/product/'+item.node.id}><img src={"http://localhost:8000/media/" + item.node.image} alt="alternative" className='carticon-product-icon' /></Link>
                 <p className='allproduct-p'>{item.node.name}</p>
                 <p className='allproduct-p'>₹{item.node.price}</p>
                 {/* <p> {item.node.desc}</p> */}
                 <p > {item.node.insertedDate}</p>
                 <p className='allproduct-p'> {item.node.category.name}</p>
                 <div className='allproduct-action'>
-                <Link to={'/admin/addproduct/'+item.node.id}><img src={edit_icon} className='allproduct-action-btn'/></Link>
-                <img src={delete_icon} onClick={()=>handleDelete(item.node.id)} className='allproduct-action-btn'/>
+                <Link to={'/admin/addproduct/'+item.node.id}><img src={edit_icon} alt='alternative' className='allproduct-action-btn'/></Link>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleDelete(item.node.id)} className='allproduct-action-btn'/>
                 </div>
               </div>
               <hr className='allproduct-hr'/>

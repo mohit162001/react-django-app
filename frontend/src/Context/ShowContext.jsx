@@ -1,9 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 // import all_product from '../Component/Assests/all_product';
-import { isAuthenticated, getUserData } from "../helper";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { GET_CART_DETAILS } from "../query/query";
+import { isAuthenticated } from "../helper";
+
 
 export const ShopContext = createContext(null);
 var all_product=[];

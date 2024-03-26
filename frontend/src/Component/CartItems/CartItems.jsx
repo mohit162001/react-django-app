@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './cartitems.css'
 // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 // import remove_icon from '../Assests/cart_cross_icon.png'
 import delete_icon from '../Assests/delete.png'
 import { useMutation, useQuery } from '@apollo/client'
 import { ADD_ITEM_TO_CART, CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS, GET_ORDERS_DETAILS, GET_PAYMENT_MODES, REMOVE_CART_ITEM, REMOVE_ENTIRE_ITEM } from '../../query/query'
-import { checkAuth } from '../../helper'
+
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 const CartItems = ({products,refetch,userId}) => {
@@ -13,8 +13,8 @@ const CartItems = ({products,refetch,userId}) => {
     // useEffect(()=>{
     //     refetch()
     //  })
-    const [quantity,setQuantity] = useState(1)
-    const [disable,setDisable] = useState(false)
+    const [quantity] = useState(1)
+    const [,setDisable] = useState(false)
 
     const {data} = useQuery(GET_PAYMENT_MODES)
     const [mutationRemoveAll] = useMutation(CART_REMOVE_ALL,{
@@ -24,7 +24,7 @@ const CartItems = ({products,refetch,userId}) => {
     const [mutaionCreateOrderFun,{data:orderCreated}] = useMutation(CREATE_USER_ORDER,{
         onCompleted(data){
             toast("Order placed",{icon:"🤩",duration:1000})
-            console.log(data)
+            // console.log(data)
             setTimeout(()=>{
                 navigate('/order')
                 mutationRemoveAll({variables:{
@@ -51,7 +51,7 @@ const CartItems = ({products,refetch,userId}) => {
             refetch()
         },
         onError(error){
-            console.log(error)
+            // console.log(error)
         },
     })
     const [mutationRemoveEntierItem] = useMutation(REMOVE_ENTIRE_ITEM,{
@@ -59,7 +59,7 @@ const CartItems = ({products,refetch,userId}) => {
             refetch()
         },
         onError(error){
-            console.log(error)
+            // console.log(error)
         },
     })
     function getTotalAmount(){
@@ -68,7 +68,7 @@ const CartItems = ({products,refetch,userId}) => {
      }
      
      function removeEntierItem(id) {
-        console.log(id)
+        // console.log(id)
         mutationRemoveEntierItem({
             variables:{
                 cartItemId:id
@@ -77,7 +77,7 @@ const CartItems = ({products,refetch,userId}) => {
      }
 
      function handleIncrease(id){
-        console.log('inecrese')
+        // console.log('inecrese')
 
         if (quantity >= 1) {
           setDisable(false); 
@@ -91,7 +91,7 @@ const CartItems = ({products,refetch,userId}) => {
       
       }
       function handleDecrease(id){
-        console.log('decrese')
+        // console.log('decrese')
         if (quantity <= 1) {
           setDisable(true); 
         } 
@@ -107,7 +107,7 @@ const CartItems = ({products,refetch,userId}) => {
         event.preventDefault()
         const formData = new FormData(event.target)
         const paymentMode = formData.get('paymentmode')
-        console.log(paymentMode)
+        // console.log(paymentMode)
         mutaionCreateOrderFun({
             variables:{
                 userId:userId,

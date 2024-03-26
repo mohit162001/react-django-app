@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import CartItems from '../Component/CartItems/CartItems';
 import { useQuery } from '@apollo/client';
 import { GET_CART_DETAILS } from '../query/query';
-import { checkAuth, getUserData } from '../helper';
+import {  getUserData } from '../helper';
 import FallBack from '../Component/FallBack/FallBack';
 import empty_cart from '../Component/Assests/empty-cart.png'
 export const Cart = () => {

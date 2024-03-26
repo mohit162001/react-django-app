@@ -5,10 +5,11 @@ import { GET_PRODUCT_BY_ID } from '../query/query.js';
 import { useQuery } from '@apollo/client';
 function AddProductPage() {
   const {productId} = useParams();
-  const {data,error,loading} = useQuery(GET_PRODUCT_BY_ID,{
+  const {data} = useQuery(GET_PRODUCT_BY_ID,{
     variables:{
       productId: productId
     },
+    skip:productId?false:true
   })
   return (
     <>

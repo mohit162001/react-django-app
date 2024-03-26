@@ -7,14 +7,12 @@ import UserFormModel from './UserFormModel'
 import { Link } from 'react-router-dom'
 import { isAdminUser } from '../../helper'
 function UserDetails({username,email,address,userId}) {
-    console.log(address)
+    // console.log(address)
     const [showForm,setShowForm] = useState(false)
     function handleFormModelState(){
         setShowForm((prev)=>!prev)
     }
-    function handleUpdateProfile(){
 
-    }
 
     return (
         <>

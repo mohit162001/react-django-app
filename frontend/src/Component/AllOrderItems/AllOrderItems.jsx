@@ -11,10 +11,10 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
   const end = start + itemsperPage;
 
   const [mutationOrderDelete] = useMutation(DELETE_ORDER,{
-    onCompleted(data){
+    onCompleted(){
       toast.success("Order delete successfully")
     },
-    onError(error){
+    onError(){
       toast.error("Something went wrong")
     },
     refetchQueries: [{ query: GET_ALL_ORDERS }]
@@ -53,7 +53,7 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
                 <p> ₹{item.totalPrice}</p>
                 <p> {item.paymentMode}</p>
                 <div className='allorderitems-action'>
-                <img src={delete_icon} onClick={()=>handleDelete(item.orderId)} className='allproduct-action-btn'/>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleDelete(item.orderId)} className='allproduct-action-btn'/>
                 </div>
               </div>
               <hr />
