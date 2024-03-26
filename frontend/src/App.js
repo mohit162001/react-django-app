@@ -20,6 +20,7 @@ import AddProductPage from "./Pages/AddProductPage";
 import AddCategoryPage from "./Pages/AddCategoryPage";
 import AllOrdersPage from "./Pages/AllOrdersPage";
 import AllProductsPage from "./Pages/AllProductsPage";
+import AdminLanding from "./Pages/AdminLanding";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         { path: "/cart", element: <Cart />,loader:isAuthenticated },
         { path: "/user", element: <UserProfilePage/>,loader:isAuthenticated},
         {path:"/admin",element:<AdminLayout/>,loader:isAdmin,children:[
+          {index:true,element:<AdminLanding/>},
           {path:'addproduct',element:<AddProductPage/>},
           {path:'addproduct/:productId',element:<AddProductPage/>},
           {path:'addcategory',element:<AddCategoryPage/>},

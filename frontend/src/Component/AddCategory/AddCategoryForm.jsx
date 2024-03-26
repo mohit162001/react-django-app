@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './addcategoryform.css'
-import { useMutation, useQuery } from '@apollo/client'
-import { CREATE_CATEGORY, GET_CATEGORIRS, GET_USER_DETAILS, UPDATE_USER_DETAILS } from '../../query/query'
+import { useMutation } from '@apollo/client'
+import { CREATE_CATEGORY, GET_CATEGORIRS } from '../../query/query'
 import toast, { Toaster } from 'react-hot-toast'
 import {Link} from 'react-router-dom'
+import { ShopContext } from '../../Context/ShowContext'
 function AddCategoryForm() {
-
+  const {setMenu} = useContext(ShopContext)
   const [muationCreateCategory] = useMutation(CREATE_CATEGORY,{
     onCompleted(data){
       console.log("message",data)
@@ -13,7 +14,8 @@ function AddCategoryForm() {
     },
     onError(error){
         toast.error("Something went wrong",{duration:1500})
-    } 
+    },
+    refetchQueries: [{ query: GET_CATEGORIRS }], 
   })
   function handleSubmit(event){
     event.preventDefault();
@@ -47,6 +49,7 @@ function AddCategoryForm() {
           <Link to="/admin/allproducts"><button
                 className="admincategory-action-button-cancle"
                 type="button"
+                onClick={()=>setMenu('allproduct')}
               >
                 cancle
               </button></Link>

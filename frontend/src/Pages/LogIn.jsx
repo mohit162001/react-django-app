@@ -12,12 +12,12 @@ export const Login = () => {
   const navigate = useNavigate()
   const [mutationFun] = useMutation(USER_LOGIN,{
     onCompleted(data){
-      toast('Log in successfull',{icon:"😊",duration:1000})
+      // toast('Log in successfull',{icon:"😊",duration:1000})
       storeData(data.userLogin)
 
       setTimeout(()=>{
         if(isAdminUser()){
-          navigate('/admin/allproducts')
+          navigate('/admin')
         }else{
           navigate('/')
         }
