@@ -4,17 +4,19 @@ import './relatedproduct.css'
 import Item from '../Item/Item'
 import { useQuery } from '@apollo/client'
 import { GET_PRODUCTS_BY_CATEGORY } from '../../query/query'
-const RelatedProduct = ({category}) => {
+const RelatedProduct = ({category,curr_productId}) => {
   const {data} = useQuery(GET_PRODUCTS_BY_CATEGORY,{variables:{
     category_Name:category
   }})
+
+  const filtered_arr = data && data.products.edges.filter((item)=>(item.node.id !== curr_productId))
   return (
     <div className="relatedproduct">
         <h1>Related Products</h1>
         <hr />
         {data && 
         <div className="relatedproduct-item">
-            {data.products.edges.slice(1, 4).map((item, i) => {
+            {filtered_arr.slice(0, 4).map((item, i) => {
               return (
                 <Item
                 key={i}
