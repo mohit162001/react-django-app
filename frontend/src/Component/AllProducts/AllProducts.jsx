@@ -24,11 +24,11 @@ function AllProducts({ products, currPage, itemsperPage }) {
 
   function handleDelete(productId){
     console.log(productId)
-    // mutationProductDelete({
-    //     variables:{
-    //         productId:productId
-    //     }
-    // })
+    mutationProductDelete({
+        variables:{
+            productId:productId
+        }
+    })
   }
   return (
     <>

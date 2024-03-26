@@ -8,6 +8,7 @@ import {
   UPDATE_PRODUCT_DETAILS,
   GET_ALL_PRODUCTS,
   GET_PRODUCT_BY_ID,
+  GET_NEW_COLLECTION,
 } from "../../query/query";
 import toast, { Toaster } from "react-hot-toast";
 import { ShopContext } from "../../Context/ShowContext";
@@ -39,7 +40,7 @@ function AddProductForm({ productData, productId }) {
     onError(error) {
       toast.error("Something went wrong", { duration: 1500 });
     },
-    refetchQueries: [{ query: GET_ALL_PRODUCTS }],
+    refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_NEW_COLLECTION}],
   });
 
   const handleSubmit = async (event) => {
