@@ -24,12 +24,15 @@ function Navbar() {
     const {data:userData} = useQuery(GET_USER_DETAILS,{
       variables:{
         userId:userId
-      }
+      },
+      skip:userId?false:true
+  
     })
     const {data} = useQuery(GET_CART_DETAILS,{
       variables:{
         userId:userId
       },
+      skip:userId?false:true
     })
     function getTotalQuantity(){
       const total= data.userCart.reduce((acc,cur)=>(acc+cur.quantity),0)
