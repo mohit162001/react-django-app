@@ -14,7 +14,7 @@ function UserProfilePage() {
     <>
      {error && <p className='user-fallback'>Something went wrong...!</p>}
      {loading && !error && <p className='user-fallback'>Loading user details...</p>}
-     {data && <UserDetails username={data.userDetails.username} address={data.userDetails.address} email={data.userDetails.email} userId={userId}/>}
+     {data && <UserDetails username={data.userDetails.username} address={data.userDetails.address} email={data.userDetails.email} userId={userId} image={data.userDetails.image}/>}
     </>
   )
 }

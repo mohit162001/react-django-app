@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { ShopContext } from '../../Context/ShowContext';
 import {  clearData, getUserData, isAdminUser } from '../../helper';
 import { useQuery } from '@apollo/client';
-import { GET_CART_DETAILS } from '../../query/query';
+import { GET_CART_DETAILS, GET_USER_DETAILS } from '../../query/query';
 import avatar from '../Assests/avatar.png'
 import admin_image1 from '../Assests/admin_img1.jpg'
 
@@ -20,10 +20,15 @@ function Navbar() {
         clearData();
         navigate('/login')
     }
-    const id = getUserData('id')
+    const userId = getUserData('id')
+    const {data:userData} = useQuery(GET_USER_DETAILS,{
+      variables:{
+        userId:userId
+      }
+    })
     const {data} = useQuery(GET_CART_DETAILS,{
       variables:{
-        userId:id
+        userId:userId
       },
     })
     function getTotalQuantity(){
@@ -61,7 +66,15 @@ function Navbar() {
             <Link to='/cart' onClick={()=>{setMenu('cart')}}><img src={cart_icon} alt="" /></Link>
             <div className="nav-cart-count">{cartValue}</div>
             </>}
-            {token && <div className='nav-avatar'><Link to='user'><img onClick={()=>{setMenu('')}} className='nav-avatar-img' src={isAdminUser()?admin_image1:avatar} alt="" /></Link></div>}
+            {token && 
+            <div className='nav-avatar'>
+              <Link to='user'>
+                <img onClick={()=>{setMenu('')}} className='nav-avatar-img' src={isAdminUser()?admin_image1:
+                  (userData && userData.userDetails.image?`http://localhost:8000/media/${userData.userDetails.image}`
+                  :avatar )} alt="alternative" />
+              </Link>
+              
+            </div>}
             {token? <Link onClick={handleLogOut}><button>Log out</button></Link>: <Link to='/login'><button>Login</button></Link>}
         </div>
     </div>
