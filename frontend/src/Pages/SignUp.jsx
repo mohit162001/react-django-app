@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './CSS/signup.css'
 import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,9 +9,10 @@ import back_icon from '../Component/Assests/back.png'
 
 export const SignUp = () => {
   const navigate = useNavigate()
+  const [isVisible, setIsVisible] = useState(false);
   const [mutationCreateUser] = useMutation(USER_SIGNUP,{
     onCompleted(data){
-      toast('Sign Up successfull',{icon:"😊",duration:1000})
+      toast('Sign Up successfull',{duration:1000})
       storeData(data.createUser)
       // console.log("new user----",data)
       setTimeout(()=>{ 
@@ -27,23 +28,39 @@ export const SignUp = () => {
     }
   })
   function handleSubmit(event){
+    // const [warn,setWarn]
     event.preventDefault()
     const formData = new FormData(event.target)
     
       const username = formData.get("username")
       const email = formData.get("email")
       const password = formData.get("password")
-    if((username&&username.trim().length !==0) && (password.trim().length !==0 && password.length>=6) && (email&&email.trim().length !==0)){
-      // console.log(username,email,password.length)
-      
-      mutationCreateUser({variables:{
-        username,
-        password,
-        email
-      }})
+    if((username&&username.trim().length !==0) && (password.trim().length !==0 && password.length>=8) && (email&&email.trim().length !==0)){
+      let regex =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@.#$!%*?&]{8,15}$/; 
+      if(regex.test(password)){
+        mutationCreateUser({variables:{
+          username,
+          password,
+          email
+        }})
+      }else{
+        toast(
+          "Please enter strong password\n\nPassword must include [a-Z],[0-9]",{
+            duration: 3000,
+            position:"bottom-right",
+            style:{background:"orange",fontSize:"1.1rem",fontWeight:"400"}
+          }
+        );
+      }   
     }
-    else if(email.includes('.com') || password.trim().length<=6 || username.trim().length !==0){
-      toast(' Enter valid input!',{icon:"⚠️",duration:1000})
+    else if(email.includes('.com') || (password.length<8 && !password) || username.trim().length !==0){
+      toast(
+        "Please enter valid input\n\nPassword must contain 8 characters",{
+          duration: 4000,
+          position:"bottom-right",
+          style:{background:"orange",fontSize:"1.1rem",fontWeight:"400"}
+        }
+      );
     }
   }
   return (
@@ -57,7 +74,10 @@ export const SignUp = () => {
         <div className="signup-fields">
           <input type="text" placeholder='Your Name' name='username'  />
           <input type="email" placeholder='Email Adress' name='email'  />
-          <input type="password" placeholder='Password' name='password'  />
+          <div className="showpassword">
+          <input type={isVisible ? "text" : "password"} placeholder='Password' name='password'  />
+          <span onClick={() => setIsVisible((prev) => !prev)} className="password-eye"><i className="far fa-eye"></i></span>
+          </div>
         </div>
         <button type='submit'>Continue</button>
         </form>
