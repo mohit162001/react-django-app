@@ -27,7 +27,7 @@ export function clearData(){
 export function isAuthenticated(){
     const token = localStorage.getItem('token')
     if(!token){
-        return redirect('/login')
+        return redirect('/notlogin')
     }
     return true
 }
