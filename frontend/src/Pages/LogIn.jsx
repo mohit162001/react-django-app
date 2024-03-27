@@ -4,22 +4,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Toaster,toast } from 'react-hot-toast';
 import { useMutation } from '@apollo/client';
 import { USER_LOGIN } from '../query/query';
-import { isAdminUser, storeData } from '../helper';
+import { isAdmin, isAdminUser, storeData } from '../helper';
 import back_icon from '../Component/Assests/back.png'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 export const Login = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
+  const history = useHistory()
   const [mutationFun] = useMutation(USER_LOGIN,{
     onCompleted(data){
       // toast('Log in successfull',{icon:"😊",duration:1000})
       storeData(data.userLogin)
-
       setTimeout(()=>{
-        if(isAdminUser()){
-          navigate('/admin')
+        if(isAdmin()){
+          console.log('admin')
+          history.push('/admin')
         }else{
-          navigate('/')
+          console.log('user')
+          history.push('/')
+          
         }
       },1000)
     },

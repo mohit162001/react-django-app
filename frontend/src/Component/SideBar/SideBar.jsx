@@ -18,7 +18,7 @@ function SideBar() {
             <NavLink
               onClick={()=>setMenu('allproduct')}
               className={({ isActive }) => (isActive ? "active" : "inactive")}
-              to="allproducts"
+              to="/admin/allproducts"
             >
               All Products
             </NavLink>
@@ -27,7 +27,7 @@ function SideBar() {
             <NavLink
              onClick={()=>setMenu('allorders')}
               className={({ isActive }) => (isActive ? "active" : "inactive")}
-              to="allorders"
+              to="/admin/allorders"
             >
               All Orders
             </NavLink>
@@ -47,7 +47,7 @@ function SideBar() {
               <NavLink
                 onClick={() => setMenu('addproduct')}
                 className={({ isActive }) => (isActive ? "active" : "inactive")}
-                to="addproduct"
+                to="/admin/addproduct"
               >
                 Add Product
               </NavLink> 
@@ -57,7 +57,7 @@ function SideBar() {
             <NavLink
               onClick={() => setMenu('addcategory')}
               className={({ isActive }) => (isActive ? "active" : "inactive")}
-              to="addcategory"
+              to="/admin/addcategory"
             >
               Add Category
             </NavLink>

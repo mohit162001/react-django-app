@@ -6,16 +6,19 @@ import { storeData } from '../helper';
 import { USER_SIGNUP } from '../query/query';
 import { useMutation } from '@apollo/client';
 import back_icon from '../Component/Assests/back.png'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export const SignUp = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
+  const history  =useHistory()
   const [mutationCreateUser] = useMutation(USER_SIGNUP,{
     onCompleted(data){
       toast('Sign Up successfull',{icon:"😊",duration:1000})
       storeData(data.createUser)
       // console.log("new user----",data)
       setTimeout(()=>{ 
-        navigate('/')
+        // navigate('/')
+        history.push('/')
       },1000)
     },
     onError(error){

@@ -38,7 +38,7 @@ function UserDetails({username,email,address,userId,image}) {
             </div>
             <div className="user-action">
                 <button className='user-action-update' onClick={handleFormModelState}>Update Profile</button>
-                <Link to='/'><button className='user-action-back'>Back</button></Link>
+                <Link to={isAdminUser()?'/admin/allproducts':'/'}><button className='user-action-back'>Back</button></Link>
             </div>
             </div>
         </div>

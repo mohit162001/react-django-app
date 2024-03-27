@@ -8,8 +8,10 @@ import { ADD_ITEM_TO_CART, CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS,
 
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 const CartItems = ({products,refetch,userId}) => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const history = useHistory()
     // useEffect(()=>{
     //     refetch()
     //  })
@@ -26,7 +28,9 @@ const CartItems = ({products,refetch,userId}) => {
             toast("Order placed",{icon:"🤩",duration:1000})
             // console.log(data)
             setTimeout(()=>{
-                navigate('/order')
+                // navigate('/order')
+                history.push('/order')
+
                 mutationRemoveAll({variables:{
                 userId:userId
             }})

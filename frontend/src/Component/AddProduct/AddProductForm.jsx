@@ -12,15 +12,18 @@ import {
 } from "../../query/query";
 import toast, { Toaster } from "react-hot-toast";
 import { ShopContext } from "../../Context/ShowContext";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 function AddProductForm({ productData, productId }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const history = useHistory()
   const {setMenu} = useContext(ShopContext)
   const { data } = useQuery(GET_CATEGORIRS);
   const [mutationProductUpdate] = useMutation(UPDATE_PRODUCT_DETAILS, {
     onCompleted() {
       toast.success("Item Updated Successfully", { duration: 1000 });
       setTimeout(() => {
-        navigate("/admin/allproducts");
+        // navigate("/admin/allproducts");
+        history.push("/admin/allproducts")
       }, 1000);
     },
     onError() {
@@ -34,7 +37,8 @@ function AddProductForm({ productData, productId }) {
       // console.log("message", data);
       toast.success("Item Created Successfully", { duration: 1000 });
       setTimeout(() => {
-        navigate("/admin/allproducts");
+        // navigate("/admin/allproducts");
+        history.push("/admin/allproducts")
       }, 1000);
     },
     onError(error) {

@@ -1,17 +1,17 @@
 import React from 'react'
 import Navbar from '../Component/Navbar/Navbar'
 import Footer from '../Component/Footer/Footer'
-import { Outlet } from 'react-router-dom'
-import ShopContextProvider from '../Context/ShowContext'
+// import { Outlet } from 'react-router-dom'
+// import ShopContextProvider from '../Context/ShowContext'
 
-function RootLayOut() {
+function RootLayOut({children}) {
   return (
     <>
-    <ShopContextProvider>
+    {/* <ShopContextProvider> */}
     <Navbar/>
-    <Outlet/>
+    {children}
     <Footer/>
-    </ShopContextProvider>
+    {/* </ShopContextProvider> */}
     </>
   )
 }

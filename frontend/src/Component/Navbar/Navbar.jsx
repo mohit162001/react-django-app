@@ -10,15 +10,19 @@ import { useQuery } from '@apollo/client';
 import { GET_CART_DETAILS, GET_USER_DETAILS } from '../../query/query';
 import avatar from '../Assests/avatar.png'
 import admin_image1 from '../Assests/admin_img1.jpg'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function Navbar() {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const history = useHistory()
     const {menu,setMenu} = useContext(ShopContext)
     // const [fetchData,setFetchData] = useState(false);
     const token = getUserData('token')
     function handleLogOut(){
         clearData();
-        navigate('/login')
+        // navigate('/login')
+        history.push('/login')
+
     }
     const userId = getUserData('id')
     const {data:userData} = useQuery(GET_USER_DETAILS,{
@@ -71,14 +75,18 @@ function Navbar() {
             </>}
             {token && 
             <div className='nav-avatar'>
+              {!isAdminUser()?
               <Link to='user'>
-                <img onClick={()=>{setMenu('')}} className='nav-avatar-img' src={isAdminUser()?admin_image1:
+                <img onClick={()=>{setMenu('')}} className='nav-avatar-img' src={
                   (userData && userData.userDetails.image?`http://localhost:8000/media/${userData.userDetails.image}`
                   :avatar )} alt="alternative" />
-              </Link>
+              </Link>:<Link to='/user'>
+              <img onClick={()=>{setMenu('')}} className='nav-avatar-img' src={(userData && userData.userDetails.image?`http://localhost:8000/media/${userData.userDetails.image}`
+                :admin_image1 )} alt="alternative" />
+            </Link>}
               
             </div>}
-            {token? <Link onClick={handleLogOut}><button>Log out</button></Link>: <Link to='/login'><button>Login</button></Link>}
+            {token? <Link onClick={handleLogOut}><button>Log out</button></Link>: <Link to='login'><button>Login</button></Link>}
         </div>
     </div>
   )
