@@ -23,7 +23,14 @@ const CartItems = ({products,refetch,userId}) => {
 
     const [mutaionCreateOrderFun,{data:orderCreated}] = useMutation(CREATE_USER_ORDER,{
         onCompleted(data){
-            toast("Order placed",{icon:"🤩",duration:1000})
+            toast("Order placed",{duration:1000,style: {
+                backgroundColor: "orange",
+                color: "black",
+                borderRadius: "8px",
+                padding: "16px 40px 16px 40px",
+                fontSize: "1.2rem",
+                fontWeight:400
+              },})
             // console.log(data)
             setTimeout(()=>{
                 navigate('/order')

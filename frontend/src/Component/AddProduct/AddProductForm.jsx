@@ -18,7 +18,14 @@ function AddProductForm({ productData, productId }) {
   const { data } = useQuery(GET_CATEGORIRS);
   const [mutationProductUpdate] = useMutation(UPDATE_PRODUCT_DETAILS, {
     onCompleted() {
-      toast.success("Item Updated Successfully", { duration: 1000 });
+      toast.success("Item Updated Successfully", { duration: 1000,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      }, });
       setTimeout(() => {
         navigate("/admin/allproducts");
       }, 1000);
@@ -32,13 +39,27 @@ function AddProductForm({ productData, productId }) {
   const [muationCreateProduct] = useMutation(CREATE_PRODUCT, {
     onCompleted(data) {
       // console.log("message", data);
-      toast.success("Item Created Successfully", { duration: 1000 });
+      toast.success("Item Created Successfully", { duration: 1000,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      }, });
       setTimeout(() => {
         navigate("/admin/allproducts");
       }, 1000);
     },
     onError(error) {
-      toast.error("Something went wrong", { duration: 1500 });
+      toast.error("Something went wrong", { duration: 1500,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      }, });
     },
     refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_NEW_COLLECTION}],
   });

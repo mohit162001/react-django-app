@@ -1,21 +1,34 @@
-import React, {  useState } from "react";
+import React, {  useContext, useState } from "react";
 import "./productdisplay.css";
 import star_icon from "../Assests/star_icon.png";
 import star_dull_icon from "../Assests/star_dull_icon.png";
-// import { ShopContext } from "../../Context/ShowContext";
+import { ShopContext } from "../../Context/ShowContext";
 import {  getUserData, isAdminUser, isAuthenticated } from "../../helper";
 import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM_TO_CART, GET_CART_DETAILS } from "../../query/query";
+import { useNavigate } from "react-router-dom";
 
 const ProductDisplay = ({ product, id }) => { 
-  // const { addToCart } = useContext(ShopContext);
+  const { setMenu } = useContext(ShopContext);
+  const navigate = useNavigate()
   const [quantity,setQuantity] = useState(1)
   const [disable,setDisable] = useState(false)
   const userId = getUserData("id");
   const [mutationAddItem] = useMutation(ADD_ITEM_TO_CART, {
     onCompleted(){
-      toast.success('Item added',{duration:1000})
+      toast.success('Item added',{duration:1000,style: {
+          backgroundColor: "orange",
+          color: "black",
+          borderRadius: "8px",
+          padding: "16px 40px 16px 40px",
+          fontSize: "1.2rem",
+          fontWeight:400
+        },})
+      setTimeout(()=>{
+        navigate('/cart')
+        setMenu('')
+      },1000)
     },
     onError(){
         toast.error('Someting went wrong...!',{duration:1000})
@@ -34,16 +47,16 @@ const ProductDisplay = ({ product, id }) => {
     } else {
       toast("Please login first", {
         // className: "custom-toast",
-        duration: 1600,
+        duration: 1500,
         style: {
-          backgroundColor: "white",
+          backgroundColor: "orange",
           color: "black",
           borderRadius: "8px",
-          padding: "16px",
-          fontSize: "1rem",
+          padding: "16px 40px 16px 40px",
+          fontSize: "1.2rem",
           fontWeight:400
         },
-        icon: "😉"
+    
       });
     }
   }

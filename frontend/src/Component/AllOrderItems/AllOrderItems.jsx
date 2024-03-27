@@ -12,10 +12,24 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
 
   const [mutationOrderDelete] = useMutation(DELETE_ORDER,{
     onCompleted(){
-      toast.success("Order delete successfully")
+      toast.success("Order delete successfully",{style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      },})
     },
     onError(){
-      toast.error("Something went wrong")
+      toast.error("Something went wrong",{style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      },})
     },
     refetchQueries: [{ query: GET_ALL_ORDERS }]
   })

@@ -12,7 +12,7 @@ export const Login = () => {
   const navigate = useNavigate()
   const [mutationFun] = useMutation(USER_LOGIN,{
     onCompleted(data){
-      // toast('Log in successfull',{icon:"😊",duration:1000})
+      // toast('Log in successfull',{duration:1000})
       storeData(data.userLogin)
 
       setTimeout(()=>{
@@ -25,10 +25,24 @@ export const Login = () => {
     },
     onError(error){
       if(error.message.includes("Invalid")){
-      toast.error('Invalid username or password',{duration:1000})
+      toast.error('Invalid username or password',{duration:1000,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      },})
 
       }else{
-      toast.error('Someting went wrong...!',{duration:1000})
+      toast.error('Someting went wrong...!',{duration:1000,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      },})
       }}
   })
   function handleSubmit(event){
@@ -44,7 +58,14 @@ export const Login = () => {
         password
       }})
     }else if(!username || password.trim().length<6){
-      toast(' Enter valid input!',{icon:"⚠️",duration:1000})
+      toast(' Enter valid input!',{icon:"⚠️",duration:1000,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      },})
     }
   }
   return (

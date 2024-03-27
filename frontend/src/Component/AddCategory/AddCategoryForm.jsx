@@ -10,10 +10,24 @@ function AddCategoryForm() {
   const [muationCreateCategory] = useMutation(CREATE_CATEGORY,{
     onCompleted(data){
       // console.log("message",data)
-      toast.success("Category Created Successfully",{duration:1500})
+      toast.success("Category Created Successfully",{duration:1500,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      },})
     },
     onError(error){
-        toast.error("Something went wrong",{duration:1500})
+        toast.error("Something went wrong",{duration:1500,style: {
+          backgroundColor: "orange",
+          color: "black",
+          borderRadius: "8px",
+          padding: "16px 40px 16px 40px",
+          fontSize: "1.2rem",
+          fontWeight:400
+        },})
     },
     refetchQueries: [{ query: GET_CATEGORIRS }], 
   })

@@ -14,10 +14,24 @@ function AllProducts({ products, currPage, itemsperPage }) {
 
   const [mutationProductDelete] = useMutation(DELETE_PRODUCT,{
     onCompleted(){
-        toast.success("Product deleted successfully",{duration:1000})
+        toast.success("Product deleted successfully",{duration:1000,style: {
+          backgroundColor: "orange",
+          color: "black",
+          borderRadius: "8px",
+          padding: "16px 40px 16px 40px",
+          fontSize: "1.2rem",
+          fontWeight:400
+        },})
     },
     onError(){
-        toast.error("Can not delete ")
+        toast.error("Can not delete ",{style: {
+          backgroundColor: "orange",
+          color: "black",
+          borderRadius: "8px",
+          padding: "16px 40px 16px 40px",
+          fontSize: "1.2rem",
+          fontWeight:400
+        },})
     },
     refetchQueries: [{ query: GET_ALL_PRODUCTS }]
   })

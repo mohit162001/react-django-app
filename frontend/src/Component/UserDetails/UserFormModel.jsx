@@ -7,13 +7,27 @@ function UserFormModel({ username, email, address, handleClose, userId }) {
   const [mutationFun] = useMutation(UPDATE_USER_DETAILS, {
     onCompleted() {
       // console.log(data)
-      toast.success("Profile Updated Successfully", { duration: 1000 });
+      toast.success("Profile Updated Successfully", { duration: 1000,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      }, });
       setTimeout(() => {
         handleClose();
       }, 1000);
     },
     onError() {
-      toast.error("Someting went wrong...!", { duration: 1000 });
+      toast.error("Someting went wrong...!", { duration: 1000,style: {
+        backgroundColor: "orange",
+        color: "black",
+        borderRadius: "8px",
+        padding: "16px 40px 16px 40px",
+        fontSize: "1.2rem",
+        fontWeight:400
+      }, });
     },
     refetchQueries: [
       { query: GET_USER_DETAILS, variables: { userId: userId } },
