@@ -1,5 +1,6 @@
-
-from email import message
+from django.core.mail import send_mail,EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 import re
 import graphene
 from graphene_django import DjangoObjectType
@@ -318,7 +319,7 @@ class Query(graphene.ObjectType):
         
         user = CustomUser.objects.get(id=user_id)
         orders = OrderTable.objects.filter(user=user)
-        print(orders)
+        # print(orders)
         orderData = []
         for order in orders:
             orderData.append(CustomOrderType(
@@ -654,9 +655,26 @@ class OrderCreate(graphene.Mutation):
             print(paymode)
             print(item.quantity)
             OrderTable.objects.create(user=user,product=product,quantity=item.quantity,price=item.price,payment_mode=paymode)
-        orders = OrderTable.objects.filter(user=user)
+        orders = OrderTable.objects.filter(user=user,order_date__exact=datetime.today())
+        print("today order",orders)
+        # send_mail(
+        #     "Subject here",
+        #     "Here is the message.",
+        #     "clothyshopofficial@gmail.com",
+        #     ["mohitdevade2001@gmail.com"],
+        #     fail_silently=False,
+        #     )
+        SendEmail.send_order_email(user.username,user.address,orders,user.email)
         return OrderCreate(message = "Order testing",orders = orders )
-
+    
+class SendEmail:
+    def send_order_email(username,address,orders,useremail):
+        html_content = render_to_string("orderemail.html",{"username":username,"address":address,"orders":orders,"date":datetime.today()})
+        text_content = strip_tags(html_content)
+        email = EmailMultiAlternatives("Your Order is Placed",text_content,'clothyshopofficial@gmail.com',[useremail])
+        email.attach_alternative(html_content,"text/html")
+        email.send()
+        
 class OrderDeletion(graphene.Mutation):
     class Arguments:
         orderId = graphene.String(required=True)
