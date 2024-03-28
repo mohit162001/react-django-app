@@ -8,6 +8,7 @@ import { ADD_ITEM_TO_CART, CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS,
 
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../Loader/Loader'
 const CartItems = ({products,refetch,userId}) => {
     const navigate = useNavigate()
     // useEffect(()=>{
@@ -21,7 +22,7 @@ const CartItems = ({products,refetch,userId}) => {
         refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }]
     })
 
-    const [mutaionCreateOrderFun,{data:orderCreated}] = useMutation(CREATE_USER_ORDER,{
+    const [mutaionCreateOrderFun,{data:orderCreated,loading}] = useMutation(CREATE_USER_ORDER,{
         onCompleted(data){
             toast("Order placed",{duration:1000,style: {
                 backgroundColor: "orange",
@@ -124,7 +125,8 @@ const CartItems = ({products,refetch,userId}) => {
      }
     return (
     <>
-    {orderCreated && <Toaster/>}
+    {/* {orderCreated && <Toaster/>} */}
+    {loading && <Loader/>}
     <div className="cartitems">
         <div className="cartitems-format-main">
             <p>Product</p>
