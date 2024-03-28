@@ -48,6 +48,7 @@ class ProductType(DjangoObjectType):
             'desc': ['exact', 'icontains', 'istartswith'],
             'price': ['exact','gte','lte'],
             'category__id':['exact'],
+            'inserted_date':['exact','gte','lte'],
             'category__name':['exact'],
         }
         interfaces = (relay.Node,)
