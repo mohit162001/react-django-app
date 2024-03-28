@@ -4,6 +4,7 @@
     align-items: center;
     background-color: #e2dfdf;
     padding: 10px;
+    width: 98.5%;
     /* border-bottom: 1px solid #ccc; */
   }
   
@@ -24,19 +25,25 @@
   .search-input{
     outline: none;
     margin-left:0rem;
-    width: 100%;
+    width: 90%;
     font-size: 18px;
   }
 
   .search-icon{
-    margin-top: 10px;
+    margin-top: 4px;
+    margin-left: -35px;
+    cursor: pointer;
   }
   /* .filter-bar input[type="date"]::-webkit-inner-spin-button,
   .filter-bar input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
   } */
-  
+  .filter-bar-lable{
+    font-size: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
   .filter-bar input[type="date"] {
     -webkit-appearance: none;
     -moz-appearance: textfield;
@@ -46,4 +53,22 @@
   .filter-bar input[type="date"]::-webkit-calendar-picker-indicator:hover {
     cursor: pointer;
   }
-  
+  .filter-filtericon{
+    margin-bottom: -9px;
+    background: transparent;
+    cursor: pointer;
+    
+    border: none;
+  }
+  .filter-reseticon{
+    margin-bottom: -8px;
+    background: transparent;
+    cursor: pointer;
+
+    border: none;
+  }
+  .filter-bar-span{
+    font-size: 20px;
+    margin-right: 5px;
+    
+  }

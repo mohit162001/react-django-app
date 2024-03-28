@@ -156,7 +156,7 @@ class Query(graphene.ObjectType):
     
     products = DjangoFilterConnectionField(ProductType)
     def resolve_products(root,info,**kwargs):
-        # UserAuthentictaion.user_authentication(root,info)
+        
         products = ProductModel.objects.all().order_by('-inserted_date')
         return products
     

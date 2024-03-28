@@ -10,13 +10,11 @@ import './CSS/allproductspage.css'
 
 
 function AllProductsPage() {
+  
     const {data,loading,error} = useQuery(GET_ALL_PRODUCTS)
     const [currPage, setCurrPage] = useState(1);
-    // console.log(data)
     const totalPages = Math.ceil((data && data.products.edges.length)/4)
-    // console.log("total item",data && data.products.edges.length)
-    // console.log("total pages",totalPages)
-    // console.log("curr page",currPage)
+
     const nextPage = () => {
       setCurrPage((prevPage) => prevPage + 1);
     };
@@ -24,10 +22,14 @@ function AllProductsPage() {
     const prevPage = () => {
       setCurrPage((prevPage) => prevPage - 1);
     };
+
+    function getFilterData(data){
+      console.log(data)
+    }
     return (
         <>
         <div className="allproducts-page">
-        <FilterBar/>
+        <FilterBar getFilterData={getFilterData}/>
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading products details...</p>}
           {!error && data && data.products.edges.length > 0 && <>
