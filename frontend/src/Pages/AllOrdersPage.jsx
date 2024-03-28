@@ -5,6 +5,9 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_ORDERS } from '../query/query';
 import empty_order from '../Component/Assests/empty-order.png';
 import right_arrow from '../Component/Assests/breadcrum_arrow.png'
+import FilterBar from '../Component/FilterBar/FilterBar';
+import './CSS/allorderspage.css'
+
 function AllOrdersPage() {
     const {data,loading,error} = useQuery(GET_ALL_ORDERS)
     const [currPage, setCurrPage] = useState(1);
@@ -21,6 +24,8 @@ function AllOrdersPage() {
     };
     return (
         <>
+          <div className="allorders-page">
+            <FilterBar/>
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
           {!error && data && data.orders.length > 0 && <>
@@ -35,6 +40,7 @@ function AllOrdersPage() {
           }
           {!error && data && data.orders.length === 0 && (<FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
           )}
+          </div>
         </>
       );
 }

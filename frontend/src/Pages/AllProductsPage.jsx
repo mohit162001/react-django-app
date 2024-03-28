@@ -5,6 +5,10 @@ import {  GET_ALL_PRODUCTS } from '../query/query';
 import empty_order from '../Component/Assests/empty-order.png';
 import right_arrow from '../Component/Assests/breadcrum_arrow.png'
 import AllProducts from '../Component/AllProducts/AllProducts';
+import FilterBar from '../Component/FilterBar/FilterBar';
+import './CSS/allproductspage.css'
+
+
 function AllProductsPage() {
     const {data,loading,error} = useQuery(GET_ALL_PRODUCTS)
     const [currPage, setCurrPage] = useState(1);
@@ -22,6 +26,8 @@ function AllProductsPage() {
     };
     return (
         <>
+        <div className="allproducts-page">
+        <FilterBar/>
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading products details...</p>}
           {!error && data && data.products.edges.length > 0 && <>
@@ -36,6 +42,7 @@ function AllProductsPage() {
           }
           {!error && data && data.products.edges.length === 0 && (<FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
           )}
+        </div>
         </>
       );
 }

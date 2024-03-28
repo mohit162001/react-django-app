@@ -1,0 +1,49 @@
+.filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e2dfdf;
+    padding: 10px;
+    /* border-bottom: 1px solid #ccc; */
+  }
+  
+  .filter-bar input {
+    padding: 8px;
+    outline: none;
+
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+
+  }
+  
+  .search-bar{
+    width: 30%;
+    display: flex;
+  }
+  .search-input{
+    outline: none;
+    margin-left:0rem;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .search-icon{
+    margin-top: 10px;
+  }
+  /* .filter-bar input[type="date"]::-webkit-inner-spin-button,
+  .filter-bar input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  } */
+  
+  .filter-bar input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  
+  .filter-bar input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
+  }
+  
