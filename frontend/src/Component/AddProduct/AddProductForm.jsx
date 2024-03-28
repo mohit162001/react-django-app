@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./addproductform.css";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
@@ -10,56 +10,38 @@ import {
   GET_PRODUCT_BY_ID,
   GET_NEW_COLLECTION,
 } from "../../query/query";
-import toast, { Toaster } from "react-hot-toast";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { ShopContext } from "../../Context/ShowContext";
 function AddProductForm({ productData, productId }) {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const {setMenu} = useContext(ShopContext)
   const { data } = useQuery(GET_CATEGORIRS);
   const [mutationProductUpdate] = useMutation(UPDATE_PRODUCT_DETAILS, {
     onCompleted() {
-      toast.success("Item Updated Successfully", { duration: 1000,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      }, });
+      handleSnackbarOpen('',"Item Updated Successfully")
       setTimeout(() => {
         navigate("/admin/allproducts");
       }, 1000);
     },
     onError() {
-      toast.error("Something went wrong", { duration: 1500 });
+      handleSnackbarOpen('error',"Something went wrong")
     },
     refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_PRODUCT_BY_ID, variables:{productId:productId} }]
   });
 
   const [muationCreateProduct] = useMutation(CREATE_PRODUCT, {
     onCompleted(data) {
-      // console.log("message", data);
-      toast.success("Item Created Successfully", { duration: 1000,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      }, });
+      handleSnackbarOpen('',"Item Created Successfully")
       setTimeout(() => {
         navigate("/admin/allproducts");
       }, 1000);
     },
     onError(error) {
-      toast.error("Something went wrong", { duration: 1500,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      }, });
+      handleSnackbarOpen('error',"Something went wrong")
     },
     refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_NEW_COLLECTION}],
   });
@@ -123,13 +105,29 @@ function AddProductForm({ productData, productId }) {
         };
       }
     } else {
-      toast.error("Enter Valid Inputs", { duration: 1500 });
+      handleSnackbarOpen('',"Enter Valid Inputs")
     }
+  };
+  const handleSnackbarOpen = (severity, message) => {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
     <>
-      <Toaster />
+      <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
       <div className="adminproduct-container">
         <div>
           <h2 className="adminproduct-heading">Add Product</h2>

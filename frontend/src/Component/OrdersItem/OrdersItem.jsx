@@ -1,36 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ordersitem.css';
 import { DELETE_ORDER, GET_ORDERS_DETAILS } from '../../query/query';
 import { useMutation } from '@apollo/client';
-import toast, { Toaster } from 'react-hot-toast';
-import delete_icon from '../Assests/delete-icon.png'
 
+import delete_icon from '../Assests/delete-icon.png'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 function OrdersItem({ orders, currPage, itemsperPage,userId }) {
-
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
 
   const [mutationOrderDelete] = useMutation(DELETE_ORDER,{
     onCompleted(){
-      toast.success("Order delete successfully",{duration:1000,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      },})
+      handleSnackbarOpen('',"Order delete successfully")
     },
     onError(){ 
-      toast.error("Something went wrong",{duration:1000,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      },})
+      handleSnackbarOpen('error',"Something went wrong")
     },
     refetchQueries: [{ query: GET_ORDERS_DETAILS,variables:{userId:userId} }]
   })
@@ -41,11 +30,26 @@ function OrdersItem({ orders, currPage, itemsperPage,userId }) {
     }})
 
   }
+  const handleSnackbarOpen = (severity, message) => {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  };
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
     <>
-    <Toaster/>
+      <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
       <div className="orderitems">
         <div className="orderitems-format-main">
           <p>Product</p>

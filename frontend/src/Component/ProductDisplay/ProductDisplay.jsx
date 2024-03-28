@@ -8,30 +8,28 @@ import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM_TO_CART, GET_CART_DETAILS } from "../../query/query";
 import { useNavigate } from "react-router-dom";
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 const ProductDisplay = ({ product, id }) => { 
   const { setMenu } = useContext(ShopContext);
   const navigate = useNavigate()
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const [quantity,setQuantity] = useState(1)
   const [disable,setDisable] = useState(false)
   const userId = getUserData("id");
   const [mutationAddItem] = useMutation(ADD_ITEM_TO_CART, {
     onCompleted(){
-      toast.success('Item added',{duration:1000,style: {
-          backgroundColor: "orange",
-          color: "black",
-          borderRadius: "8px",
-          padding: "16px 40px 16px 40px",
-          fontSize: "1.2rem",
-          fontWeight:400
-        },})
+      handleSnackbarOpen('',"Item added")
+
       setTimeout(()=>{
         navigate('/cart')
         setMenu('')
       },1000)
     },
     onError(){
-        toast.error('Someting went wrong...!',{duration:1000})
+      handleSnackbarOpen('error',"Something went wrong")
     },
     refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }],
   });
@@ -45,19 +43,7 @@ const ProductDisplay = ({ product, id }) => {
         },  
       });
     } else {
-      toast("Please login first", {
-        // className: "custom-toast",
-        duration: 1500,
-        style: {
-          backgroundColor: "orange",
-          color: "black",
-          borderRadius: "8px",
-          padding: "16px 40px 16px 40px",
-          fontSize: "1.2rem",
-          fontWeight:400
-        },
-    
-      });
+      handleSnackbarOpen('',"Please login first")
     }
   }
 
@@ -75,9 +61,26 @@ const ProductDisplay = ({ product, id }) => {
       setQuantity((prev) => prev - 1);
     }
   }
+  const handleSnackbarOpen = (severity, message) => {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <>
-      <Toaster />
+      <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
+
       <div className="productdisplay">
         <div className="productdisplay-left">
           <div className="productdisplay-imglist">

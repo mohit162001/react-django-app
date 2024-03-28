@@ -1,35 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './allorderitems.css';
 import delete_icon from '../Assests/delete-icon.png'
 import { useMutation } from '@apollo/client';
 import {DELETE_ORDER, GET_ALL_ORDERS} from '../../query/query'
-import toast, { Toaster } from 'react-hot-toast';
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 function AllOrdersItem({ orders, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
-
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const [mutationOrderDelete] = useMutation(DELETE_ORDER,{
     onCompleted(){
-      toast.success("Order delete successfully",{style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      },})
+      handleSnackbarOpen('',"Order delete successfully")
+
     },
     onError(){
-      toast.error("Something went wrong",{style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      },})
+      handleSnackbarOpen('error',"Something went wrong")
     },
     refetchQueries: [{ query: GET_ALL_ORDERS }]
   })
@@ -39,9 +28,25 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
     }})
 
   }
+  const handleSnackbarOpen = (severity, message) => {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <>
-    <Toaster/>
+    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
       <div className="allorderitems">
         <div className="allorderitems-format-main">
           <p>Product</p>

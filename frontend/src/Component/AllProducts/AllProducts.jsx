@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './allproducts.css';
 import { useMutation } from '@apollo/client';
 import { DELETE_PRODUCT, GET_ALL_PRODUCTS } from '../../query/query';
@@ -6,32 +6,21 @@ import toast, { Toaster } from 'react-hot-toast';
 import delete_icon from '../Assests/delete-icon.png'
 import edit_icon from '../Assests/edit-icon.png'
 import { Link } from 'react-router-dom';
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 function AllProducts({ products, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
-
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const [mutationProductDelete] = useMutation(DELETE_PRODUCT,{
     onCompleted(){
-        toast.success("Product deleted successfully",{duration:1000,style: {
-          backgroundColor: "orange",
-          color: "black",
-          borderRadius: "8px",
-          padding: "16px 40px 16px 40px",
-          fontSize: "1.2rem",
-          fontWeight:400
-        },})
+        handleSnackbarOpen('',"Product deleted successfully")
     },
     onError(){
-        toast.error("Can not delete ",{style: {
-          backgroundColor: "orange",
-          color: "black",
-          borderRadius: "8px",
-          padding: "16px 40px 16px 40px",
-          fontSize: "1.2rem",
-          fontWeight:400
-        },})
+        handleSnackbarOpen('error',"Can not delete ")
     },
     refetchQueries: [{ query: GET_ALL_PRODUCTS }]
   })
@@ -44,9 +33,25 @@ function AllProducts({ products, currPage, itemsperPage }) {
         }
     })
   }
+  const handleSnackbarOpen = (severity, message) => {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <>
-    <Toaster/>
+    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
       <div className="allproduct">
         <div className="allproduct-format-main">
           <p>Product</p>

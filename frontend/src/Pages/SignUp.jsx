@@ -57,7 +57,7 @@ export const SignUp = () => {
       toast(
         "Please enter valid input\n\nPassword must contain 8 characters",{
           duration: 4000,
-          position:"bottom-right",
+          position:"top-right",
           style:{background:"orange",fontSize:"1.1rem",fontWeight:"400"}
         }
       );

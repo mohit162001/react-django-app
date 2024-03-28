@@ -1,33 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './addcategoryform.css'
 import { useMutation } from '@apollo/client'
 import { CREATE_CATEGORY, GET_CATEGORIRS } from '../../query/query'
-import toast, { Toaster } from 'react-hot-toast'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import {Link} from 'react-router-dom'
 import { ShopContext } from '../../Context/ShowContext'
 function AddCategoryForm() {
   const {setMenu} = useContext(ShopContext)
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const [muationCreateCategory] = useMutation(CREATE_CATEGORY,{
     onCompleted(data){
-      // console.log("message",data)
-      toast.success("Category Created Successfully",{duration:1500,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      },})
+      handleSnackbarOpen('',"Category created Successfully")
+      
     },
     onError(error){
-        toast.error("Something went wrong",{duration:1500,style: {
-          backgroundColor: "orange",
-          color: "black",
-          borderRadius: "8px",
-          padding: "16px 40px 16px 40px",
-          fontSize: "1.2rem",
-          fontWeight:400
-        },})
+      handleSnackbarOpen('error',"Something went wrong")
+
     },
     refetchQueries: [{ query: GET_CATEGORIRS }], 
   })
@@ -43,14 +34,30 @@ function AddCategoryForm() {
         } 
       });
     }else{
-        toast.error("Enter Valid Inputs",{duration:1500})
+      handleSnackbarOpen('',"Enter Valid Inputs")
     }      
+};
+const handleSnackbarOpen = (severity, message) => {
+  setSeverity(severity);
+  setMessage(message);
+  setOpen(true);
+};
+
+const handleSnackbarClose = (event, reason) => {
+  if (reason === "clickaway") {
+    return;
+  }
+  setOpen(false);
 };
 
 
   return (
     <>
-    <Toaster/>
+    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
     <div className='admincategory-container' >
       <div onClick={(e) => e.stopPropagation()}>
         <h2 className='admincategory-heading'>Add Category</h2>

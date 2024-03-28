@@ -5,8 +5,8 @@ import './cartitems.css'
 import delete_icon from '../Assests/delete.png'
 import { useMutation, useQuery } from '@apollo/client'
 import { ADD_ITEM_TO_CART, CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS, GET_ORDERS_DETAILS, GET_PAYMENT_MODES, REMOVE_CART_ITEM, REMOVE_ENTIRE_ITEM } from '../../query/query'
-
-import toast, { Toaster } from 'react-hot-toast';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader'
 const CartItems = ({products,refetch,userId}) => {
@@ -16,7 +16,9 @@ const CartItems = ({products,refetch,userId}) => {
     //  })
     const [quantity] = useState(1)
     const [,setDisable] = useState(false)
-
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState("");
+    const [severity, setSeverity] = useState("info");
     const {data} = useQuery(GET_PAYMENT_MODES)
     const [mutationRemoveAll] = useMutation(CART_REMOVE_ALL,{
         refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }]
@@ -24,15 +26,7 @@ const CartItems = ({products,refetch,userId}) => {
 
     const [mutaionCreateOrderFun,{data:orderCreated,loading}] = useMutation(CREATE_USER_ORDER,{
         onCompleted(data){
-            toast("Order placed",{duration:1000,style: {
-                backgroundColor: "orange",
-                color: "black",
-                borderRadius: "8px",
-                padding: "16px 40px 16px 40px",
-                fontSize: "1.2rem",
-                fontWeight:400
-              },})
-            // console.log(data)
+            handleSnackbarOpen('',"Order placedy")
             setTimeout(()=>{
                 navigate('/order')
                 mutationRemoveAll({variables:{
@@ -41,15 +35,15 @@ const CartItems = ({products,refetch,userId}) => {
             },1000)   
         },
         onError(error){
-            toast.error("Something went wrong")
+            handleSnackbarOpen('error',"Something went wrongy")
         },refetchQueries: [{ query: GET_ORDERS_DETAILS, variables:{userId:userId} }]
     })
     const [mutationAddItem] = useMutation(ADD_ITEM_TO_CART, {
         onCompleted(data){
-          toast.success('Item added',{duration:1000})
+          
         },
         onError(error){
-            toast.error('Someting went wrong...!',{duration:1000})
+            handleSnackbarOpen('error',"Something went wrongy")
         },
         refetchQueries: [{ query: GET_CART_DETAILS, variables:{userId:userId} }],
       });
@@ -123,9 +117,25 @@ const CartItems = ({products,refetch,userId}) => {
             }
         })
      }
+     const handleSnackbarOpen = (severity, message) => {
+        setSeverity(severity);
+        setMessage(message);
+        setOpen(true);
+      };
+    
+      const handleSnackbarClose = (event, reason) => {
+        if (reason === "clickaway") {
+          return;
+        }
+        setOpen(false);
+      };
     return (
     <>
-    {/* {orderCreated && <Toaster/>} */}
+    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
     {loading && <Loader/>}
     <div className="cartitems">
         <div className="cartitems-format-main">

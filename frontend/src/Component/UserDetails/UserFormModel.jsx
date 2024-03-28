@@ -1,33 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./userformmodel.css";
 import { useMutation } from "@apollo/client";
 import { GET_USER_DETAILS, UPDATE_USER_DETAILS } from "../../query/query";
-import toast, { Toaster } from "react-hot-toast";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 function UserFormModel({ username, email, address, handleClose, userId }) {
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const [mutationFun] = useMutation(UPDATE_USER_DETAILS, {
     onCompleted() {
-      // console.log(data)
-      toast.success("Profile Updated Successfully", { duration: 1000,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      }, });
+      handleSnackbarOpen('',"Profile Updated Successfully")
       setTimeout(() => {
         handleClose();
       }, 1000);
     },
     onError() {
-      toast.error("Someting went wrong...!", { duration: 1000,style: {
-        backgroundColor: "orange",
-        color: "black",
-        borderRadius: "8px",
-        padding: "16px 40px 16px 40px",
-        fontSize: "1.2rem",
-        fontWeight:400
-      }, });
+      handleSnackbarOpen('error',"Someting went wrong")
     },
     refetchQueries: [
       { query: GET_USER_DETAILS, variables: { userId: userId } },
@@ -71,13 +61,29 @@ function UserFormModel({ username, email, address, handleClose, userId }) {
         });
       }
     } else {
-      toast.error("Enter valid Username and Email", { duration: 1000 });
+      handleSnackbarOpen('error',"Enter valid Username and Email")
     }
   }
+  const handleSnackbarOpen = (severity, message) => {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  };
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <>
-      <Toaster />
+      <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
+
       <div className="modal-overlay">
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <h2>Profile Update</h2>
