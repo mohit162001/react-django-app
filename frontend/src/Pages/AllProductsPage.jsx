@@ -10,8 +10,18 @@ import './CSS/allproductspage.css'
 
 
 function AllProductsPage() {
-  
-    const {data,loading,error} = useQuery(GET_ALL_PRODUCTS)
+    const [inputValue,setInputValue] = useState({
+      searchInput:'',
+      startDate:null,
+      endDate:null
+    })
+    const {data,loading,error,refetch} = useQuery(GET_ALL_PRODUCTS,{
+      variables:{
+        searchInput:(inputValue.searchInput),
+        startDate:inputValue.startDate,
+        endDate:inputValue.endDate
+      }
+    })
     const [currPage, setCurrPage] = useState(1);
     const totalPages = Math.ceil((data && data.products.edges.length)/4)
 
@@ -24,7 +34,8 @@ function AllProductsPage() {
     };
 
     function getFilterData(data){
-      console.log(data)
+      setInputValue(data)
+      refetch()
     }
     return (
         <>

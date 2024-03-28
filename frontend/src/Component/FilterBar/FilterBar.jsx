@@ -7,8 +7,8 @@ const FilterBar = ({getFilterData}) => {
     const today =new Date().toISOString().slice(0, 10)
     const [inputData,setInputData] = useState({
       searchInput:'',
-      startDate:'',
-      endDate:''
+      startDate:null,
+      endDate:null
     })
 
     function handleSearchInput(event){
@@ -35,8 +35,8 @@ const FilterBar = ({getFilterData}) => {
     function resetFilter(){
       setInputData({
         searchInput:'',
-        startDate:'',
-        endDate:''
+        startDate:null,
+        endDate:null
       })
     }
 
@@ -47,15 +47,17 @@ const FilterBar = ({getFilterData}) => {
     <div className="filter-bar">
       <div className="search-bar">
         <input className="search-input" type="text" placeholder="Search..." onChange={handleSearchInput} value={inputData.searchInput}/>
-          <SearchIcon onClick={sendData} fontSize="large" className="search-icon"/>
+          <SearchIcon onClick={sendData} fontSize="medium" className="search-text-icon"/>
       </div>
       <div className="date-filter">
         <label className="filter-bar-lable">Start:</label>
         <input type="date" placeholder="Start Date" value={inputData.startDate} onChange={handleStartDate} />
         <label className="filter-bar-lable">End:</label>
         <input type="date" placeholder="End Date" value={inputData.endDate} onChange={handleEndDate} />
-        <button className="filter-filtericon"><span className="filter-bar-span">Filter</span><TuneOutlinedIcon className="filter-filtericon" fontSize="large"/></button>
-        <button onClick={resetFilter} className="filter-reseticon"><span className="filter-bar-span">Reset</span><RestartAltOutlinedIcon fontSize="large" className="filter-reseticon"/></button>
+        <SearchIcon onClick={sendData} fontSize="medium" className="search-date-icon"/>
+      </div>
+      <div onClick={resetFilter} className="filter-reset">
+      <button onClick={resetFilter} className="filter-reseticon"><span className="filter-bar-span">Reset</span><RestartAltOutlinedIcon fontSize="large" className="filter-reseticon"/></button>
       </div>
     </div>
   );

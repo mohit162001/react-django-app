@@ -44,8 +44,8 @@ query($productId:String!){
 
 
 export const GET_ALL_PRODUCTS = gql`
-query{
-  products{
+query($searchInput:String $startDate:Date $endDate:Date){
+  products(name_Istartswith:$searchInput insertedDate_Gte:$startDate insertedDate_Lte:$endDate){
     edges{
       node{
         id

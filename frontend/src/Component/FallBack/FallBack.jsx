@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './fallback.css'
 
 import { ShopContext } from '../../Context/ShowContext';
+import { isAdminUser } from '../../helper';
 function FallBack({image,heading,btn_lable,setMenuValue,link}) {
     const {setMenu} = useContext(ShopContext)
     return (
@@ -12,9 +13,9 @@ function FallBack({image,heading,btn_lable,setMenuValue,link}) {
           </div>
           <div className="fallback-info">
           <h2 id="fallback-h2">{heading}</h2>
-          <p id="default-p2">
+          {!isAdminUser()&&<p id="default-p2">
               <Link onClick={()=>setMenu(setMenuValue)} to={link}><button className="create-btn">{btn_lable}</button></Link>
-          </p>
+          </p>}
           </div>
         </div>
       );
