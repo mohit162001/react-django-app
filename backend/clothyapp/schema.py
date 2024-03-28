@@ -157,7 +157,7 @@ class Query(graphene.ObjectType):
     products = DjangoFilterConnectionField(ProductType)
     def resolve_products(root,info,**kwargs):
         # UserAuthentictaion.user_authentication(root,info)
-        products = ProductModel.objects.all().order_by('inserted_date')
+        products = ProductModel.objects.all().order_by('-inserted_date')
         return products
     
     '''
@@ -259,7 +259,7 @@ class Query(graphene.ObjectType):
         UserAuthentictaion.user_authentication(root,info)
         
         user = CustomUser.objects.get(id=user_id)
-        cartItems = CartModel.objects.filter(user=user)
+        cartItems = CartModel.objects.filter(user=user).order_by('id')
         # print(cartItems)
         cartData = []
         for item in cartItems:
@@ -291,7 +291,7 @@ class Query(graphene.ObjectType):
     def resolve_orders(root,info):
         UserAuthentictaion.user_authentication(root,info)
         
-        orders = OrderTable.objects.all()
+        orders = OrderTable.objects.all().order_by('-order_date')
         order_data = []
         for order in orders:
             product = ProductModel.objects.get(id = order.product.id)
@@ -318,7 +318,7 @@ class Query(graphene.ObjectType):
         UserAuthentictaion.user_authentication(root,info)
         
         user = CustomUser.objects.get(id=user_id)
-        orders = OrderTable.objects.filter(user=user)
+        orders = OrderTable.objects.filter(user=user).order_by('-order_date')
         # print(orders)
         orderData = []
         for order in orders:
