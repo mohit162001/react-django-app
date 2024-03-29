@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FallBack from '../Component/FallBack/FallBack';
 import { useQuery } from '@apollo/client';
 import {  GET_ALL_PRODUCTS } from '../query/query';
-import empty_order from '../Component/Assests/empty-order.png';
+import no_item from '../Component/Assests/no_item.png'
 import right_arrow from '../Component/Assests/breadcrum_arrow.png'
 import AllProducts from '../Component/AllProducts/AllProducts';
 import FilterBar from '../Component/FilterBar/FilterBar';
@@ -40,7 +40,7 @@ function AllProductsPage() {
     return (
         <>
         <div className="allproducts-page">
-        <FilterBar getFilterData={getFilterData}/>
+        <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage}/>
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading products details...</p>}
           {!error && data && data.products.edges.length > 0 && <>
@@ -53,7 +53,7 @@ function AllProductsPage() {
               </div>
             </>
           }
-          {!error && data && data.products.edges.length === 0 && (<FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
+          {!error && data && data.products.edges.length === 0 && (<FallBack image={no_item} heading={"No Product found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
           )}
         </div>
         </>
