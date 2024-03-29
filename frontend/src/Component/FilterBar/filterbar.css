@@ -18,9 +18,11 @@
     font-size: 18px;
 
   }
-  
+  .search-bar-container{
+    display: flex;
+  }
   .search-bar{
-    width: 30%;
+    width: 250px;
     display: flex;
   }
   .search-input{
@@ -73,5 +75,9 @@
   .filter-bar-span{
     font-size: 25px;
     margin-right: 5px;
+  }
+
+  .search-input2{
+    width: 200px;
   }
 
