@@ -40,7 +40,7 @@ function AllProductsPage() {
     return (
         <>
         <div className="allproducts-page">
-        <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage}/>
+        <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage} placeholder={'search product..'}/>
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading products details...</p>}
           {!error && data && data.products.edges.length > 0 && <>
