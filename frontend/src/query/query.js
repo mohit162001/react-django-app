@@ -220,6 +220,7 @@ export const GET_ALL_ORDERS = gql`
 query{
   orders{
     orderId
+    productId
     username
     orderDate
     productImage
