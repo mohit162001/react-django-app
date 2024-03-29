@@ -74,9 +74,9 @@ const FilterBar = ({getFilterData,setCurrPage,placeholder,exrtaSearch}) => {
       </div>
       <div className="date-filter">
         <label className="filter-bar-lable">Start:</label>
-        <input type="date" placeholder="Start Date" value={inputData.startDate} onChange={handleStartDate} />
+        <input type="date" placeholder="Start Date" value={inputData.startDate===null?'':inputData.startDate} onChange={handleStartDate} />
         <label className="filter-bar-lable">End:</label>
-        <input type="date" placeholder="End Date" value={inputData.endDate}  onChange={handleEndDate} />
+        <input type="date" placeholder="End Date" value={inputData.endDate===null?'':inputData.endDate}  onChange={handleEndDate} />
         <SearchIcon onClick={sendData} fontSize="medium" className="search-date-icon"/>
       </div>
       <div onClick={resetFilter} className="filter-reset">
