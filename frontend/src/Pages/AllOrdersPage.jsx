@@ -40,19 +40,23 @@ function AllOrdersPage() {
       if(filterInput.searchInput){
         const filteredArray = fetchedData.filter((item)=>item.username.toLowerCase().includes(filterInput.searchInput.toLowerCase()))
         setFilteredData([...filteredArray])
-      }else     if(filterInput.searchInput2){
+      }else if(filterInput.searchInput2){
         const filteredArray = fetchedData.filter((item)=>item.productName.toLowerCase().includes(filterInput.searchInput2.toLowerCase()))
         setFilteredData([...filteredArray])
-      }else{
+      }else if(filterInput.startDate&&filterInput.endDate){
+        const filteredArray = fetchedData.filter((item)=>{ return item.orderDate>=filterInput.startDate&&item.orderDate<=filterInput.endDate})
+        setFilteredData([...filteredArray])
+      }else if(filterInput.startDate){
+        const today =new Date().toISOString().slice(0, 10)
+        const filteredArray = fetchedData.filter((item)=>{ return item.orderDate>=filterInput.startDate&&item.orderDate<=today})
+        setFilteredData([...filteredArray])
+      }else if(filterInput.endDate){
+        const filteredArray = fetchedData.filter((item)=>{ return item.orderDate<=filterInput.endDate})
+        setFilteredData([...filteredArray])
+      } 
+      else{
         setFilteredData(undefined)
       }
-      if(filterInput.startDate){
-        console.log(filterInput.startDate)
-      }
-      if(filterInput.endDate){
-        console.log(filterInput.endDate)
-      }
-      console.log(filterInput)
     }
     return (
         <>
@@ -60,7 +64,7 @@ function AllOrdersPage() {
             <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage} placeholder={'search order by user..'} exrtaSearch={true} />
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
-          {!error && data && data.orders.length > 0 && <>
+          {!error && data && data.orders.length > 0  && <>
               <div>
               <AllOrdersItem orders={filteredData?filteredData:data.orders} currPage={currPage} itemsperPage={4} />
               <div className="pagination">
