@@ -23,9 +23,9 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
     refetchQueries: [{ query: GET_ALL_ORDERS }]
   })
   function handleDelete(orderId){
-    mutationOrderDelete({variables:{
-      orderId:orderId
-    }})
+    // mutationOrderDelete({variables:{
+    //   orderId:orderId
+    // }})
 
   }
   const handleSnackbarOpen = (severity, message) => {
@@ -60,7 +60,7 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
         </div>
         <hr />
         <div className='allorder-list-container'>
-        {orders.orders.slice(start, end).map((item,i) => {
+        {orders.slice(start, end).map((item,i) => {
           return (
             <div  key={i}>
               <div className="allorderitems-format allorderitems-format-main">
