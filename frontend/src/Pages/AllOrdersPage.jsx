@@ -37,7 +37,12 @@ function AllOrdersPage() {
     
     function getFilterData(filterInput){
       setInputValue(filterInput)
-      if(filterInput.searchInput){
+      if(filterInput.searchInput && filterInput.searchInput2){
+        const filteredArray = fetchedData.filter((item)=>
+        (item.username.toLowerCase().includes(filterInput.searchInput.toLowerCase())&&
+        item.productName.toLowerCase().includes(filterInput.searchInput2.toLowerCase())))
+        setFilteredData([...filteredArray])
+      }else if(filterInput.searchInput){
         const filteredArray = fetchedData.filter((item)=>item.username.toLowerCase().includes(filterInput.searchInput.toLowerCase()))
         setFilteredData([...filteredArray])
       }else if(filterInput.searchInput2){
@@ -61,7 +66,7 @@ function AllOrdersPage() {
     return (
         <>
           <div className="allorders-page">
-            <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage} placeholder={'search order by user..'} exrtaSearch={true} />
+            <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage} placeholder={'search order by user..'} forOrder={true} />
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
           {!error && data && data.orders.length > 0  && <>

@@ -12,12 +12,14 @@ import './CSS/allproductspage.css'
 function AllProductsPage() {
     const [inputValue,setInputValue] = useState({
       searchInput:'',
+      selected:'',
       startDate:null,
       endDate:null
     })
     const {data,loading,error,refetch} = useQuery(GET_ALL_PRODUCTS,{
       variables:{
         searchInput:(inputValue.searchInput),
+        category:inputValue.selected,
         startDate:inputValue.startDate,
         endDate:inputValue.endDate
       }
@@ -35,12 +37,13 @@ function AllProductsPage() {
 
     function getFilterData(data){
       setInputValue(data)
+      console.log(data)
       refetch()
     }
     return (
         <>
         <div className="allproducts-page">
-        <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage} placeholder={'search product..'}/>
+        <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage} placeholder={'search product..'} forProduct={true}/>
           {error && <p className='product-fallback'>Something went wrong...!</p>}
           {loading && !error && <p className='product-fallback'>Loading products details...</p>}
           {!error && data && data.products.edges.length > 0 && <>

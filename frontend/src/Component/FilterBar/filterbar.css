@@ -61,6 +61,7 @@
   .search-date-icon{
     margin-bottom: -0.4rem;
     margin-left: 5px;
+    cursor: pointer;
   }
   .filter-reset{
     margin-top: -5px;
@@ -81,3 +82,15 @@
     width: 200px;
   }
 
+  .selecte-category{
+    padding: 8px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    background: #ffffff;
+
+  }
+  .selecte-category option{
+    /* background: #ffffff; */
+  }
