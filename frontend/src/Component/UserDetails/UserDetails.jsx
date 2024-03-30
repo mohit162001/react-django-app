@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './userdetails.css'
 import avatar from '../Assests/avatar.png'
 
@@ -6,8 +6,10 @@ import admin_image1 from '../Assests/admin_img1.jpg'
 import UserFormModel from './UserFormModel'
 import { Link } from 'react-router-dom'
 import { isAdminUser } from '../../helper'
+import { ShopContext } from '../../Context/ShowContext'
 function UserDetails({username,email,address,userId,image}) {
     // console.log(address)
+    const {setMenu} = useContext(ShopContext)
     const [showForm,setShowForm] = useState(false)
     function handleFormModelState(){
         setShowForm((prev)=>!prev)
@@ -38,7 +40,7 @@ function UserDetails({username,email,address,userId,image}) {
             </div>
             <div className="user-action">
                 <button className='user-action-update' onClick={handleFormModelState}>Update Profile</button>
-                <Link to='/'><button className='user-action-back'>Back</button></Link>
+                <Link to='/'><button onClick={()=>setMenu('shop')} className='user-action-back'>Back</button></Link>
             </div>
             </div>
         </div>

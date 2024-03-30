@@ -24,6 +24,7 @@ const Popular = ({heading,query_variable}) => {
                 image={item.node.image}
                 new_price={item.node.price}
                 old_price={0}
+                category={query_variable}
               />
             })}
         </div>} 

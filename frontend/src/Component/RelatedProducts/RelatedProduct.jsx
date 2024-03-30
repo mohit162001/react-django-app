@@ -25,6 +25,7 @@ const RelatedProduct = ({category,curr_productId}) => {
                 image={item.node.image}
                 new_price={item.node.price}
                 old_price={0}
+                category={category}
                 />
               );
           })}
