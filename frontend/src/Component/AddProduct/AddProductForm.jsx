@@ -165,24 +165,27 @@ function AddProductForm({ productData, productId }) {
             </div>
             <div className="adminproduct-form-group">
               <label htmlFor="category">Category:</label>
-              <select
+              <select 
                 className="adminproduct-select"
                 name="category"
                 id="category"
               >
                 {productData && (
+                  <>
                   <option value={productData.productCategory}>
                     {productData.productCategory}
                   </option>
+                  {data &&
+                    data.categories.edges.map((item, i) => {
+                      return (
+                        <option key={i} value={item.node.name}>
+                          {item.node.name}
+                        </option>
+                      );
+                    })}
+                    </>
                 )}
-                {data &&
-                  data.categories.edges.map((item, i) => {
-                    return (
-                      <option key={i} value={item.node.name}>
-                        {item.node.name}
-                      </option>
-                    );
-                  })}
+                
               </select>
             </div>
             <div className="adminproduct-form-img">
