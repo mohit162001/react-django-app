@@ -649,7 +649,7 @@ class OrderCreate(graphene.Mutation):
         
         cartItem  = CartModel.objects.filter(user=user_id)
         user = CustomUser.objects.get(id=user_id)
-        print(cartItem)
+        print("current cart items",cartItem)
         for item in cartItem:
             product = ProductModel.objects.get(id=item.product_id)
             paymode = PaymentModel.objects.get(payment_mode=payment_mode)
@@ -665,7 +665,10 @@ class OrderCreate(graphene.Mutation):
         #     ["mohitdevade2001@gmail.com"],
         #     fail_silently=False,
         #     )
+        print("before email sent")
         SendEmail.send_order_email(user.username,user.address,orders,user.email)
+        print("after email sent")
+
         return OrderCreate(message = "Order testing",orders = orders )
     
 class SendEmail:
