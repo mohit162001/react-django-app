@@ -23,6 +23,7 @@ import AllOrdersPage from "./Pages/AllOrdersPage";
 import AllProductsPage from "./Pages/AllProductsPage";
 import AdminLanding from "./Pages/AdminLanding";
 import FallBack from "./Component/FallBack/FallBack";
+import AdminStatistics from "./Pages/AdminStatistics";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         {path:'unauthorized',element:<FallBack image={unauthorized_img} heading={"You are not Authorized"} btn_lable={'Back'} setMenuValue={'shop'} link={'/'}/>},
         {path:"/admin",element:<AdminLayout/>,loader:isAdmin,children:[
           {path:'',element:<AdminLanding/>},
+          {path:'statistics',element:<AdminStatistics/>},
           {path:'addproduct',element:<AddProductPage/>},
           {path:'addproduct/:productId',element:<AddProductPage/>},
           {path:'addcategory',element:<AddCategoryPage/>},

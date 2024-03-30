@@ -16,6 +16,15 @@ function SideBar() {
         <ul className="sidebar-ul">
         <li className="sidebar-list-item">
             <NavLink
+              onClick={()=>setMenu('statistics')}
+              className={({ isActive }) => (isActive ? "active" : "inactive")}
+              to="statistics"
+            >
+              Statistics
+            </NavLink>
+          </li>
+        <li className="sidebar-list-item">
+            <NavLink
               onClick={()=>setMenu('allproduct')}
               className={({ isActive }) => (isActive ? "active" : "inactive")}
               to="allproducts"
