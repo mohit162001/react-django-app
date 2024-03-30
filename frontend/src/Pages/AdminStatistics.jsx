@@ -25,13 +25,13 @@ function AdminStatistics() {
         };
     }
     });
-  
+    console.log("product sum",productQuantitySum)
     for (const productId in productQuantitySum) {
         const { totalOrderCount, productName, orderDate } = productQuantitySum[productId];
         OrderCountArr.push({ productId, totalOrderCount, productName, orderDate });
     }
   
-  console.log(OrderCountArr);
+  console.log("order arr",OrderCountArr);
   }
   return (
     <>
