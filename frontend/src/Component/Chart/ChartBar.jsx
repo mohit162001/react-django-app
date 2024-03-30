@@ -51,7 +51,7 @@ function ChartBar({orderData}) {
           {
             label: 'quantity',
             data: orderData.map((item)=>(item.totalOrderCount)),
-            backgroundColor: 'hsla(23, 100%, 66%, 0.97)',
+            backgroundColor: 'hsla(23, 100%, 66%, 0.87)',
             borderColor: 'rgba(0,0,0,1)',
             borderWidth: 0,
             borderRadius:0,
