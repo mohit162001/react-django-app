@@ -185,6 +185,14 @@ function AddProductForm({ productData, productId }) {
                     })}
                     </>
                 )}
+                {data && !productData&&
+                    data.categories.edges.map((item, i) => {
+                      return (
+                        <option key={i} value={item.node.name}>
+                          {item.node.name}
+                        </option>
+                      );
+                    })}
                 
               </select>
             </div>
