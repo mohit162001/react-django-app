@@ -8,30 +8,41 @@ import edit_icon from '../Assests/edit-icon.png'
 import { Link } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Model from '../Model/Model';
 function AllProducts({ products, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
   const [open, setOpen] = useState(false);
+  const [productId,setProductId] = useState()
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
+  const [model,setModel] = useState(false)
   const [mutationProductDelete] = useMutation(DELETE_PRODUCT,{
     onCompleted(){
         handleSnackbarOpen('',"Product deleted successfully")
+        setTimeout(()=>{
+          setModel(false)
+        },1000)
     },
     onError(){
         handleSnackbarOpen('error',"Can not delete ")
     },
     refetchQueries: [{ query: GET_ALL_PRODUCTS }]
   })
-
-  function handleDelete(productId){
-    // console.log(productId)
-    // mutationProductDelete({
-    //     variables:{
-    //         productId:productId
-    //     }
-    // })
+  console.log(model)
+  function handleDelete(){
+    console.log('delete product id',productId)
+    console.log(productId)
+    mutationProductDelete({
+        variables:{
+            productId:productId
+        }
+    })
+  }
+  function handleModel(productId){
+    setProductId(productId)
+    setModel((prev)=>!prev)
   }
   const handleSnackbarOpen = (severity, message) => {
     setSeverity(severity);
@@ -47,11 +58,12 @@ function AllProducts({ products, currPage, itemsperPage }) {
   };
   return (
     <>
-    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+    <Snackbar open={open} autoHideDuration={1000} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
         <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
          {message}
        </MuiAlert>
       </Snackbar>
+      {model&&<Model handleModel={handleModel} handleDelete={handleDelete} heading={'Do you want to delete this product?'} />}
       <div className="allproduct">
         <div className="allproduct-format-main">
           <p>Product</p>
@@ -76,7 +88,7 @@ function AllProducts({ products, currPage, itemsperPage }) {
                 <p className='allproduct-p'> {item.node.category.name}</p>
                 <div className='allproduct-action'>
                 <Link to={'/admin/addproduct/'+item.node.id}><img src={edit_icon} alt='alternative' className='allproduct-edit-btn'/></Link>
-                <img src={delete_icon} alt='alternative' onClick={()=>handleDelete(item.node.id)} className='allproduct-delete-btn'/>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.node.id)} className='allproduct-delete-btn'/>
                 </div>
               </div>
               <hr className='allproduct-hr'/>

@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import {DELETE_ORDER, GET_ALL_ORDERS} from '../../query/query'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Model from '../Model/Model';
 function AllOrdersItem({ orders, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
@@ -12,21 +13,30 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
+  const [model,setModel] = useState(false)
+  const [orderId,setOrderId] = useState()
+
   const [mutationOrderDelete] = useMutation(DELETE_ORDER,{
     onCompleted(){
       handleSnackbarOpen('',"Order delete successfully")
-
+      setTimeout(()=>{
+        setModel(false)
+      },1000)
     },
     onError(){
       handleSnackbarOpen('error',"Something went wrong")
     },
     refetchQueries: [{ query: GET_ALL_ORDERS }]
   })
-  function handleDelete(orderId){
-    // mutationOrderDelete({variables:{
-    //   orderId:orderId
-    // }})
+  function handleDelete(){
+    mutationOrderDelete({variables:{
+      orderId:orderId
+    }})
 
+  }
+  function handleModel(orderId){
+    setOrderId(orderId)
+    setModel((prev)=>!prev)
   }
   const handleSnackbarOpen = (severity, message) => {
     setSeverity(severity);
@@ -42,11 +52,13 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
   };
   return (
     <>
-    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+    <Snackbar open={open} autoHideDuration={1000} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
         <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
          {message}
        </MuiAlert>
       </Snackbar>
+      {model&&<Model handleModel={handleModel} handleDelete={handleDelete} heading={'Do you want to delete this Order?'} />}
+
       <div className="allorderitems">
         <div className="allorderitems-format-main">
           <p>Product</p>
@@ -72,7 +84,7 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
                 <p> ₹{item.totalPrice}</p>
                 <p> {item.paymentMode}</p>
                 <div className='allorderitems-action'>
-                <img src={delete_icon} alt='alternative' onClick={()=>handleDelete(item.orderId)} className='allproduct-delete-btn'/>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.orderId)} className='allproduct-delete-btn'/>
                 </div>
               </div>
               <hr />

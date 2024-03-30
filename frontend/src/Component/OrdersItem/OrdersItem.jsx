@@ -6,29 +6,38 @@ import { useMutation } from '@apollo/client';
 import delete_icon from '../Assests/delete-icon.png'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Model from '../Model/Model';
 
 function OrdersItem({ orders, currPage, itemsperPage,userId }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
+  const [model,setModel] = useState(false)
+  const [orderId,setOrderId] = useState()
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
 
   const [mutationOrderDelete] = useMutation(DELETE_ORDER,{
     onCompleted(){
       handleSnackbarOpen('',"Order delete successfully")
+      setTimeout(()=>{
+        setModel(false)
+      },1000)
     },
     onError(){ 
       handleSnackbarOpen('error',"Something went wrong")
     },
     refetchQueries: [{ query: GET_ORDERS_DETAILS,variables:{userId:userId} }]
   })
-  function handleDelete(orderId){
+  function handleDelete(){
     console.log(orderId)
     mutationOrderDelete({variables:{
       orderId:orderId
     }})
-
+  }
+  function handleModel(orderId){
+    setOrderId(orderId)
+    setModel((prev)=>!prev)
   }
   const handleSnackbarOpen = (severity, message) => {
     setSeverity(severity);
@@ -50,6 +59,8 @@ function OrdersItem({ orders, currPage, itemsperPage,userId }) {
          {message}
        </MuiAlert>
       </Snackbar>
+      {model&&<Model handleModel={handleModel} handleDelete={handleDelete} heading={'Do you want to delete this Order?'} />}
+
       <div className="orderitems">
         <div className="orderitems-format-main">
           <p>Product</p>
@@ -73,7 +84,7 @@ function OrdersItem({ orders, currPage, itemsperPage,userId }) {
                 <p> ₹{item.totalPrice}</p>
                 <p> {item.paymentMode}</p>
                 <div className='orderitems-action'>
-                <img src={delete_icon} alt='alternative' onClick={()=>handleDelete(item.orderId)} className='orderitems-action-btn'/>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.orderId)} className='orderitems-action-btn'/>
                 </div>
               </div>
               <hr />
