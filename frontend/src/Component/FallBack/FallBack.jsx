@@ -4,7 +4,7 @@ import './fallback.css'
 
 import { ShopContext } from '../../Context/ShowContext';
 import { isAdminUser } from '../../helper';
-function FallBack({image,heading,btn_lable,setMenuValue,link}) {
+function FallBack({image,heading,btn_lable,setMenuValue,link,admin}) {
     const {setMenu} = useContext(ShopContext)
     return (
         <div className="fallback-container">
@@ -16,6 +16,7 @@ function FallBack({image,heading,btn_lable,setMenuValue,link}) {
           {!isAdminUser()&&<p id="default-p2">
               <Link onClick={()=>setMenu(setMenuValue)} to={link}><button className="create-btn">{btn_lable}</button></Link>
           </p>}
+          {admin&&<Link onClick={()=>setMenu(setMenuValue)} to={link}><button className="create-btn">{btn_lable}</button></Link>}
           </div>
         </div>
       );
