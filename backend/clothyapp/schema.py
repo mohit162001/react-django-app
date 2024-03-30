@@ -292,7 +292,7 @@ class Query(graphene.ObjectType):
     def resolve_orders(root,info):
         UserAuthentictaion.user_authentication(root,info)
         
-        orders = OrderTable.objects.all().order_by('-order_date')
+        orders = OrderTable.objects.all().order_by('-id')
         order_data = []
         for order in orders:
             product = ProductModel.objects.get(id = order.product.id)
@@ -319,7 +319,7 @@ class Query(graphene.ObjectType):
         UserAuthentictaion.user_authentication(root,info)
         
         user = CustomUser.objects.get(id=user_id)
-        orders = OrderTable.objects.filter(user=user).order_by('-order_date')
+        orders = OrderTable.objects.filter(user=user).order_by('-id')
         # print(orders)
         orderData = []
         for order in orders:
