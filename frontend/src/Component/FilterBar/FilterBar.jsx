@@ -70,6 +70,8 @@ const FilterBar = ({getFilterData,setCurrPage,placeholder,forOrder,forProduct}) 
       startDate:null,
       endDate:null
       })
+      setCurrPage(1)
+
     }
 
     function sendData(){
