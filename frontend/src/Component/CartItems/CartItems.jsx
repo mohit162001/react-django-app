@@ -4,7 +4,7 @@ import './cartitems.css'
 // import remove_icon from '../Assests/cart_cross_icon.png'
 import delete_icon from '../Assests/delete.png'
 import { useMutation, useQuery } from '@apollo/client'
-import { ADD_ITEM_TO_CART, CART_REMOVE_ALL, CREATE_USER_ORDER, GET_CART_DETAILS, GET_ORDERS_DETAILS, GET_PAYMENT_MODES, REMOVE_CART_ITEM, REMOVE_ENTIRE_ITEM } from '../../query/query'
+import { ADD_ITEM_TO_CART, CART_REMOVE_ALL, CREATE_USER_ORDER, GET_ALL_ORDERS, GET_CART_DETAILS, GET_ORDERS_DETAILS, GET_PAYMENT_MODES, REMOVE_CART_ITEM, REMOVE_ENTIRE_ITEM } from '../../query/query'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +36,7 @@ const CartItems = ({products,refetch,userId}) => {
         },
         onError(error){
             handleSnackbarOpen('error',"Something went wrongy")
-        },refetchQueries: [{ query: GET_ORDERS_DETAILS, variables:{userId:userId} }]
+        },refetchQueries: [{ query: GET_ORDERS_DETAILS, variables:{userId:userId} },{query:GET_ALL_ORDERS}]
     })
     const [mutationAddItem] = useMutation(ADD_ITEM_TO_CART, {
         onCompleted(data){
