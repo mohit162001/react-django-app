@@ -23,7 +23,6 @@ function ChartBar({orderData}) {
           },
         },
         scales: {
-          
           y: {
             title: {
               display: true,
@@ -32,7 +31,9 @@ function ChartBar({orderData}) {
                 size: 14,
                 weight: 'bold'
               }
-            }
+            },
+          max:10,
+
           },
           x: {
             title: {
