@@ -15,6 +15,7 @@ function AdminStatistics() {
       const quantity = order.quantity;
       const orderDate = order.orderDate;
       const productName = order.productName
+      console.log(order)
       if (productQuantitySum[productId]) {
         productQuantitySum[productId].totalOrderCount += quantity; 
     } else {
