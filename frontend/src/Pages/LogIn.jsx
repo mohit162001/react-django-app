@@ -11,6 +11,7 @@ import MuiAlert from "@mui/material/Alert";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
@@ -94,7 +95,10 @@ export const Login = () => {
                 name="username"
               />
 
-              <input type="password" placeholder="Password" name="password" />
+        <div className="showpassword">
+          <input type={isVisible ? "text" : "password"} placeholder='Password' name='password'  />
+          <span onClick={() => setIsVisible((prev) => !prev)} className="password-eye"><i className="far fa-eye"></i></span>
+        </div>
             </div>
             <button type="submit">Continue</button>
           </form>
