@@ -4,7 +4,7 @@ import admin_fallback from '../Component/Assests/admin-fallback.png'
 function AdminLanding() {
   return (
     <div className='admin-landing-page'>
-        <FallBack image={admin_fallback} heading={"Welcome Back Admin"} btn_lable={"Side Bar"} link={'/admin/statistics'} setMenuValue={'allproduct'} admin={true}/>
+        <FallBack image={admin_fallback} heading={"Welcome Back Admin"} btn_lable={"Side Bar"} link={'/admin/statistics'} setMenuValue={'statistics'} admin={true}/>
     </div>
   )
 }
