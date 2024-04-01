@@ -24,6 +24,7 @@ import AllProductsPage from "./Pages/AllProductsPage";
 import AdminLanding from "./Pages/AdminLanding";
 import FallBack from "./Component/FallBack/FallBack";
 import AdminStatistics from "./Pages/AdminStatistics";
+import AllUsersPage from "./Pages/AllUsersPage";
 
 
 function App() {
@@ -62,6 +63,8 @@ function App() {
           {path:'addcategory',element:<AddCategoryPage/>},
           {path:'allorders',element:<AllOrdersPage/>},
           {path:'allproducts',element:<AllProductsPage/>},
+          {path:'allusers',element:<AllUsersPage/>},
+
         ]}
       ],
     }, { path: "signup", element: <SignUp /> },
