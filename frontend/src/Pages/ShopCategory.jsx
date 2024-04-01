@@ -40,6 +40,7 @@ const ShopCategory = (props) => {
                   image={item.node.image}
                   new_price={item.node.price}
                   old_price={0}
+                  category={props.category}
                 />
               );
           })}
