@@ -650,14 +650,16 @@ class OrderCreate(graphene.Mutation):
         cartItem  = CartModel.objects.filter(user=user_id)
         user = CustomUser.objects.get(id=user_id)
         print("current cart items",cartItem)
+        curr_order=[]
         for item in cartItem:
             product = ProductModel.objects.get(id=item.product_id)
             paymode = PaymentModel.objects.get(payment_mode=payment_mode)
             print(paymode)
             print(item.quantity)
-            OrderTable.objects.create(user=user,product=product,quantity=item.quantity,price=item.price,payment_mode=paymode)
-        orders = OrderTable.objects.filter(user=user,order_date__exact=datetime.today())
-        print("today order",orders)
+            order = OrderTable.objects.create(user=user,product=product,quantity=item.quantity,price=item.price,payment_mode=paymode)
+            curr_order.append(order)
+        # orders = OrderTable.objects.filter(user=user,order_date__exact=datetime.today())
+        print("today order",curr_order)
         # send_mail(
         #     "Subject here",
         #     "Here is the message.",
@@ -666,10 +668,10 @@ class OrderCreate(graphene.Mutation):
         #     fail_silently=False,
         #     )
         print("before email sent")
-        SendEmail.send_order_email(user.username,user.address,orders,user.email)
+        SendEmail.send_order_email(user.username,user.address,curr_order,user.email)
         print("after email sent")
 
-        return OrderCreate(message = "Order testing",orders = orders )
+        return OrderCreate(message = "Order testing",orders = curr_order )
     
 class SendEmail:
     def send_order_email(username,address,orders,useremail):
