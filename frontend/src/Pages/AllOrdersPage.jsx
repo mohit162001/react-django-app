@@ -75,7 +75,7 @@ function AllOrdersPage() {
             {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
             {!error && (filteredData&&filteredData.length === 0) && (<FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
             )}
-            {!error && (filteredData && filteredData.length > 0 || data && data.orders.length > 0) && 
+            {!error &&  ((filteredData?filteredData:data) && (filteredData?filteredData:data.orders).length > 0) && 
             <>
                 <div>
                 <AllOrdersItem orders={filteredData?filteredData:data.orders} currPage={currPage} itemsperPage={4} />
