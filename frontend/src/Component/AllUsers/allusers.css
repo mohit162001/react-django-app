@@ -34,7 +34,7 @@
     font-weight: 500;
 }
 
-.carticon-product-icon{
+.user-profile-icon{
     height: 62px;
     border-radius: 50%;
 }
@@ -203,7 +203,6 @@ background: #fff;
     transform: translateX(26px);
   }
   
-  /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }

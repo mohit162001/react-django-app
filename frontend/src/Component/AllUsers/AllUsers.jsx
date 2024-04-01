@@ -78,7 +78,7 @@ function AllUsers({ users, currPage, itemsperPage }) {
             {item.role.role==="user"&&
             (<div  key={i}>
               <div className="allusers-format allusers-format-main">
-                <img src={item.image?"http://localhost:8000/media/" + item.image:avatar} alt="alternative" className='carticon-product-icon' />
+                <img src={item.image?"http://localhost:8000/media/" + item.image:avatar} alt="alternative" className='user-profile-icon' />
                 <p className='allusers-p'>{item.username}</p>
                 <input type="text" className='all-user-email' value={item.email} />
                 <p > {formatDateOnly(item.lastLogin)}</p>
