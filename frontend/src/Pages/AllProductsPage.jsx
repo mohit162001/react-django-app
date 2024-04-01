@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FallBack from '../Component/FallBack/FallBack';
 import { useQuery } from '@apollo/client';
 import {  GET_ALL_PRODUCTS } from '../query/query';
-import no_item from '../Component/Assests/no_item.png'
+import no_item from '../Component/Assests/empty-order.png'
 import right_arrow from '../Component/Assests/breadcrum_arrow.png'
 import AllProducts from '../Component/AllProducts/AllProducts';
 import FilterBar from '../Component/FilterBar/FilterBar';
