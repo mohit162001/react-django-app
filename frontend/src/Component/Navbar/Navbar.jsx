@@ -67,13 +67,13 @@ function Navbar() {
         </ul>
         <div className="nav-login-cart">
             {!isAdminUser() &&<>
-            <Link to='/cart' onClick={()=>{setMenu('cart')}}><img src={cart_icon} alt="" /></Link>
-            <div className="nav-cart-count">{cartValue}</div>
+            <Link to='/cart' onClick={()=>{setMenu('cart')}}><img className={menu==='cart'&&'cart-icon'} src={cart_icon} alt="" /></Link>
+            <div className={menu==='cart'?"nav-cart-count-active":"nav-cart-count"}>{cartValue}</div>
             </>}
             {token && 
             <div className='nav-avatar'>
               <Link to='user'>
-                <img onClick={()=>{setMenu('')}} className='nav-avatar-img' src={isAdminUser()?admin_image1:
+                <img onClick={()=>{setMenu('user')}} className={menu==='user'?'nav-avatar-img-active':'nav-avatar-img'} src={isAdminUser()?admin_image1:
                   (userData && userData.userDetails.image?`http://localhost:8000/media/${userData.userDetails.image}`
                   :avatar )} alt="alternative" />
               </Link>
