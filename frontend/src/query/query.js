@@ -105,7 +105,29 @@ query($category_Name:String!){
   }
 }
 `
-
+export const ALL_USERS_DETAILS = gql`
+query{
+  users{
+    id
+    username
+    email
+    isActive
+    lastLogin
+    dateJoined
+    image
+    role {
+      role
+    }
+  }
+}
+`
+export const USER_STATUS_MANAGE  =gql`
+mutation($userId:String! $status:Boolean!){
+  userStatus(userId:$userId status:$status){
+    message
+  }
+}
+`
 export const USER_LOGIN = gql`
 
 
