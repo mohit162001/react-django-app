@@ -153,3 +153,21 @@ span {
 .b{
   background: #ffc250;
 }
+
+.product-display-back-btn{
+  display: flex;
+  font-size: 1.3rem;
+  padding: 0.5rem 1.1rem;
+  background: red;
+  color: white;
+  border: none;
+  margin-left: -10rem;
+  cursor: pointer;
+}
+
+.product-display-back-btn img{
+  margin-top: 3px;
+  filter:invert(100%);
+  width: 20px;
+  margin-right: 5px;
+}
