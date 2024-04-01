@@ -17,9 +17,13 @@ function ChartBar({orderData}) {
         plugins: {
           legend: {
             position:'bottom',
+            labels: {
+              padding: 10,
+            }
           },
         },
         scales: {
+          
           y: {
             title: {
               display: true,
@@ -39,7 +43,7 @@ function ChartBar({orderData}) {
                 weight: 'bold'
               },
             }
-          }
+          },
         }
       };
       
