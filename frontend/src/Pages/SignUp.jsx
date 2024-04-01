@@ -26,7 +26,8 @@ export const SignUp = () => {
     },
     onError(error){
       if(error.message.includes('duplicate key value')){
-      toast.error('Username already exist',{duration:1000})
+      handleSnackbarOpen('error',"Username already exist");
+      // toast.error('Username already exist',{duration:1000})
       }else{
       toast.error('Someting went wrong...!',{duration:1000})
       }
