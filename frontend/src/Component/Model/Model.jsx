@@ -5,12 +5,12 @@ function Model({handleDelete,handleModel,heading,forProductEdit,img}) {
     <div className="model-overlay">
         <div className="model-container">
             {img?
-            <>
+            <div className='product-img-container'>
             <img src={`http://localhost:8000/media/${img}`} alt="" />
             <div className="model-img-action">
                 <button className='model-action-close' onClick={handleModel}>close</button>
             </div>
-            </>
+            </div>
             :
             <>
             <p className='model-message'>{heading}</p>
