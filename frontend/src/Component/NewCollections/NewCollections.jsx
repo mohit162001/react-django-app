@@ -13,7 +13,7 @@ const NewCollections = () => {
         {error && <p>Something went wrong</p>}
         {loading && !error && <p>Loading New Collections...</p>}
         {data && !loading && <div className="collections">
-        {data.newProducts.map((item,i)=>{
+        {data.newProducts.slice(0,4).map((item,i)=>{
                 return <Item
                 key={i}
                 id={item.id}
