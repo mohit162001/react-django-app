@@ -63,24 +63,29 @@ function AllOrdersPage() {
         setFilteredData(undefined)
       }
     }
+    if(filteredData){
+    console.log("filtered data length---",filteredData.length)
+
+    }
     return (
         <>
           <div className="allorders-page">
             <FilterBar getFilterData={getFilterData} setCurrPage={setCurrPage} placeholder={'search order by user..'} forOrder={true} />
-          {error && <p className='product-fallback'>Something went wrong...!</p>}
-          {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
-          {!error && data && data.orders.length > 0  && <>
-              <div>
-              <AllOrdersItem orders={filteredData?filteredData:data.orders} currPage={currPage} itemsperPage={4} />
-              <div className="pagination">
-                <button className={currPage===1?'order-disable-btn':'pagination-btn'} disabled={currPage===1?true:false} onClick={prevPage} >  <img className='left-arrow' src={right_arrow} alt="" />Previous</button>
-                <button className={(currPage===totalPages|| currPage===filteredDataPage)?'order-disable-btn':'pagination-btn'} disabled={(currPage===totalPages|| currPage===filteredDataPage)?true:false} onClick={nextPage} >Next <img className='rigth-arrow' src={right_arrow} alt="" /> </button>
-              </div>
-              </div>
+            {error && <p className='product-fallback'>Something went wrong...!</p>}
+            {loading && !error && <p className='product-fallback'>Loading orders details...</p>}
+            {!error && (filteredData&&filteredData.length === 0) && (<FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
+            )}
+            {!error && (filteredData && filteredData.length > 0 || data && data.orders.length > 0) && 
+            <>
+                <div>
+                <AllOrdersItem orders={filteredData?filteredData:data.orders} currPage={currPage} itemsperPage={4} />
+                <div className="pagination">
+                  <button className={currPage===1?'order-disable-btn':'pagination-btn'} disabled={currPage===1?true:false} onClick={prevPage} >  <img className='left-arrow' src={right_arrow} alt="" />Previous</button>
+                  <button className={(currPage===totalPages|| currPage===filteredDataPage)?'order-disable-btn':'pagination-btn'} disabled={(currPage===totalPages|| currPage===filteredDataPage)?true:false} onClick={nextPage} >Next <img className='rigth-arrow' src={right_arrow} alt="" /> </button>
+                </div>
+                </div>
             </>
-          }
-          {!error && (data && data.orders.length === 0) && (<FallBack image={empty_order} heading={"No order found"} btn_lable={"Order now"} setMenuValue={'shop'} link={'/'}/>
-          )}
+            }
           </div>
         </>
       );
