@@ -74,8 +74,9 @@
   }
 .product-img-view{
   margin-top: -2rem;
-  width: 100px;
-  height: 100px;
+  width: 95px;
+  height: 110px;
+  cursor: pointer;
 }
   .adminproduct-input-img{
     margin-top: 0.3rem;

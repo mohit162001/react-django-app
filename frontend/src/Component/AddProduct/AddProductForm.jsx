@@ -2,20 +2,16 @@ import React, { useContext, useState } from "react";
 import "./addproductform.css";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-  CREATE_PRODUCT,
-  GET_CATEGORIRS,
-  UPDATE_PRODUCT_DETAILS,
-  GET_ALL_PRODUCTS,
-  GET_PRODUCT_BY_ID,
-  GET_NEW_COLLECTION,
-} from "../../query/query";
+import {  CREATE_PRODUCT,  GET_CATEGORIRS,  UPDATE_PRODUCT_DETAILS,  GET_ALL_PRODUCTS,  GET_PRODUCT_BY_ID,  GET_NEW_COLLECTION,} from "../../query/query";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Model from '../Model/Model'
 import { ShopContext } from "../../Context/ShowContext";
 function AddProductForm({ productData, productId }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [model,setModel] = useState(false)
+
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
   const {setMenu} = useContext(ShopContext)
@@ -120,7 +116,9 @@ function AddProductForm({ productData, productId }) {
     }
     setOpen(false);
   };
-
+  function handleModel(){
+    setModel((prev)=>!prev)
+  }
   return (
     <>
       <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
@@ -128,6 +126,7 @@ function AddProductForm({ productData, productId }) {
          {message}
        </MuiAlert>
       </Snackbar>
+      {model&&<Model handleModel={handleModel} img={productData&&productData.productImage}/>}
       <div className="adminproduct-container">
         <div>
           <h2 className="adminproduct-heading">Add Product</h2>
@@ -207,7 +206,7 @@ function AddProductForm({ productData, productId }) {
               
               />
               
-             {productData &&  <img className="product-img-view" src={"http://localhost:8000/media/"+productData.productImage} alt="" />}
+             {productData &&  <img onClick={handleModel} className="product-img-view" src={"http://localhost:8000/media/"+productData.productImage} alt="" />}
             </div>
             <div className="adminproduct-action">
               <Link to="/admin/allproducts">
