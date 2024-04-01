@@ -61,6 +61,7 @@ function Navbar() {
             <li onClick={()=>{setMenu('statistics')}}><Link style={{textDecoration:'none'}} to='/admin/statistics'>Statistics</Link>{menu==='statistics' ? <hr/>:<></>} </li>
             <li onClick={()=>{setMenu('allproduct')}}><Link style={{textDecoration:'none'}} to='/admin/allproducts'>All products</Link>{menu==='allproduct' ? <hr/>:<></>}</li>
             <li onClick={()=>{setMenu('allorders')}}><Link style={{textDecoration:'none'}} to='/admin/allorders'>All Orders</Link>{menu==='allorders' ? <hr/>:<></>}</li>
+            <li onClick={()=>{setMenu('allusers')}}><Link style={{textDecoration:'none'}} to='/admin/allusers'>All Users</Link>{menu==='allusers' ? <hr/>:<></>} </li>
             <li onClick={()=>{setMenu('addproduct')}}><Link style={{textDecoration:'none'}} to='/admin/addproduct'>Add Product</Link>{menu==='addproduct' ? <hr/>:<></>} </li>
             <li onClick={()=>{setMenu('addcategory')}}><Link style={{textDecoration:'none'}} to='/admin/addcategory'>Add Category</Link>{menu==='addcategory' ? <hr/>:<></>} </li>
             </>}

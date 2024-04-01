@@ -41,6 +41,15 @@ function SideBar() {
               All Orders
             </NavLink>
           </li>
+          <li className="sidebar-list-item">
+            <NavLink
+             onClick={()=>setMenu('allusers')}
+              className={({ isActive }) => (isActive ? "active" : "inactive")}
+              to="allusers"
+            >
+              All Users
+            </NavLink>
+          </li>
           {productId ? (
             <li className="sidebar-list-item">
               <NavLink
