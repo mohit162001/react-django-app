@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './allproducts.css';
 import { useMutation } from '@apollo/client';
 import { DELETE_PRODUCT, GET_ALL_PRODUCTS } from '../../query/query';
@@ -9,10 +9,12 @@ import { Link } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Model from '../Model/Model';
+import { ShopContext } from '../../Context/ShowContext';
 function AllProducts({ products, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
+  const {setMenu} = useContext(ShopContext)
   const [open, setOpen] = useState(false);
   const [productId,setProductId] = useState()
   const [message, setMessage] = useState("");
@@ -80,7 +82,7 @@ function AllProducts({ products, currPage, itemsperPage }) {
           return (
             <div  key={i}>
               <div className="allproduct-format allproduct-format-main">
-                <Link to={'/product/'+item.node.id}><img src={"http://localhost:8000/media/" + item.node.image} alt="alternative" className='carticon-product-icon' /></Link>
+                <Link onClick={()=>setMenu('')} to={'/product/'+item.node.id}><img src={"http://localhost:8000/media/" + item.node.image} alt="alternative" className='carticon-product-icon' /></Link>
                 <p className='allproduct-p'>{item.node.name}</p>
                 <p className='allproduct-p'>₹{item.node.price}</p>
                 {/* <p> {item.node.desc}</p> */}
