@@ -22,7 +22,7 @@ function AllUsers({ users, currPage, itemsperPage }) {
 
   const [mutationManageStatus] = useMutation(USER_STATUS_MANAGE,{
     onCompleted(){
-        handleSnackbarOpen('',"User status updated successfully")
+        handleSnackbarOpen('',"Status updated successfully")
     },
     onError(){
         handleSnackbarOpen('error',"Can not manage status ")
@@ -57,7 +57,7 @@ function AllUsers({ users, currPage, itemsperPage }) {
   };
   return (
     <>
-    <Snackbar open={open} autoHideDuration={1000} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
         <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
          {message}
        </MuiAlert>
