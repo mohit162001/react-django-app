@@ -7,9 +7,11 @@ import {  getUserData, isAdminUser, isAuthenticated } from "../../helper";
 import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM_TO_CART, GET_CART_DETAILS } from "../../query/query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import back_icon from '../Assests/back.png'
+
 const ProductDisplay = ({ product, id }) => { 
   const { setMenu } = useContext(ShopContext);
   const navigate = useNavigate()
@@ -73,6 +75,7 @@ const ProductDisplay = ({ product, id }) => {
     }
     setOpen(false);
   };
+  
   return (
     <>
       <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
@@ -80,6 +83,7 @@ const ProductDisplay = ({ product, id }) => {
          {message}
        </MuiAlert>
       </Snackbar>
+    <Link to={isAdminUser()?-1:`/${product.productCategory}`}><button className='back-btn'><img src={back_icon} alt="" />Back</button></Link>
 
       <div className="productdisplay">
         <div className="productdisplay-left">
