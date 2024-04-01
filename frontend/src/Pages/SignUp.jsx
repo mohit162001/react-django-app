@@ -6,13 +6,18 @@ import { storeData } from '../helper';
 import { USER_SIGNUP } from '../query/query';
 import { useMutation } from '@apollo/client';
 import back_icon from '../Component/Assests/back.png'
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 export const SignUp = () => {
   const navigate = useNavigate()
   const [isVisible, setIsVisible] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("info");
   const [mutationCreateUser] = useMutation(USER_SIGNUP,{
     onCompleted(data){
-      toast('Sign Up successfull',{duration:1000})
+      handleSnackbarOpen("", "Signup successfully");
       storeData(data.createUser)
       // console.log("new user----",data)
       setTimeout(()=>{ 
@@ -63,9 +68,26 @@ export const SignUp = () => {
       );
     }
   }
+  const handleSnackbarOpen = (severity, message) => {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  };
+  
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <>
     <Toaster/>
+    <Snackbar open={open} autoHideDuration={1000} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+        <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
+         {message}
+       </MuiAlert>
+      </Snackbar>
     <div className="signup">
     <Link to='/'><button className='back-btn'><img src={back_icon} alt="" />Back</button></Link>
       <div className="signup-container">
