@@ -138,10 +138,10 @@ class Query(graphene.ObjectType):
         return RoleModel.objects.all()
     
 
-    # users = DjangoFilterConnectionField(UserType)
-    # def resolve_users(self, info, **kwargs):
-    #     users = CustomUser.objects.all()
-    #     return users
+    users = graphene.List(UserType)
+    def resolve_users(self, info, **kwargs):
+        users = CustomUser.objects.all().order_by('-id')
+        return users
     
 
     userDetails = graphene.Field(UserType,userId=graphene.String(required=True))
@@ -419,6 +419,7 @@ class UserUpdation(graphene.Mutation):
             return UserUpdation(user=user,message ="User profile Updated")
         else:
             raise Exception("User not authorized")
+        
 class UserLogoutMutation(graphene.Mutation):
     message = graphene.String()
 
@@ -427,7 +428,24 @@ class UserLogoutMutation(graphene.Mutation):
         logout(request=info.context)
         return UserLogoutMutation(message=f"logged out successfully")
 
-
+class UserStatusManage(graphene.Mutation):
+    class Arguments:
+        userId = graphene.String(required=True)
+        status = graphene.Boolean(required=True)
+        
+    message = graphene.String()
+    @classmethod
+    def mutate(cls,root,info,userId,status):
+        user = CustomUser.objects.get(id=userId)
+        if user.role.role =='user':
+            print(user.is_active)
+            print(status)
+            user.is_active=status
+            user.save()
+        else:
+            raise Exception("Unauthorized")
+        return UserStatusManage(message=f"userstatus testing")
+    
 class CategoryCreation(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
@@ -700,6 +718,7 @@ class Mutation(graphene.ObjectType):
     createUser = CreateUserMutation.Field()
     userLogin = UserLoginMutation.Field()
     userUpate = UserUpdation.Field()
+    userStatus = UserStatusManage.Field()
     userLogout = UserLogoutMutation.Field()
     
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
