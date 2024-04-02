@@ -89,7 +89,7 @@ function AllProducts({ products, currPage, itemsperPage }) {
                 <p > {item.node.insertedDate}</p>
                 <p className='allproduct-p'> {item.node.category.name}</p>
                 <div className='allproduct-action'>
-                <Link to={'/admin/addproduct/'+item.node.id}><img src={edit_icon} alt='alternative' className='allproduct-edit-btn'/></Link>
+                <Link to={'/admin/addproduct/'+item.node.id}><img onClick={()=>setMenu('')} src={edit_icon} alt='alternative' className='allproduct-edit-btn'/></Link>
                 <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.node.id)} className='allproduct-delete-btn'/>
                 </div>
               </div>
