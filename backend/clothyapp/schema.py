@@ -406,7 +406,7 @@ class UserUpdation(graphene.Mutation):
         user  = CustomUser.objects.get(id=userId)
         if user.is_authenticated:
             if username is not None:
-                user.username.
+                user.username = username
             if email is not None:
                 user.email = email
             if address is not None:
