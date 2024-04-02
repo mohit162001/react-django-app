@@ -397,6 +397,7 @@ class UserUpdation(graphene.Mutation):
     
     message = graphene.String()
     user = graphene.Field(UserType)
+    token = graphene.String()
     
     @classmethod
     def mutate(cls,root,info,userId,username=None,email=None,address=None,image=None):
@@ -405,7 +406,7 @@ class UserUpdation(graphene.Mutation):
         user  = CustomUser.objects.get(id=userId)
         if user.is_authenticated:
             if username is not None:
-                user.username = username
+                user.username.
             if email is not None:
                 user.email = email
             if address is not None:
@@ -415,8 +416,9 @@ class UserUpdation(graphene.Mutation):
                 ext = format.split('/')[-1]
                 image_data = ContentFile(base64.b64decode(imgstr), name='tempuser.' + ext)
                 user.image = image_data
+            token = get_token(user=user)
             user.save()
-            return UserUpdation(user=user,message ="User profile Updated")
+            return UserUpdation(user=user,message ="User profile Updated",token=token)
         else:
             raise Exception("User not authorized")
         

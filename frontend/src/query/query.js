@@ -185,6 +185,15 @@ export const UPDATE_USER_DETAILS = gql`
 mutation($username:String! $email:String! $address:String $userId:String! $image:String){
   userUpate(userId:$userId username:$username email:$email address:$address image:$image ){
     message
+    token
+    user{
+      username
+      email
+      id
+      role{
+        role
+      }
+    }
   }
 }
 `

@@ -4,13 +4,15 @@ import { useMutation } from "@apollo/client";
 import { GET_USER_DETAILS, UPDATE_USER_DETAILS } from "../../query/query";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { storeData } from "../../helper";
 
 function UserFormModel({ username, email, address, handleClose, userId }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
   const [mutationFun] = useMutation(UPDATE_USER_DETAILS, {
-    onCompleted() {
+    onCompleted(data) {
+      storeData(data.userUpate)
       handleSnackbarOpen('',"Profile Updated Successfully")
       setTimeout(() => {
         handleClose();
