@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "./addproductform.css";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
-import {  CREATE_PRODUCT,  GET_CATEGORIRS,  UPDATE_PRODUCT_DETAILS,  GET_ALL_PRODUCTS,  GET_PRODUCT_BY_ID,  GET_NEW_COLLECTION,} from "../../query/query";
+import {  CREATE_PRODUCT,  GET_CATEGORIRS,  UPDATE_PRODUCT_DETAILS,  GET_ALL_PRODUCTS,  GET_PRODUCT_BY_ID,  GET_NEW_COLLECTION, GET_ALL_ORDERS,} from "../../query/query";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Model from '../Model/Model'
@@ -26,7 +26,7 @@ function AddProductForm({ productData, productId }) {
     onError() {
       handleSnackbarOpen('error',"Something went wrong")
     },
-    refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_PRODUCT_BY_ID, variables:{productId:productId} }]
+    refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_PRODUCT_BY_ID, variables:{productId:productId} },{ query: GET_ALL_ORDERS }]
   });
 
   const [muationCreateProduct] = useMutation(CREATE_PRODUCT, {
