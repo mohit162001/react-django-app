@@ -106,6 +106,7 @@ const CartItems = ({products,refetch,userId}) => {
         
       }
      function handleOrders(event){
+        window.scrollTo(0,0)
         event.preventDefault()
         const formData = new FormData(event.target)
         const paymentMode = formData.get('paymentmode')
