@@ -68,7 +68,7 @@ function Navbar() {
         </ul>
         <div className="nav-login-cart">
             {!isAdminUser() &&<>
-            <Link to='/cart' onClick={()=>{setMenu('cart')}}><img className={menu==='cart'&&'cart-icon'} src={cart_icon} alt="" /></Link>
+            <Link to='/cart' onClick={()=>{setMenu('cart')}}><img className={menu==='cart'?'cart-icon':''} src={cart_icon} alt="" /></Link>
             <div className={menu==='cart'?"nav-cart-count-active":"nav-cart-count"}>{cartValue}</div>
             </>}
             {token && 
