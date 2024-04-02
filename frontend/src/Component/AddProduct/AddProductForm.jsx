@@ -39,7 +39,7 @@ function AddProductForm({ productData, productId }) {
     onError(error) {
       handleSnackbarOpen('error',"Something went wrong")
     },
-    refetchQueries: [{ query: GET_ALL_PRODUCTS },{query:GET_NEW_COLLECTION}],
+    refetchQueries: [{ query: GET_ALL_PRODUCTS,variables:{searchInput:'',category:'',startDate:null,endDate:null} },{query:GET_NEW_COLLECTION}],
   });
 
   const handleSubmit = async (event) => {
