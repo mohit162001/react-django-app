@@ -433,7 +433,8 @@ class UserStatusManage(graphene.Mutation):
         userId = graphene.String(required=True)
         status = graphene.Boolean(required=True)
         
-    message = graphene.String()
+    userStatus = graphene.Boolean()
+    user=graphene.Field(UserType)
     @classmethod
     def mutate(cls,root,info,userId,status):
         user = CustomUser.objects.get(id=userId)
@@ -442,9 +443,10 @@ class UserStatusManage(graphene.Mutation):
             print(status)
             user.is_active=status
             user.save()
+            return UserStatusManage(userStatus=user.is_active,user=user)
         else:
             raise Exception("Unauthorized")
-        return UserStatusManage(message=f"userstatus testing")
+        
     
 class CategoryCreation(graphene.Mutation):
     class Arguments:
