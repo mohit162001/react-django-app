@@ -124,7 +124,10 @@ query{
 export const USER_STATUS_MANAGE  =gql`
 mutation($userId:String! $status:Boolean!){
   userStatus(userId:$userId status:$status){
-    message
+    userStatus
+    user{
+      username
+    }
   }
 }
 `

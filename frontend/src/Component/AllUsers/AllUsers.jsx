@@ -21,15 +21,14 @@ function AllUsers({ users, currPage, itemsperPage }) {
   const [status,setStatus] = useState(true)
 
   const [mutationManageStatus] = useMutation(USER_STATUS_MANAGE,{
-    onCompleted(){
-        handleSnackbarOpen('',"Status updated successfully")
+    onCompleted(data){
+        handleSnackbarOpen('',`${data.userStatus.user.username.toUpperCase()} account ${data.userStatus.userStatus?"activated":"deactivated"}`)
     },
     onError(){
         handleSnackbarOpen('error',"Can not manage status ")
     },
     refetchQueries: [{ query: ALL_USERS_DETAILS }]
   })
-
 
   function handleStatus(userId,checked){
     console.log(userId,checked)
@@ -57,7 +56,7 @@ function AllUsers({ users, currPage, itemsperPage }) {
   };
   return (
     <>
-    <Snackbar open={open} autoHideDuration={1500} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
+    <Snackbar open={open} autoHideDuration={2000} onClose={handleSnackbarClose} anchorOrigin={{vertical:"top",horizontal:"center"}}>
         <MuiAlert elevation={6}   severity={severity} sx={{fontSize: "1.4rem",width:"100%",background:"#ffc250",fontWeight:600}}>
          {message}
        </MuiAlert>
@@ -69,7 +68,7 @@ function AllUsers({ users, currPage, itemsperPage }) {
           <p>Email</p>
           <p>Last Login</p>
           <p>Date Joined</p>
-          <p>Status</p>
+          <p>Active<br/> Status</p>
         </div>
         <hr className='allusers-hr'/>
         <div className='allusers-list-container'>
