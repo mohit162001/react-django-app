@@ -3,7 +3,7 @@ import './CSS/signup.css'
 import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { storeData } from '../helper';
-import { USER_SIGNUP } from '../query/query';
+import { ALL_USERS_DETAILS, USER_SIGNUP } from '../query/query';
 import { useMutation } from '@apollo/client';
 import back_icon from '../Component/Assests/back.png'
 import Snackbar from "@mui/material/Snackbar";
@@ -31,7 +31,8 @@ export const SignUp = () => {
       }else{
       toast.error('Someting went wrong...!',{duration:1000})
       }
-    }
+    },
+    refetchQueries: [{ query: ALL_USERS_DETAILS }]
   })
   function handleSubmit(event){
     // const [warn,setWarn]

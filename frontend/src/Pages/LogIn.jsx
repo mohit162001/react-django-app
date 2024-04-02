@@ -3,7 +3,7 @@ import "./CSS/loginsignup.css";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
-import { USER_LOGIN } from "../query/query";
+import { ALL_USERS_DETAILS, USER_LOGIN } from "../query/query";
 import { isAdminUser, storeData } from "../helper";
 import back_icon from "../Component/Assests/back.png";
 import Snackbar from "@mui/material/Snackbar";
@@ -34,6 +34,7 @@ export const Login = () => {
         handleSnackbarOpen("error", "Something went wrong");
       }
     },
+    refetchQueries: [{ query: ALL_USERS_DETAILS }]
   });
   function handleSubmit(event) {
     event.preventDefault();
