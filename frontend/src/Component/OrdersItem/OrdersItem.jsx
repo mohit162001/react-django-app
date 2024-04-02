@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ordersitem.css';
-import { DELETE_ORDER, GET_ORDERS_DETAILS } from '../../query/query';
+import { DELETE_ORDER, GET_ALL_ORDERS, GET_ORDERS_DETAILS } from '../../query/query';
 import { useMutation } from '@apollo/client';
 
 import delete_icon from '../Assests/delete-icon.png'
@@ -27,7 +27,7 @@ function OrdersItem({ orders, currPage, itemsperPage,userId }) {
     onError(){ 
       handleSnackbarOpen('error',"Something went wrong")
     },
-    refetchQueries: [{ query: GET_ORDERS_DETAILS,variables:{userId:userId} }]
+    refetchQueries: [{ query: GET_ORDERS_DETAILS,variables:{userId:userId} },{ query: GET_ALL_ORDERS }]
   })
   function handleDelete(){
     console.log(orderId)
