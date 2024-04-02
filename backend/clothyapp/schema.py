@@ -158,7 +158,7 @@ class Query(graphene.ObjectType):
     products = DjangoFilterConnectionField(ProductType)
     def resolve_products(root,info,**kwargs):
         
-        products = ProductModel.objects.all().order_by('-inserted_date')
+        products = ProductModel.objects.all().order_by('-id')
         return products
     
     '''
