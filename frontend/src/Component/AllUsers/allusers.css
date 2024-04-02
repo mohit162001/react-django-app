@@ -4,7 +4,7 @@
     /* background: violet; */
     margin-top: 3.5rem;
     margin-left: 7.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.1rem;
     width: 88%;
 }
 
@@ -191,6 +191,7 @@ background: #fff;
   
   input:checked + .slider {
     background-color: #2196F3;
+    background-color: #fc6529;
   }
   
   input:focus + .slider {
