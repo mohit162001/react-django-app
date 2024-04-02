@@ -4,9 +4,10 @@ import { useMutation } from '@apollo/client'
 import { CREATE_CATEGORY, GET_CATEGORIRS } from '../../query/query'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { ShopContext } from '../../Context/ShowContext'
 function AddCategoryForm() {
+  const navigate = useNavigate()
   const {setMenu} = useContext(ShopContext)
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -14,7 +15,9 @@ function AddCategoryForm() {
   const [muationCreateCategory] = useMutation(CREATE_CATEGORY,{
     onCompleted(data){
       handleSnackbarOpen('',"Category created Successfully")
-      
+      setTimeout(()=>{
+        navigate('/admin/addproduct')
+      },1000)
     },
     onError(error){
       handleSnackbarOpen('error',"Something went wrong")
@@ -25,12 +28,12 @@ function AddCategoryForm() {
   function handleSubmit(event){
     event.preventDefault();
     const categoryName = event.target.categoryname.value;
-    // console.log(categoryName)
+    console.log(categoryName)
 
     if(categoryName.trim() !==''){
       muationCreateCategory({ 
         variables: { 
-          name:categoryName,
+          categoryName:categoryName,
         } 
       });
     }else{
@@ -74,7 +77,7 @@ const handleSnackbarClose = (event, reason) => {
               >
                 cancle
               </button></Link>
-          <button className='admincategory-action-button' disabled={true} type="submit">Add</button>
+          <button className='admincategory-action-button' disabled={false} type="submit">Add</button>
 
           </div>
         </form>
