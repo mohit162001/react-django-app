@@ -16,7 +16,7 @@ const Popular = ({heading,query_variable}) => {
         {error && <p>Something went wrong</p>}
         {loading && !error && <p>Loading Popular Products...</p>}
         {data && !loading && <div className="popular-item">
-            {data.popularProduct.edges.map((item,i)=>{
+            {data.popularProduct.edges.slice(0,4).map((item,i)=>{
                 return <Item
                 key={i}
                 id={item.node.id}
