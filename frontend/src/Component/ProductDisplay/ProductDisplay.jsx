@@ -13,7 +13,7 @@ import MuiAlert from '@mui/material/Alert';
 import back_icon from '../Assests/back.png'
 
 const ProductDisplay = ({ product, id }) => { 
-  const { setMenu } = useContext(ShopContext);
+  const { setMenu,theme } = useContext(ShopContext);
   const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -115,7 +115,7 @@ const ProductDisplay = ({ product, id }) => {
           </div>
         </div>
         <div className="productdisplay-right">
-          <h1>{product.productName}</h1>
+          <h1 className={theme==="dark-theme"?"product-name dark":"product-name"}>{product.productName}</h1>
           <div className="productdisplay-right-stars">
             <img src={star_icon} alt="" />
             <img src={star_icon} alt="" />
@@ -130,7 +130,7 @@ const ProductDisplay = ({ product, id }) => {
             </div>
           </div>
           
-          <div className="productdisplay-right-description">
+          <div className={theme==="dark-theme"?"productdisplay-right-description dark":"productdisplay-right-description"}>
             <p>{product.productDesc}</p>
           </div>
           {/* <div className="productdisplay-right-size">
@@ -144,7 +144,7 @@ const ProductDisplay = ({ product, id }) => {
             </div>
           </div> */}
           {!isAdminUser() && <>
-          <h3 className="quantity-heading">Item Quantity :</h3>
+          <h3 className={theme==='dark-theme'?"quantity-heading dark":"quantity-heading"}>Item Quantity :</h3>
           <div className="number">
 	          <button disabled={disable} onClick={handleDecrease}  className="minus">-</button>
 	            <input className="quantity-input" type="text" value={quantity} readOnly/>

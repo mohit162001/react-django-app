@@ -16,8 +16,7 @@ const getDefalutCart=()=>{
 const ShopContextProvider = (props) => {
     const [cartItems,setCartItems] = useState(getDefalutCart());
     const [menu,setMenu] = useState('shop');
-    // const [fetchData,setFetchData] = useState();
-    
+    const [theme,setTheme] = useState('light-theme')
     const addToCart = (itemId) =>{
         if(isAuthenticated()===true){
             setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
@@ -52,7 +51,16 @@ const ShopContextProvider = (props) => {
         }
         return totalItem;
     }
-    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,menu,setMenu};
+
+    function toggleTheme(event){
+        if(event.target.checked){
+            setTheme('dark-theme')
+        }else{
+            setTheme('light-theme')
+
+        }
+    }
+    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,menu,setMenu,theme,toggleTheme};
     
     return(
         <ShopContext.Provider value={contextValue}>

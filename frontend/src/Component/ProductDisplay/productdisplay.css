@@ -25,7 +25,7 @@
   flex-direction: column;
 }
 
-.productdisplay-right h1 {
+ .product-name {
   color: #3d3d3d;
   font-size: 40px;
   font-weight: 700;
@@ -170,4 +170,8 @@ span {
   filter:invert(100%);
   width: 20px;
   margin-right: 5px;
+}
+
+.dark{
+  color: #f3f3f3;
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './navbar.css'
 import logo from '../Assests/logo.png'
 import cart_icon from '../Assests/cart_icon.png'
@@ -10,11 +10,14 @@ import { useQuery } from '@apollo/client';
 import { GET_CART_DETAILS, GET_USER_DETAILS } from '../../query/query';
 import avatar from '../Assests/avatar.png'
 import admin_image1 from '../Assests/admin_img1.jpg'
+import ToggleTheme from '../ThemeToggle/ThemeToggle'
 
 function Navbar() {
     const navigate = useNavigate()
-    const {menu,setMenu} = useContext(ShopContext)
-    // const [fetchData,setFetchData] = useState(false);
+    const {menu,setMenu,toggleTheme,theme} = useContext(ShopContext)
+    useEffect(()=>{
+      document.body.className = theme==="dark-theme"?'dark-theme':'light-theme'
+    },[theme])
     const token = getUserData('token')
     function handleLogOut(){
         clearData();
@@ -44,12 +47,12 @@ function Navbar() {
         cartValue=getTotalQuantity()
     }
   return (
-    <div className="navbar">
-        <div className="nav-logo">
+    <div className={theme==='dark-theme'?'navbar-dark-theme':'navbar-light-theme'}>
+        <div className={theme==="dark-theme"?"nav-logo-dark":"nav-logo"}>
             <img src={logo} alt="" />
             <p><Link onClick={()=>setMenu('shop')}>CLOTHY</Link></p>
         </div>
-        <ul className="nav-menu">
+        <ul className={theme==="dark-theme"?"nav-menu-dark":"nav-menu"}>
             {!isAdminUser() && <>
               <li onClick={()=>{setMenu('shop')}}><Link style={{textDecoration:'none'}} to='/'>Shop</Link>{menu==='shop'? <hr/>:<></>} </li>
             <li onClick={()=>{setMenu('mens')}}><Link style={{textDecoration:'none'}} to='/mens'>Mens</Link>{menu==='mens' ? <hr/>:<></>}</li>
@@ -68,9 +71,12 @@ function Navbar() {
         </ul>
         <div className="nav-login-cart">
             {!isAdminUser() &&<>
-            <Link to='/cart' onClick={()=>{setMenu('cart')}}><img className={menu==='cart'?'cart-icon':''} src={cart_icon} alt="" /></Link>
+            <Link to='/cart' onClick={()=>{setMenu('cart')}}><img className={menu==='cart'?'cart-icon':theme==="dark-theme"?'cart-icon-dark':''} src={cart_icon} alt="" /></Link>
             <div className={menu==='cart'?"nav-cart-count-active":"nav-cart-count"}>{cartValue}</div>
             </>}
+            <div className='nav-theme-toggle'>
+            <ToggleTheme toggleTheme={toggleTheme}/>
+            </div>
             {token && 
             <div className='nav-avatar'>
               <Link to='user'>

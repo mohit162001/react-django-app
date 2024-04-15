@@ -1,11 +1,24 @@
-.navbar{
+.navbar-light-theme{
     display: flex;
     justify-content: space-between;
     padding: 16px;
     box-shadow: 0 1px 4px -2px black;
+    transition: 0.2s;
 }
-
+.navbar-dark-theme{
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    box-shadow: 0 1px 4px -2px black;
+    background: #363636;
+    transition: 0.2s;
+}
 .nav-logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.nav-logo-dark{
     display: flex;
     align-items: center;
     gap: 10px;
@@ -16,8 +29,17 @@
     font-size: 38px;
     font-weight: 600;
     text-decoration: none;
-}
+    transition: 0.2s;
 
+}
+.nav-logo-dark p a{
+    color:#f3f3f3;
+    font-size: 38px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+
+}
 .nav-menu{
     display: flex;
     align-items: center;
@@ -27,8 +49,17 @@
     font-size: 20px;
     font-weight: 500;
 }
+.nav-menu-dark{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 50px;
+    color: #f3f3f3;
+    font-size: 20px;
+    font-weight: 500;
+}
 
-.nav-menu li{
+.nav-menu li {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,7 +67,17 @@
     gap: 3px;
     cursor: pointer;
 }
-
+.nav-menu-dark li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+}
+.nav-menu-dark li a{
+    color: #f3f3f3;
+}
 .nav-menu li hr{
     border: none;
     width: 80%;
@@ -44,11 +85,17 @@
     border-radius: 10px;
     background: #ff4141;
 }
-
+.nav-menu-dark li hr{
+    border: none;
+    width: 80%;
+    height: 3px;
+    border-radius: 10px;
+    background: #ff4141;
+}
 .nav-login-cart{
    display: flex;
    align-items: center;
-   gap: 45px;
+   gap: 40px;
 }
 
 .nav-login-cart button{
@@ -63,6 +110,7 @@
     background: white;
     cursor: pointer;
     transition: 0.2s;
+    margin-left: 1rem;
 }
 .nav-login-cart button:hover{
     background: #e6e6e6;
@@ -163,4 +211,15 @@
     /* -webkit-filter: drop-shadow(5px 5px 5px #222); */
   filter: drop-shadow(1px 1px 2px #979797);
 
+}
+.cart-icon-dark{
+    /* -webkit-filter: drop-shadow(5px 5px 5px #222); */
+  filter: invert(100%);
+
+}
+
+.nav-theme-toggle{
+    /* background: violet; */
+    margin-left: -1rem;
+    margin-right: -2.5rem; 
 }

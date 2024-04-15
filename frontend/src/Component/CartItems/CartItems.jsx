@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './cartitems.css'
 // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 // import remove_icon from '../Assests/cart_cross_icon.png'
@@ -9,11 +9,10 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader'
+import { ShopContext } from '../../Context/ShowContext'
 const CartItems = ({products,refetch,userId}) => {
     const navigate = useNavigate()
-    // useEffect(()=>{
-    //     refetch()
-    //  })
+    const {theme} = useContext(ShopContext)
     const [quantity] = useState(1)
     const [,setDisable] = useState(false)
     const [open, setOpen] = useState(false);
@@ -138,8 +137,8 @@ const CartItems = ({products,refetch,userId}) => {
        </MuiAlert>
       </Snackbar>
     {loading && <Loader/>}
-    <div className="cartitems">
-        <div className="cartitems-format-main">
+    <div className={theme==='dark-theme'?"cartitems dark":"cartitems"}>
+        <div className={theme==='dark-theme'?"cartitems-format-main dark":"cartitems-format-main"}>
             <p>Product</p>
             <p>Title</p>
             <p>Price</p>
@@ -150,17 +149,17 @@ const CartItems = ({products,refetch,userId}) => {
         <hr />
         {products && products.userCart.map((item)=>{
                 return <div key={item.id}>
-                            <div className="cartitems-format cartitems-format-main">
+                            <div className={theme==="dark-theme"?"cartitems-format cartitems-format-main dark":"cartitems-format cartitems-format-main"}>
                                 <img src={"http://localhost:8000/media/"+item.productImage} alt="" className='carticon-product-icon' />
                                 <p>{item.productName}</p>
                                 <p> ₹{item.productPrice}</p>
                                 <div className='cartitems-quantity-container'>
-                                    <span onClick={()=>{handleDecrease(item.productId)}} className='cart-quantity-minus'>-</span>
+                                    <span onClick={()=>{handleDecrease(item.productId)}} className={theme==='dark-theme'?'cart-quantity-minus-dark':'cart-quantity-minus'}>-</span>
                                      <button className='cartitems-quantity'>{item.quantity}</button>
-                                    <span onClick={()=>{handleIncrease(item.productId)}} className='cart-quantity-plus'>+</span>
+                                    <span onClick={()=>{handleIncrease(item.productId)}} className={theme==='dark-theme'?'cart-quantity-plus-dark':'cart-quantity-plus'}>+</span>
                                 </div>
                                 <p> ₹{item.totalPrice}</p>
-                                <img src={delete_icon} onClick={()=>{removeEntierItem(item.cartItemId)}} className='delete-icon' alt="" />
+                                <img src={delete_icon} onClick={()=>{removeEntierItem(item.cartItemId)}} className={theme==="dark-theme"?'delete-icon-dark':'delete-icon'} alt="" />
                                 
                             </div>
                             <hr />

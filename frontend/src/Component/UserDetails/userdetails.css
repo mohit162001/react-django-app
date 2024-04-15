@@ -4,6 +4,13 @@
     font-size: 2rem;
     letter-spacing: 2px;
 }
+.userprofile-h3-dark{
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: #f3f3f3;
+}
 
 .avatar-img{
     margin-top: 20px;
@@ -39,6 +46,15 @@
     width: 95%;
     font-size: 2rem;
     display: flex;
+}
+.user-info-dark{
+    margin-top: 15rem;margin-left: -1rem;
+    padding-left: 3rem;
+    /* background: violet; */
+    width: 95%;
+    font-size: 2rem;
+    display: flex;
+    color: #f3f3f3;
 }
 .userlable{
     display: flex;

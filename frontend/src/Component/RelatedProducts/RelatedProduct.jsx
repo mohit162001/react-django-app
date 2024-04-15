@@ -12,8 +12,8 @@ const RelatedProduct = ({category,curr_productId}) => {
   const filtered_arr = data && data.products.edges.filter((item)=>(item.node.id !== curr_productId))
   return (
     <div className="relatedproduct">
-        <h1>Related Products</h1>
-        <hr />
+        <h1 className='relatedproduct-heading'>Related Products</h1>
+        <hr className='relatedproduct-hr'/>
         {data && 
         <div className="relatedproduct-item">
             {filtered_arr.slice(0, 4).map((item, i) => {
