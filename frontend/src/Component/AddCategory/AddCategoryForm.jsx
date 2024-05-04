@@ -8,7 +8,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import { ShopContext } from '../../Context/ShowContext'
 function AddCategoryForm() {
   const navigate = useNavigate()
-  const {setMenu} = useContext(ShopContext)
+  const {setMenu,theme} = useContext(ShopContext)
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
@@ -63,9 +63,9 @@ const handleSnackbarClose = (event, reason) => {
       </Snackbar>
     <div className='admincategory-container' >
       <div onClick={(e) => e.stopPropagation()}>
-        <h2 className='admincategory-heading'>Add Category</h2>
-        <form className='admincategory-form' onSubmit={handleSubmit} >
-          <div className="admincategory-form-group">
+        <h2 className={theme==='dark-theme'?'admincategory-heading-dark':'admincategory-heading'}>Add Category</h2>
+        <form className={theme==='dark-theme'?'admincategory-form admincategory-form-dark':'admincategory-form'} onSubmit={handleSubmit} >
+          <div className={theme==='dark-theme'?"admincategory-form-group dark":"admincategory-form-group"}>
             <label htmlFor="name">Category Name:</label>
             <input className='admincategory-input' type="text" id="name" name="categoryname" defaultValue={''} />
           </div>
@@ -77,7 +77,7 @@ const handleSnackbarClose = (event, reason) => {
               >
                 cancle
               </button></Link>
-          <button className='admincategory-action-button' disabled={false} type="submit">Add</button>
+          <button className={theme==='dark-theme'?'admincategory-action-button-dark':'admincategory-action-button'} disabled={false} type="submit">Add</button>
 
           </div>
         </form>

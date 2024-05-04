@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'clothyDB',
+        'NAME': 'clothyDataBase',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',  

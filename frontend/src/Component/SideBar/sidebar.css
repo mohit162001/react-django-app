@@ -57,7 +57,19 @@ ul{
     height: 114%; 
     margin-top: 1px;
     overflow-y: auto;
+    transition: 0.2;
+
   }
+  .sidebar-dark {
+    background-color: #363636;
+    box-shadow: 1px 3px 5px #dfdfdf;
+    padding: 20px;
+    height: 114%; 
+    margin-top: 1px;
+    overflow-y: auto;
+    transition: 0.2;
+  }
+  
   
   .sidebar-title {
     text-align: center;
@@ -65,7 +77,6 @@ ul{
     margin-bottom: 20px;
     font-size: 30px; 
     font-weight: 600;
-    
   }
   
   .sidebar-ul {
@@ -112,7 +123,16 @@ ul{
     transition: background-color 0.3s;
     background-color: #f87133;
   }
-
+  .dark{
+    color:#f3f3f3;
+  }
+  .active-dark{
+    background-color: #ededed;
+  }
+  .inactive-dark{
+    background-color: #777777;
+    color: #f3f3f3;
+  }
   @media (min-width: 768px) {
     button {
       font-size: 1rem;

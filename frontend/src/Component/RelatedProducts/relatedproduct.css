@@ -22,10 +22,13 @@
     width: 200px;
     height: 6px;
     border-radius:10px ;
-    background: #252525;
+    background: #f3f3f3;
 }
 .relatedproduct-item{
     margin-top: 50px;
     display: flex;
     gap: 30px;
+}
+.dark{
+    color: #f3f3f3;
 }

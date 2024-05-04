@@ -124,8 +124,25 @@ background: #fff;
     font-weight: 600;
     border: none;
     transition: 0.2s;
+    filter: invert(100%);
+}
+.allorderitems-action-btn-dark{
+    width: 35px;
+    padding: 0.5rem;
+    color: #363636;
+    background: transparent;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s;
+    filter: invert(100%);
 }
 
 .allorderitems-action-btn:hover{
     transform: scale(1.2,1.2);
 }
+
+.dark{
+    color: #f3f3f3;
+
+}
+

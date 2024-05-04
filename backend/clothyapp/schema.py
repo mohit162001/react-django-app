@@ -249,8 +249,9 @@ class Query(graphene.ObjectType):
         print(curr_date)
         products = ProductModel.objects.all()
         new_products = ProductModel.objects.filter(inserted_date__range = [startfrom.date(),curr_date.date()])
+        print(new_products)
         if new_products.__len__() != 0:
-            products=new_products
+            products=new_products.order_by('-id')
             return products
         else:
             return products

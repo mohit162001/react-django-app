@@ -222,4 +222,9 @@
     /* background: violet; */
     margin-left: -1rem;
     margin-right: -2.5rem; 
+    font-size: 12px;
+}
+
+.avatar-dark{
+    background: hsla(22, 100%, 69%, 0.87);
 }

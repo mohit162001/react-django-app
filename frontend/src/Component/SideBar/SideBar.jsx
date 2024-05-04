@@ -7,17 +7,17 @@ import { ShopContext } from "../../Context/ShowContext";
 function SideBar() {
   const { productId } = useParams();
   // const {textState,handleTextChange} = useContext(TextContext)
-  const {setMenu} = useContext(ShopContext)
+  const {setMenu,theme} = useContext(ShopContext)
 
   return (
     <aside className="sidebar-container">
-      <nav className="sidebar">
-        <p className="sidebar-title">Admin Panel</p>
+      <nav className={theme==='dark-theme'?'sidebar-dark':'sidebar'}>
+        <p className={theme==='dark-theme'?'sidebar-title dark':'sidebar-title'}>Admin Panel</p>
         <ul className="sidebar-ul">
         <li className="sidebar-list-item">
             <NavLink
               onClick={()=>setMenu('statistics')}
-              className={({ isActive }) => (isActive ? "active" : "inactive")}
+              className={({ isActive }) => (isActive ? (theme==='dark-theme'?"active active-dark":'active') : (theme==='dark-theme'?"inactive inactive-dark":'inactive'))}
               to="statistics"
             >
               Statistics
@@ -26,7 +26,7 @@ function SideBar() {
         <li className="sidebar-list-item">
             <NavLink
               onClick={()=>setMenu('allproduct')}
-              className={({ isActive }) => (isActive ? "active" : "inactive")}
+              className={({ isActive }) => (isActive ? (theme==='dark-theme'?"active active-dark":'active') : (theme==='dark-theme'?"inactive inactive-dark":'inactive'))}
               to="allproducts"
             >
               All Products
@@ -35,7 +35,7 @@ function SideBar() {
           <li className="sidebar-list-item">
             <NavLink
              onClick={()=>setMenu('allorders')}
-              className={({ isActive }) => (isActive ? "active" : "inactive")}
+              className={({ isActive }) => (isActive ? (theme==='dark-theme'?"active active-dark":'active') : (theme==='dark-theme'?"inactive inactive-dark":'inactive'))}
               to="allorders"
             >
               All Orders
@@ -44,7 +44,7 @@ function SideBar() {
           <li className="sidebar-list-item">
             <NavLink
              onClick={()=>setMenu('allusers')}
-              className={({ isActive }) => (isActive ? "active" : "inactive")}
+              className={({ isActive }) => (isActive ? (theme==='dark-theme'?"active active-dark":'active') : (theme==='dark-theme'?"inactive inactive-dark":'inactive'))}
               to="allusers"
             >
               All Users
@@ -54,7 +54,7 @@ function SideBar() {
             <li className="sidebar-list-item">
               <NavLink
                 onClick={() => setMenu('addproduct')}
-                className={({ isActive }) => (isActive ? "active" : "inactive")}
+                className={({ isActive }) => (isActive ? (theme==='dark-theme'?"active active-dark":'active') : (theme==='dark-theme'?"inactive inactive-dark":'inactive'))}
                 to={`/admin/addproduct/${productId}`}
               >
                 Update Product
@@ -64,7 +64,7 @@ function SideBar() {
             <li className="sidebar-list-item">
               <NavLink
                 onClick={() => setMenu('addproduct')}
-                className={({ isActive }) => (isActive ? "active" : "inactive")}
+                className={({ isActive }) => (isActive ? (theme==='dark-theme'?"active active-dark":'active') : (theme==='dark-theme'?"inactive inactive-dark":'inactive'))}
                 to="addproduct"
               >
                 Add Product
@@ -74,7 +74,7 @@ function SideBar() {
           <li className="sidebar-list-item">
             <NavLink
               onClick={() => setMenu('addcategory')}
-              className={({ isActive }) => (isActive ? "active" : "inactive")}
+              className={({ isActive }) => (isActive ? (theme==='dark-theme'?"active active-dark":'active') : (theme==='dark-theme'?"inactive inactive-dark":'inactive'))}
               to="addcategory"
             >
               Add Category

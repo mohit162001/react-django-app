@@ -25,9 +25,11 @@ import AdminLanding from "./Pages/AdminLanding";
 import FallBack from "./Component/FallBack/FallBack";
 import AdminStatistics from "./Pages/AdminStatistics";
 import AllUsersPage from "./Pages/AllUsersPage";
+import { useEffect } from "react";
 
 
 function App() {
+  
   const router = createBrowserRouter([
     {
       path: "/",
@@ -64,7 +66,6 @@ function App() {
           {path:'allorders',element:<AllOrdersPage/>},
           {path:'allproducts',element:<AllProductsPage/>},
           {path:'allusers',element:<AllUsersPage/>},
-
         ]}
       ],
     }, { path: "signup", element: <SignUp /> },

@@ -14,10 +14,14 @@ import ToggleTheme from '../ThemeToggle/ThemeToggle'
 
 function Navbar() {
     const navigate = useNavigate()
-    const {menu,setMenu,toggleTheme,theme} = useContext(ShopContext)
+    const {menu,setMenu,toggleTheme,theme,setTheme} = useContext(ShopContext)
     useEffect(()=>{
       document.body.className = theme==="dark-theme"?'dark-theme':'light-theme'
     },[theme])
+    useEffect(() => {
+      const storedTheme = localStorage.getItem('theme');
+      setTheme(storedTheme || 'light-theme'); 
+    }, []);
     const token = getUserData('token')
     function handleLogOut(){
         clearData();
@@ -86,6 +90,7 @@ function Navbar() {
               </Link>
               
             </div>}
+            
             {token? <Link onClick={handleLogOut}><button>Log out</button></Link>: <Link to='/login'><button>Login</button></Link>}
         </div>
     </div>

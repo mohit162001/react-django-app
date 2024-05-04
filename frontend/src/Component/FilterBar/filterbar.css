@@ -8,6 +8,10 @@
     /* box-shadow: 0px 3px 4px 1px #b4b4b4; */
     /* border-bottom: 1px solid #ccc; */
   }
+.filter-dark{
+  background-color: #7a7a7a;
+}
+  
   
   .filter-bar input {
     padding: 8px;
@@ -94,3 +98,4 @@
   .selecte-category option{
     /* background: #ffffff; */
   }
+

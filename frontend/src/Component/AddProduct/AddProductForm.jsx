@@ -14,7 +14,7 @@ function AddProductForm({ productData, productId }) {
 
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
-  const {setMenu} = useContext(ShopContext)
+  const {setMenu,theme} = useContext(ShopContext)
   const { data } = useQuery(GET_CATEGORIRS);
   const [mutationProductUpdate] = useMutation(UPDATE_PRODUCT_DETAILS, {
     onCompleted() {
@@ -129,9 +129,9 @@ function AddProductForm({ productData, productId }) {
       {model&&<Model handleModel={handleModel} img={productData&&productData.productImage}/>}
       <div className="adminproduct-container">
         <div>
-          <h2 className="adminproduct-heading">Add Product</h2>
-          <form className="adminproduct-form" onSubmit={handleSubmit}>
-            <div className="User-form-group">
+          <h2 className={theme==='dark-theme'?"adminproduct-heading dark":"adminproduct-heading"}>Add Product</h2>
+          <form className={theme==='dark-theme'?"adminproduct-form adminproduct-form-dark":"adminproduct-form"} onSubmit={handleSubmit}>
+            <div className={theme==='dark-theme'?"adminproduct-form-group dark":"adminproduct-form-group"}>
               <label htmlFor="name">Product Name:</label>
               <input
                 className="adminproduct-input"
@@ -141,7 +141,7 @@ function AddProductForm({ productData, productId }) {
                 defaultValue={productData && productData.productName}
               />
             </div>
-            <div className="adminproduct-form-group">
+            <div className={theme==='dark-theme'?"adminproduct-form-group dark":"adminproduct-form-group"}>
               <label htmlFor="desc">Description:</label>
               <textarea
                 className="adminproduct-input"
@@ -152,7 +152,7 @@ function AddProductForm({ productData, productId }) {
                 defaultValue={productData && productData.productDesc}
               />
             </div>
-            <div className="adminproduct-form-group">
+            <div className={theme==='dark-theme'?"adminproduct-form-group dark":"adminproduct-form-group"}>
               <label htmlFor="price">Price:</label>
               <input
                 className="adminproduct-input"
@@ -162,7 +162,7 @@ function AddProductForm({ productData, productId }) {
                 defaultValue={productData && productData.productPrice}
               />
             </div>
-            <div className="adminproduct-form-group">
+            <div className={theme==='dark-theme'?"adminproduct-form-group dark":"adminproduct-form-group"}>
               <label htmlFor="category">Category:</label>
               <select 
                 className="adminproduct-select"
@@ -195,7 +195,7 @@ function AddProductForm({ productData, productId }) {
                 
               </select>
             </div>
-            <div className="adminproduct-form-img">
+            <div className={theme==='dark-theme'?"adminproduct-form-img dark":"adminproduct-form-img"}>
               <label htmlFor="address">Image:</label>
               <input
                 className="adminproduct-input-img"
@@ -219,7 +219,7 @@ function AddProductForm({ productData, productId }) {
                 </button>
               </Link>
               <button
-                className="adminproduct-action-button"
+                className={theme==='dark-theme'?"adminproduct-action-button-dark":"adminproduct-action-button"}
                 disabled={false}
                 type="submit"
               >

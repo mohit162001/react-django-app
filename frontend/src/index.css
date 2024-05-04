@@ -42,6 +42,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* adminlayout page outlet css */
 main {
   height: 80vh; 
   margin-bottom: 2rem; 

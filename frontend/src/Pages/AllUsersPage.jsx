@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AllUsers from '../Component/AllUsers/AllUsers'
 import { useQuery } from '@apollo/client'
 import FilterBar from '../Component/FilterBar/FilterBar'
@@ -9,10 +9,22 @@ import FallBack from '../Component/FallBack/FallBack'
 
 function AllUsersPage() {
     const {data,loading,error} = useQuery(ALL_USERS_DETAILS)
+      // console.log(data?.users.length);
+      // console.log(data?.users);
 
       const [currPage, setCurrPage] = useState(1);
-      const totalPages = Math.ceil((data && data.users.length)/4)
-  
+      var totalPages=0;
+
+      if(data?.users.length===5){
+        if(data?.users[4].role.role==="admin"){
+          const pages = Math.ceil((data && data.users.length)/4)
+          totalPages = pages -1
+        }else{
+          totalPages = Math.ceil((data && data.users.length)/4)
+        }
+      }
+      console.log("totalPages",totalPages)
+
       const nextPage = () => {
         setCurrPage((prevPage) => prevPage + 1);
       };

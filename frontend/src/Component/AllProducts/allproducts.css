@@ -126,6 +126,17 @@ background: #fff;
     border: none;
     transition: 0.2s;
 }
+.allproduct-edit-btn-dark{
+    width: 35px;
+    padding: 0.5rem;
+    margin-top: 8px;
+    color: #363636;
+    background: transparent;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s;
+    filter: invert(100%);
+}
 .allproduct-delete-btn{
     width: 35px;
     padding: 0.5rem;
@@ -135,6 +146,20 @@ background: #fff;
     border: none;
     transition: 0.2s;
 }
+.allproduct-delete-btn-dark{
+    width: 35px;
+    padding: 0.5rem;
+    color: #363636;
+    background: transparent;
+    font-weight: 600;
+    border: none;
+    filter: invert(100%);
+    transition: 0.2s;
+}
 .allproduct-edit-btn:hover,.allproduct-delete-btn:hover{
     transform: scale(1.2,1.2);
+}
+
+.dark{
+    color: #f3f3f3;
 }

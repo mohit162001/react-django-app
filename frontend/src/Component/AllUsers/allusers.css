@@ -211,3 +211,7 @@ background: #fff;
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .dark{
+    color: #f3f3f3;
+  }

@@ -14,7 +14,7 @@ function AllUsers({ users, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
-  const {setMenu} = useContext(ShopContext)
+  const {setMenu,theme} = useContext(ShopContext)
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
@@ -61,8 +61,8 @@ function AllUsers({ users, currPage, itemsperPage }) {
          {message}
        </MuiAlert>
       </Snackbar>
-      <div className="allusers">
-        <div className="allusers-format-main">
+      <div className={theme==='dark-theme'?"allusers darkr":"allusers"}>
+        <div className={theme==='dark-theme'?"allusers-format-main dark":"allusers-format-main"}>
           <p>Profile</p>
           <p>Username</p>
           <p>Email</p>
@@ -76,10 +76,10 @@ function AllUsers({ users, currPage, itemsperPage }) {
           return (<>
             {item.role.role==="user"&&
             (<div  key={i}>
-              <div className="allusers-format allusers-format-main">
+              <div className={theme==='dark-theme'?"allusers-format allusers-format-main dark":"allusers-format allusers-format-main"}>
                 <img src={item.image?"http://localhost:8000/media/" + item.image:avatar} alt="alternative" className='user-profile-icon' />
                 <p className='allusers-p'>{item.username}</p>
-                <input type="text" className='all-user-email' value={item.email} />
+                <input type="text" className={theme==='dark-theme'?"all-user-email dark":"all-user-email"} value={item.email} />
                 <p > {formatDateOnly(item.lastLogin)}</p>
                 <p className='allusers-p'> {formatDateOnly(item.dateJoined)}</p>
                 <label class="switch">

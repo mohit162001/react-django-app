@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 // import all_product from '../Component/Assests/all_product';
 import { isAuthenticated } from "../helper";
 
@@ -16,7 +16,7 @@ const getDefalutCart=()=>{
 const ShopContextProvider = (props) => {
     const [cartItems,setCartItems] = useState(getDefalutCart());
     const [menu,setMenu] = useState('shop');
-    const [theme,setTheme] = useState('light-theme')
+    const [theme,setTheme] = useState('')
     const addToCart = (itemId) =>{
         if(isAuthenticated()===true){
             setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
@@ -51,16 +51,22 @@ const ShopContextProvider = (props) => {
         }
         return totalItem;
     }
+    useEffect(() => {
+        const storedTheme = sessionStorage.getItem('theme');
+        setTheme(storedTheme || 'light-theme');
+      }, []);
 
     function toggleTheme(event){
+        
         if(event.target.checked){
             setTheme('dark-theme')
+            sessionStorage.setItem('theme','dark-theme')
         }else{
             setTheme('light-theme')
-
+            sessionStorage.setItem('theme','light-theme')
         }
     }
-    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,menu,setMenu,theme,toggleTheme};
+    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,menu,setMenu,theme,setTheme,toggleTheme};
     
     return(
         <ShopContext.Provider value={contextValue}>

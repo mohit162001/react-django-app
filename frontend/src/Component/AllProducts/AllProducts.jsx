@@ -14,7 +14,7 @@ function AllProducts({ products, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
   const end = start + itemsperPage;
-  const {setMenu} = useContext(ShopContext)
+  const {setMenu,theme} = useContext(ShopContext)
   const [open, setOpen] = useState(false);
   const [productId,setProductId] = useState()
   const [message, setMessage] = useState("");
@@ -66,8 +66,8 @@ function AllProducts({ products, currPage, itemsperPage }) {
        </MuiAlert>
       </Snackbar>
       {model&&<Model handleModel={handleModel} handleDelete={handleDelete} heading={'Do you want to delete this product?'} />}
-      <div className="allproduct">
-        <div className="allproduct-format-main">
+      <div className={theme==='dark-theme'?"allproduct dark":"allproduct"}>
+        <div className={theme==='dark-theme'?"allproduct-format-main dark":"allproduct-format-main"}>
           <p>Product</p>
           <p>Title</p>
           <p>Price</p>
@@ -81,7 +81,7 @@ function AllProducts({ products, currPage, itemsperPage }) {
         {products.slice(start, end).map((item,i) => {
           return (
             <div  key={i}>
-              <div className="allproduct-format allproduct-format-main">
+              <div className={theme==='dark-theme'?"allproduct-format allproduct-format-main dark":"allproduct-format allproduct-format-main"}>
                 <Link onClick={()=>setMenu('')} to={'/product/'+item.node.id}><img src={"http://localhost:8000/media/" + item.node.image} alt="alternative" className='carticon-product-icon' /></Link>
                 <p className='allproduct-p'>{item.node.name}</p>
                 <p className='allproduct-p'>₹{item.node.price}</p>
@@ -89,8 +89,8 @@ function AllProducts({ products, currPage, itemsperPage }) {
                 <p > {item.node.insertedDate}</p>
                 <p className='allproduct-p'> {item.node.category.name}</p>
                 <div className='allproduct-action'>
-                <Link to={'/admin/addproduct/'+item.node.id}><img onClick={()=>setMenu('')} src={edit_icon} alt='alternative' className='allproduct-edit-btn'/></Link>
-                <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.node.id)} className='allproduct-delete-btn'/>
+                <Link to={'/admin/addproduct/'+item.node.id}><img onClick={()=>setMenu('')} src={edit_icon} alt='alternative' className={theme==='dark-theme'?"allproduct-edit-btn-dark":"allproduct-edit-btn"}/></Link>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.node.id)} className={theme==='dark-theme'?"allproduct-delete-btn-dark":"allproduct-delete-btn"}/>
                 </div>
               </div>
               <hr className='allproduct-hr'/>

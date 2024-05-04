@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './allorderitems.css';
 import delete_icon from '../Assests/delete-icon.png'
 import { useMutation } from '@apollo/client';
@@ -6,6 +6,7 @@ import {DELETE_ORDER, GET_ALL_ORDERS} from '../../query/query'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Model from '../Model/Model';
+import { ShopContext } from '../../Context/ShowContext';
 function AllOrdersItem({ orders, currPage, itemsperPage }) {
 
   const start = (currPage - 1) * itemsperPage;
@@ -15,7 +16,7 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
   const [severity, setSeverity] = useState("info");
   const [model,setModel] = useState(false)
   const [orderId,setOrderId] = useState()
-
+  const {theme} = useContext(ShopContext)
   const [mutationOrderDelete] = useMutation(DELETE_ORDER,{
     onCompleted(){
       handleSnackbarOpen('',"Order delete successfully")
@@ -59,8 +60,8 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
       </Snackbar>
       {model&&<Model handleModel={handleModel} handleDelete={handleDelete} heading={'Do you want to delete this Order?'} />}
 
-      <div className="allorderitems">
-        <div className="allorderitems-format-main">
+      <div className={theme==='dark-theme'?"allorderitems dark":"allorderitems"}>
+        <div className={theme==='dark-theme'?"allorderitems-format-main dark":"allorderitems-format-main"}>
           <p>Product</p>
           <p>Title</p>
           <p>Order By</p>
@@ -75,7 +76,7 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
         {orders.slice(start, end).map((item,i) => {
           return (
             <div  key={i}>
-              <div className="allorderitems-format allorderitems-format-main">
+              <div className={theme==='dark-theme'?"allorderitems-format allorderitems-format-main dark":"allorderitems-format allorderitems-format-main"}>
                 <img src={"http://localhost:8000/media/" + item.productImage} alt="" className='carticon-product-icon' />
                 <p>{item.productName}</p>
                 <p>{item.username}</p>
@@ -84,7 +85,7 @@ function AllOrdersItem({ orders, currPage, itemsperPage }) {
                 <p> ₹{item.totalPrice}</p>
                 <p> {item.paymentMode}</p>
                 <div className='allorderitems-action'>
-                <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.orderId)} className='allproduct-delete-btn'/>
+                <img src={delete_icon} alt='alternative' onClick={()=>handleModel(item.orderId)} className={theme==='dark-theme'?'allorderitems-action-btn-dark':'allproduct-delete-btn'}/>
                 </div>
               </div>
               <hr />

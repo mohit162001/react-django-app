@@ -85,7 +85,7 @@ const ProductDisplay = ({ product, id }) => {
       </Snackbar>
 
       <div className="productdisplay">
-    <Link to={isAdminUser()?-1:`/${product.productCategory}`}><button className='product-display-back-btn'><img src={back_icon} alt="" />Back</button></Link>
+    <Link to={isAdminUser()?'/admin/allproducts':`/${product.productCategory}`}><button className='product-display-back-btn'><img src={back_icon} alt="" />Back</button></Link>
 
         <div className="productdisplay-left">
           <div className="productdisplay-imglist">

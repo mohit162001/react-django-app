@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./filterbar.css";
 import SearchIcon from "@mui/icons-material/Search";
 import RestartAltOutlinedIcon from '@mui/icons-material/RestartAltOutlined';
 import { useQuery } from "@apollo/client";
 import { GET_CATEGORIRS } from "../../query/query";
+import { ShopContext } from "../../Context/ShowContext";
 
 
 
 const FilterBar = ({getFilterData,setCurrPage,placeholder,forOrder,forProduct}) => {
+    const {theme} = useContext(ShopContext)
     const today =new Date().toISOString().slice(0, 10)
     const [inputData,setInputData] = useState({
       searchInput:'',
@@ -79,7 +81,7 @@ const FilterBar = ({getFilterData,setCurrPage,placeholder,forOrder,forProduct}) 
       setCurrPage(1)
     }
   return (
-    <div className="filter-bar">
+    <div className={theme==='dark-theme'?"filter-bar filter-dark":"filter-bar"}>
       <div className="search-bar-container">
       <div className="search-bar">
         <input className="search-input" type="text" placeholder={placeholder} onChange={handleSearchInput} value={inputData.searchInput}/>
