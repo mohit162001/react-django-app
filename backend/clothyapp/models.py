@@ -10,7 +10,7 @@ class RoleModel(models.Model):
         return self.role
 
 class CustomUser(AbstractUser):
-    address = models.CharField(blank=True,null=True)
+    address = models.CharField(blank=True,null=True,max_length=300)
     role = models.ForeignKey(RoleModel, on_delete=models.CASCADE, default=None, blank=True, null=True)
     image = models.ImageField(upload_to='user_image',default=None, blank=True, null=True)
 

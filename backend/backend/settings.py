@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import datetime
 import os
-
+import dj_database_url
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,7 +87,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'clothyDataBase',
+        'NAME': 'clothyDB',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',  
@@ -94,7 +95,7 @@ DATABASES = {
     }
 }
 
-
+DATABASES['default'] = dj_database_url.config()
 
 
 # Password validation
@@ -179,6 +180,12 @@ CORS_ORIGIN_WHITELIST = (
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
+STATIC_ROOT = BASE_DIR.joinpath("staticfiles_build", "static")
