@@ -1,0 +1,146 @@
+/* aside {
+    width: 33.3333%;
+    height: 100%; 
+    padding-left: 2rem; 
+    padding-right: 2rem; 
+    padding-top: 4rem; 
+    padding-bottom: 4rem;
+    background-color: #2a2a2a; 
+    color: #f1f1f1; 
+    border-radius: 0 0.5rem 0.5rem 0; 
+  }
+
+h2 {
+    margin-bottom: 2rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    font-size: 1.25rem; 
+    color: #f3f3f3; 
+  }
+ul{
+  margin-top: 2rem;
+}
+
+.add-note-btn {
+  width: 100%;
+  list-style: none;
+  text-transform: capitalize;
+  text-align: left;
+  padding: 0.5rem 1rem;
+  border-radius: 0.125rem;
+  margin: 0.25rem 0;
+  color: inherit; 
+  background-color: transparent; 
+  transition: 0.5s;
+}
+
+.add-note-btn:hover {
+  color: #ccc; 
+  background-color: #2c3e50; 
+}
+
+ 
+   */
+
+   .sidebar-container {
+
+    top: 20px;
+    left: 20px;
+    width: 90%;
+    max-width: 260px; 
+  }
+  
+  .sidebar {
+    background-color: #ffffff;
+    box-shadow: 1px 4px 5px #00246B;
+    padding: 20px;
+    height: 114%; 
+    margin-top: 1px;
+    overflow-y: auto;
+    transition: 0.2;
+
+  }
+  .sidebar-dark {
+    background-color: #363636;
+    box-shadow: 1px 3px 5px #dfdfdf;
+    padding: 20px;
+    height: 114%; 
+    margin-top: 1px;
+    overflow-y: auto;
+    transition: 0.2;
+  }
+  
+  
+  .sidebar-title {
+    text-align: center;
+    color: #171717;
+    margin-bottom: 20px;
+    font-size: 30px; 
+    font-weight: 600;
+  }
+  
+  .sidebar-ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .sidebar-ul {
+    margin-top: 8.5em;
+    /* margin-bottom: 12rem; */
+  }
+  .sidebar-list-item {
+    margin-bottom: 10px;
+  }
+  
+  .inactive
+   {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #ffbd7e;
+    border-radius: 5px 5px 5px 5px;
+    text-decoration: none;
+    color: #171717;
+    transition: background-color 0.3s;
+    font-weight: 600;
+  }
+  
+  .add-note-btn:hover,
+  .sidebar-link:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .active{
+    display: block;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #d3d3d3;
+    border-radius: 5px 5px 5px 5px;
+    text-decoration: none;
+    color: #171717;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    background-color: #f87133;
+  }
+  .dark{
+    color:#f3f3f3;
+  }
+  .active-dark{
+    background-color: #ededed;
+  }
+  .inactive-dark{
+    background-color: #777777;
+    color: #f3f3f3;
+  }
+  @media (min-width: 768px) {
+    button {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    aside {
+      width: 18rem;
+    }
+  }

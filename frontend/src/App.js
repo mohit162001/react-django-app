@@ -8,12 +8,28 @@ import SignUp from "./Pages/SignUp";
 
 import men_banner from "./Component/Assests/banner_mens.png";
 import women_banner from "./Component/Assests/banner_women.png";
-import kid_banner from "./Component/Assests/banner_kids.png";
+import unauthorized_img from "./Component/Assests/unauthorized-image.png";
+import login_first from './Component/Assests/login_first.png'
 import RootLayOut from "./Pages/RootLayOut";
-import { checkAuth } from "./helper";
+import { isAdmin, isAuthenticated } from "./helper";
 import Login from "./Pages/LogIn";
+import Orders from "./Pages/Orders";
+
+import UserProfilePage from "./Pages/UserProfilePage";
+import AdminLayout from "./Pages/AdminLayout";
+import AddProductPage from "./Pages/AddProductPage";
+import AddCategoryPage from "./Pages/AddCategoryPage";
+import AllOrdersPage from "./Pages/AllOrdersPage";
+import AllProductsPage from "./Pages/AllProductsPage";
+import AdminLanding from "./Pages/AdminLanding";
+import FallBack from "./Component/FallBack/FallBack";
+import AdminStatistics from "./Pages/AdminStatistics";
+import AllUsersPage from "./Pages/AllUsersPage";
+import { useEffect } from "react";
+
 
 function App() {
+  
   const router = createBrowserRouter([
     {
       path: "/",
@@ -32,21 +48,25 @@ function App() {
           element: <ShopCategory banner={women_banner} category="womens" />,
         },
         {
-          path: "/kids",
-          element: (
-            <ShopCategory
-              banner={kid_banner}
-              category="kids"
-            />
-          ),
-        },
-        {
           path: "/product",
           element: <Product />,
           children: [{ path: ":productId", element: <Product /> }],
         },
-        { path: "/cart", element: <Cart />,loader:checkAuth },
-       
+        { path: "/order", element: <Orders/>,loader:isAuthenticated },
+        { path: "/cart", element: <Cart />,loader:isAuthenticated },
+        { path: "/user", element: <UserProfilePage/>,loader:isAuthenticated},
+        {path:'notlogin',element:<FallBack image={login_first} heading={"Please Login First"} btn_lable={"login"} link={"/login"} /> },
+        {path:'unauthorized',element:<FallBack image={unauthorized_img} heading={"You are not Authorized"} btn_lable={'Back'} setMenuValue={'shop'} link={'/'}/>},
+        {path:"/admin",element:<AdminLayout/>,loader:isAdmin,children:[
+          {path:'',element:<AdminLanding/>},
+          {path:'statistics',element:<AdminStatistics/>},
+          {path:'addproduct',element:<AddProductPage/>},
+          {path:'addproduct/:productId',element:<AddProductPage/>},
+          {path:'addcategory',element:<AddCategoryPage/>},
+          {path:'allorders',element:<AllOrdersPage/>},
+          {path:'allproducts',element:<AllProductsPage/>},
+          {path:'allusers',element:<AllUsersPage/>},
+        ]}
       ],
     }, { path: "signup", element: <SignUp /> },
     { path: "login", element: <Login /> },

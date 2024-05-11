@@ -6,22 +6,30 @@
    margin-bottom: 100px;
 }
 
-.new-collection h1{
+.newcollection-heading{
     color: #171717;
     font-size: 50px;
     font-weight: 600;
 }
 
-.new-collection hr{
+.newcollection-hr{
     width: 200px;
     height: 6px;
     border-radius: 10px;
     background: #252525;
 }
-
+.newcollection-hr-dark{
+    width: 200px;
+    height: 6px;
+    border-radius: 10px;
+    background: #f3f3f3;
+}
 .collections{
-    display: grid;
+    display:flex;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     margin-top: 50px;
-    gap: 30px;
+    gap: 22px;
+}
+.dark{
+    color: #f3f3f3;
 }

@@ -1,0 +1,122 @@
+.userprofile-h3{
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+.userprofile-h3-dark{
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: #f3f3f3;
+}
+
+.avatar-img{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avatar {
+    vertical-align: middle;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
+.userprofile-container{
+    width: 100%;
+    height: 80vh;
+    margin-top: -9rem;
+    /* background: rgb(241, 213, 241); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-bottom: 55%; */
+}
+
+.user-fallback{
+    text-align: center;
+    margin-bottom: 35rem;
+}
+.user-info{
+    margin-top: 15rem;margin-left: -1rem;
+    padding-left: 3rem;
+    /* background: violet; */
+    width: 95%;
+    font-size: 2rem;
+    display: flex;
+}
+.user-info-dark{
+    margin-top: 15rem;margin-left: -1rem;
+    padding-left: 3rem;
+    /* background: violet; */
+    width: 95%;
+    font-size: 2rem;
+    display: flex;
+    color: #f3f3f3;
+}
+.userlable{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+.userprofile-lable{
+    margin-bottom: 10px;
+}
+.uservalues{
+    display: flex;
+    flex-direction: column;
+    margin-left: 4rem;
+    padding: 1rem;    
+}
+.uservalues input{
+    padding: 0.7rem;
+    width: 110%;
+    margin: 5px;
+    font-size: 20px;
+    outline: none;
+}
+
+.username{
+    text-transform: capitalize;
+}
+.user-action{
+    margin-top: 2rem;
+    align-items: center;
+    /* background: rgb(247, 93, 247); */
+    padding: 2rem;
+}
+
+.user-action-update{
+    padding: 0.7rem;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    background: rgb(197, 197, 197) ;
+    color: rgb(41, 41, 41);
+    transition: 0.2s;
+    margin-left: 10rem;
+}
+
+.user-action-update:hover{
+    background: #ff4141;
+    color: white;
+}
+.user-action-back{
+    padding: 0.7rem;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    background: rgb(197, 197, 197) ;
+    color: rgb(41, 41, 41);
+    transition: 0.2s;
+    margin-left: 1rem;
+}
+
+.user-action-back:hover{
+    background: #ff4141;
+    color: white;
+}

@@ -9,7 +9,7 @@ import { getAuthToken } from './helper';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:1337/graphql',
+  uri: 'http://localhost:8000/graphql/',
 });
 
 
@@ -18,7 +18,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: token ? `jwt ${token}` : '',
     },
   };
 });
@@ -36,6 +36,8 @@ root.render(
     </ApolloProvider>
 
 );
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

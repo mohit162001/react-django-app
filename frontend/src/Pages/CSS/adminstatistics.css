@@ -1,0 +1,19 @@
+.adminstatistics-page{
+    /* background: violet; */
+    height: 94vh;
+    margin-left: -1.8rem;
+    width: 102%;
+    display: flex;
+    /* flex-direction:column ; */
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+}
+.chart{
+    margin-top: -10rem;
+    margin-left: 2rem;
+    width: 65%;
+}
+.hgj{
+    background: rgba(255, 126, 40, 0.979);
+}

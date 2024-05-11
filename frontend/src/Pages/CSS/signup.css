@@ -1,9 +1,10 @@
 .signup{
-    width: 100%;
+    width: 101.5%;
     height: 86vh;
     background: #fce3fe;
     padding-top: 100px;
-    display:flex;
+    display: flex;
+    margin-left: -1.5rem;
 }
 
 .signup-container{
@@ -36,7 +37,7 @@
 }
 
 .signup-container button{
-    width: 580px;
+    width: 602px;
     height: 72px;
     color: white;
     background: #ff4141;
@@ -68,4 +69,14 @@
     color: #5c5c5c;
     font-size: 18px;
     font-weight: 500;
+}
+
+.showpassword{
+    display: flex;
+}
+.password-eye{
+    margin-top: 25px;
+    font-size: 20px;
+    opacity: 50%;
+    margin-left: -2.9rem;
 }

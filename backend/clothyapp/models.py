@@ -10,8 +10,9 @@ class RoleModel(models.Model):
         return self.role
 
 class CustomUser(AbstractUser):
-    address = models.CharField(blank=True,null=True)
+    address = models.CharField(blank=True,null=True,max_length=300)
     role = models.ForeignKey(RoleModel, on_delete=models.CASCADE, default=None, blank=True, null=True)
+    image = models.ImageField(upload_to='user_image',default=None, blank=True, null=True)
 
 
 class CategoryModel(models.Model):
@@ -40,7 +41,7 @@ class CartModel(models.Model):
     price = models.FloatField(default = 0)
     
     def __str__(self):
-        return self.user
+        return f"{self.user.username}'s cart item"
     
 class PaymentModel(models.Model):
     payment_mode = models.CharField(max_length=200)
@@ -57,4 +58,4 @@ class OrderTable(models.Model):
     payment_mode = models.ForeignKey(PaymentModel, on_delete=models.CASCADE, default=None, blank=True, null=True)
     
     def __str__(self):
-        return self.user
+        return f"{self.user.username}'s order item"

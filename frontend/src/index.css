@@ -3,7 +3,7 @@
   scroll-behavior: smooth;
 }
 
-body {
+/* body {
   margin: 2px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,9 +12,41 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: poppins;
   
+} */
+
+.dark-theme{
+  margin: 2px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: poppins;
+  background: #363636;
+  transition: 0.2s;
+
 }
 
+.light-theme{
+  margin: 2px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: poppins;
+  transition: 0.2s;
+
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* adminlayout page outlet css */
+main {
+  height: 80vh; 
+  margin-bottom: 2rem; 
+  display: flex; 
+  gap: 2rem; 
 }

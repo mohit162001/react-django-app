@@ -3,7 +3,11 @@
     background: linear-gradient(180deg,#fde1ff, #e1ffea22 60%);
     display: flex;
 }
-
+.hero-dark{
+    height: 100vh;
+    background: linear-gradient(180deg,#ffffff, #48494818 90%);
+    display: flex;
+}
 .hero-left{
     flex: 1;
     display: flex;

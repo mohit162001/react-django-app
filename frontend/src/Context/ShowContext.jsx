@@ -1,9 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 // import all_product from '../Component/Assests/all_product';
-import { checkAuth, getUserData } from "../helper";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { GET_CART_DETAILS } from "../query/query";
+import { isAuthenticated } from "../helper";
+
 
 export const ShopContext = createContext(null);
 var all_product=[];
@@ -18,9 +16,9 @@ const getDefalutCart=()=>{
 const ShopContextProvider = (props) => {
     const [cartItems,setCartItems] = useState(getDefalutCart());
     const [menu,setMenu] = useState('shop');
-    
+    const [theme,setTheme] = useState('')
     const addToCart = (itemId) =>{
-        if(checkAuth()===true){
+        if(isAuthenticated()===true){
             setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
         }
     }
@@ -53,7 +51,22 @@ const ShopContextProvider = (props) => {
         }
         return totalItem;
     }
-    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,menu,setMenu};
+    useEffect(() => {
+        const storedTheme = sessionStorage.getItem('theme');
+        setTheme(storedTheme || 'light-theme');
+      }, []);
+
+    function toggleTheme(event){
+        
+        if(event.target.checked){
+            setTheme('dark-theme')
+            sessionStorage.setItem('theme','dark-theme')
+        }else{
+            setTheme('light-theme')
+            sessionStorage.setItem('theme','light-theme')
+        }
+    }
+    const contextValue = {getTotalCartItems,getTotalCartAmount,all_product,cartItems,addToCart,removeFromCart,menu,setMenu,theme,setTheme,toggleTheme};
     
     return(
         <ShopContext.Provider value={contextValue}>

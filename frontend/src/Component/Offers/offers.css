@@ -7,7 +7,15 @@
     margin-bottom: 150px;
     background: linear-gradient(180deg,#fed1ff ,#e1ffea22);
 }
-
+.offers-dark{
+    width: 65%;
+    height: 76vh;
+    display: flex;
+    padding: 0px 150px;
+    margin: auto;
+    margin-bottom: 150px;
+    background: linear-gradient(180deg,#ffffff, #48494818);
+}
 .offers-left{
     flex: 1;
     display: flex;
